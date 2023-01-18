@@ -89,15 +89,7 @@ public class SampleDataGenerator {
         this.fiona.setPeliculasAsociadas(List.of(shrekFilm,shrekAfeter));
         this.burro.setPeliculasAsociadas(List.of(shrekFilm,shrekAfeter));
 
-
-
            }
-
-
-
-
-
-
 
 
     public List<Genero> getGenerosSample() {
@@ -111,16 +103,12 @@ public class SampleDataGenerator {
         generosSample.add(aventura);
         generosSample.add(heroes);
 
-
-
         return generosSample;
     }
 
     public List<Pelicula> getPeliculasSample() {
 
         peliculasSample=new ArrayList<>();
-
-
 
         peliculasSample.add(elPrimerVengador);
         peliculasSample.add(soldadoDeInvierno);
@@ -131,16 +119,12 @@ public class SampleDataGenerator {
         peliculasSample.add(mulan1);
 
 
-
         return peliculasSample;
     }
 
     public List<Personaje>getPersonajesSample(){
-       /* iniciarDatos();*/
-
 
         personajesSample=new ArrayList<>();
-
 
         personajesSample.add(capitanAmerica);
         personajesSample.add(mulan);

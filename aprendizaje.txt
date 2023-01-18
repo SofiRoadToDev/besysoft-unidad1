@@ -1,0 +1,4 @@
+1) Es importante que desde un inicio anote con JsonIgnore los atributos de las entidades que no serán consultados
+    para evitar los bucles que no permiten procesar la solicitud.
+2) Cuando se busca una instancia de una entidad en particular, aún cuando use filter y acceda al indice 0 de la coleccion
+    si no utilizo Optional el cliente no recibe el mensaje de error que establecí sino un Error 500.

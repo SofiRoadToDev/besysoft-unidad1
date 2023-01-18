@@ -18,21 +18,16 @@ import java.util.stream.Collectors;
 public class PeliculasController {
 
     private SampleDataGenerator genData= new SampleDataGenerator();
-    static Logger logger= Logger.getLogger(PeliculasController.class.getName());
-
-
 
      @GetMapping("/peliculas")
     public List<Pelicula> buscarTodas(){
-         logger.info("tamañp del arreglo: "+genData.getGenerosSample().size());
          List<Pelicula> peliculas=genData.getPeliculasSample();
          return peliculas;
     }
 
     @GetMapping("/peliculas/titulo/{titulo}")
     public ResponseEntity<Pelicula> buscarPorTitulo(@PathVariable(name="titulo") String titulo){
-        boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");// ^([a-zA-Z]$[0-9]?)+$
-        //^[a-zA-Z]+$
+        boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");
         if(isTituloRight){
 
             Optional<List<Pelicula>>peli= Optional.of(genData.getPeliculasSample()
@@ -49,7 +44,6 @@ public class PeliculasController {
         }else{
             return new ResponseEntity("Solo se admiten letras en el titulo", HttpStatus.BAD_REQUEST);
         }
-
     }
 
     @GetMapping("/peliculas/genero/{genero}")

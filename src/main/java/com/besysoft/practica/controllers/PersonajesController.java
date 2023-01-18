@@ -20,7 +20,7 @@ import static com.fasterxml.jackson.core.io.NumberInput.parseInt;
 public class PersonajesController {
 
     private SampleDataGenerator genData= new SampleDataGenerator();
-    static Logger logger= Logger.getLogger(PersonajesController.class.getName());
+
     @GetMapping("/personajes")
     public List<Personaje> buscarTodos(){
         List<Personaje>personajes=new ArrayList<>();
