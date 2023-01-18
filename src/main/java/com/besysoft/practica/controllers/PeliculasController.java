@@ -31,9 +31,9 @@ public class PeliculasController {
 
     @GetMapping("/peliculas/titulo/{titulo}")
     public ResponseEntity<Pelicula> buscarPorTitulo(@PathVariable(name="titulo") String titulo){
-        //genData.getPersonajesSample();
 
-        boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s+[a-zA-Z]+)+$");// ^([a-zA-Z]$[0-9]?)+$
+
+        boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");// ^([a-zA-Z]$[0-9]?)+$
         //^[a-zA-Z]+$
         if(isTituloRight){
 
@@ -55,17 +55,24 @@ public class PeliculasController {
     }
 
     @GetMapping("/peliculas/genero/{genero}")
-    public List<Pelicula> buscarPorGenero(@PathVariable(name="genero") String genero){
-        List<Pelicula> pelis=new ArrayList<>();
-        List<Pelicula>p=genData.getPeliculasSample()
-                .stream()
-                .filter(pelicula -> {
-                    return pelicula.getGenero().getNombre().equals(genero);
-                })
-                .collect(Collectors.toList());
-
-
-        return pelis;
+    public ResponseEntity buscarPorGenero(@PathVariable(name="genero") String genero){
+         boolean isOnlyLetters=genero.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
+         List<Pelicula>peliculas=new ArrayList<>();
+         if(isOnlyLetters){
+             peliculas=genData.getPeliculasSample()
+                     .stream()
+                     .filter(pelicula -> {
+                         return pelicula.getGenero().getNombre().equals(genero.toLowerCase());
+                     })
+                     .collect(Collectors.toList());
+             if(peliculas.size()>0){
+                 return new ResponseEntity(peliculas,HttpStatus.OK);
+             }else{
+                 return new ResponseEntity("No se encontraron peliculas para ese genero",HttpStatus.NOT_FOUND);
+             }
+         }else{
+             return new ResponseEntity<>("El genero debe estar compuesto solo de letras",HttpStatus.BAD_REQUEST);
+         }
     }
 
 

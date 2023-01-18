@@ -62,9 +62,9 @@ public class SampleDataGenerator {
         this.mulanFilm= new Pelicula("Mulan live action",LocalDate.of(2020,07,4),10);
         this.mulan1= new Pelicula("Mulan Disney", LocalDate.of(1998,10,2),10);
 
-        this.heroes= new Genero("Super Heroes");
-        this.infantil= new Genero("Infantil");
-        this.aventura= new Genero("Aventura");
+        this.heroes= new Genero("superheroes");
+        this.infantil= new Genero("infantil");
+        this.aventura= new Genero("aventura");
 
         this.civilWar.setPersonajesAsociados(List.of(capitanAmerica));
         this.shrekFilm.setPersonajesAsociados(List.of(shrek,burro,fiona));
