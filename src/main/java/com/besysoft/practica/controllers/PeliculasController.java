@@ -31,8 +31,6 @@ public class PeliculasController {
 
     @GetMapping("/peliculas/titulo/{titulo}")
     public ResponseEntity<Pelicula> buscarPorTitulo(@PathVariable(name="titulo") String titulo){
-
-
         boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");// ^([a-zA-Z]$[0-9]?)+$
         //^[a-zA-Z]+$
         if(isTituloRight){
