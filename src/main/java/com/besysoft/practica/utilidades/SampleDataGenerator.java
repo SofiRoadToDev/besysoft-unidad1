@@ -1,18 +1,23 @@
 package com.besysoft.practica.utilidades;
 
+import com.besysoft.practica.controllers.PeliculasController;
 import com.besysoft.practica.dominio.Genero;
 import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.dominio.Personaje;
+import org.slf4j.LoggerFactory;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class SampleDataGenerator {
 
     private   List<Personaje> personajesSample;
     private   List<Pelicula>peliculasSample;
     private   List<Genero>generosSample;
+
+    static Logger logger= Logger.getLogger(SampleDataGenerator.class.getName());
 
 
 
@@ -61,6 +66,13 @@ public class SampleDataGenerator {
         infantil= new Genero("Infantil");
         aventura= new Genero("Aventura");
 
+       /* civilWar.setGenero(heroes);
+        shrekFilm.setGenero(aventura);
+        shrekAfeter.setGenero(aventura);
+        mulanFilm.setGenero(infantil);*/
+
+        logger.info(logger.getName()+"genero heroes es nulo? "+(heroes==null));
+
            }
 
 
@@ -104,7 +116,7 @@ public class SampleDataGenerator {
         peliculasSample.add(mulanFilm);
         peliculasSample.add(mulan1);
 
-        System.out.println("tamaño del arreglo de peliculas "+peliculasSample.size());
+
 
         return peliculasSample;
     }

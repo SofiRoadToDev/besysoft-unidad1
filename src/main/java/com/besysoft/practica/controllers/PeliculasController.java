@@ -1,8 +1,9 @@
 package com.besysoft.practica.controllers;
 
 import com.besysoft.practica.dominio.Pelicula;
-import com.besysoft.practica.dominio.Personaje;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,18 +30,28 @@ public class PeliculasController {
     }
 
     @GetMapping("/peliculas/titulo/{titulo}")
-    public Pelicula buscarPorTitulo(@PathVariable(name="titulo") String titulo){
+    public ResponseEntity<Pelicula> buscarPorTitulo(@PathVariable(name="titulo") String titulo){
         //genData.getPersonajesSample();
-        Pelicula pel=new Pelicula();
-        List<Pelicula>p=genData.getPeliculasSample()
-                .stream()
-                .filter(pelicula -> {
-                    return pelicula.getTitulo().equals(titulo);
-                })
-                .collect(Collectors.toList());
-        pel=p.isEmpty()?pel:p.get(0);
 
-        return pel;
+        boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s+[a-zA-Z]+)+$");// ^([a-zA-Z]$[0-9]?)+$
+        //^[a-zA-Z]+$
+        if(isTituloRight){
+
+            Optional<List<Pelicula>>peli= Optional.of(genData.getPeliculasSample()
+                    .stream()
+                    .filter(pelicula -> {
+                        return pelicula.getTitulo().equals(titulo);
+                    })
+                    .collect(Collectors.toList()));
+            if(peli.get().size()>0){
+                return new ResponseEntity<>(peli.get().get(0),HttpStatus.OK);
+            }else{
+                return new ResponseEntity("No se ha encontrado esa pelicula", HttpStatus.NOT_FOUND);
+            }
+        }else{
+            return new ResponseEntity("Solo se admiten letras en el titulo", HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping("/peliculas/genero/{genero}")
