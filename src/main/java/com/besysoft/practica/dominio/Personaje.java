@@ -1,0 +1,35 @@
+package com.besysoft.practica.dominio;
+
+import lombok.Getter;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Getter @Setter
+public class Personaje {
+
+    private String nombre;
+
+    private int edad;
+
+    private double peso;
+
+    private String historia;
+
+    private List<Pelicula> peliculasAsociadas;
+
+
+    public Personaje(String nombre, int edad, double peso, String historia) {
+        // se inicializa para que después solo haya que cargar datos
+        this.peliculasAsociadas= new ArrayList<>();
+        this.nombre = nombre;
+        this.edad = edad;
+        this.peso = peso;
+        this.historia = historia;
+    }
+
+    public Personaje(){
+
+    }
+}
