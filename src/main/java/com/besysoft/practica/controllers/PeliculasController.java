@@ -72,6 +72,4 @@ public class PeliculasController {
              return new ResponseEntity<>("El genero debe estar compuesto solo de letras",HttpStatus.BAD_REQUEST);
          }
     }
-
-
 }

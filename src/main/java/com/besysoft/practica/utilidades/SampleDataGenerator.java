@@ -70,7 +70,10 @@ public class SampleDataGenerator {
         this.shrekFilm.setPersonajesAsociados(List.of(shrek,burro,fiona));
         this.shrekAfeter.setPersonajesAsociados(List.of(shrek,burro,fiona));
         this.mulanFilm.setPersonajesAsociados(List.of(mulan));
+        this.mulan1.setPersonajesAsociados(List.of(mulan));
         this.civilWar.setPersonajesAsociados(List.of(capitanAmerica));
+        this.elPrimerVengador.setPersonajesAsociados(List.of(capitanAmerica));
+        this.soldadoDeInvierno.setPersonajesAsociados(List.of(capitanAmerica));
 
         this.civilWar.setGenero(heroes);
         this.shrekFilm.setGenero(aventura);
