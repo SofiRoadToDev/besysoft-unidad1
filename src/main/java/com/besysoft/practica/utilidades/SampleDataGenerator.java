@@ -66,10 +66,10 @@ public class SampleDataGenerator {
         infantil= new Genero("Infantil");
         aventura= new Genero("Aventura");
 
-       /* civilWar.setGenero(heroes);
+        civilWar.setGenero(heroes);
         shrekFilm.setGenero(aventura);
         shrekAfeter.setGenero(aventura);
-        mulanFilm.setGenero(infantil);*/
+        mulanFilm.setGenero(infantil);
 
         logger.info(logger.getName()+"genero heroes es nulo? "+(heroes==null));
 
