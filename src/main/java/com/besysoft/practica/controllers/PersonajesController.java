@@ -14,6 +14,8 @@ import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
+import static com.fasterxml.jackson.core.io.NumberInput.parseInt;
+
 @RestController
 public class PersonajesController {
 
@@ -49,13 +51,22 @@ public class PersonajesController {
     }
 
     @GetMapping("/personajes/edad/{edad}")
-    public List<Personaje> buscarPorEdad(@PathVariable int edad){
+    public ResponseEntity buscarPorEdad(@PathVariable int edad){
+        /*Hay personajes ficticios con miles de años, como Dracula o las momias*/
         List<Personaje>personajes= new ArrayList<>();
-        personajes= genData.getPersonajesSample()
-                .stream()
-                .filter(p->p.getEdad()==edad)
-                .collect(Collectors.toList());
-        return personajes;
+        if((edad>0 && edad<10000)){
+            personajes= genData.getPersonajesSample()
+                    .stream()
+                    .filter(p->p.getEdad()==edad)
+                    .collect(Collectors.toList());
+            if(personajes.isEmpty()){
+                return new ResponseEntity<>("No se encontraron personajes con esa edad", HttpStatus.NOT_FOUND);
+            }else{
+                return new ResponseEntity(personajes,HttpStatus.OK);
+            }
+        }else{
+            return new ResponseEntity("Coloque una edad valida, un número entero, entre 0 y 10000", HttpStatus.BAD_REQUEST);
+        }
     }
 
 }
