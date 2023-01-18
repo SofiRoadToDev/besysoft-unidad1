@@ -1,5 +1,6 @@
 package com.besysoft.practica.dominio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,6 +18,7 @@ public class Personaje {
 
     private String historia;
 
+    @JsonIgnore
     private List<Pelicula> peliculasAsociadas;
 
 

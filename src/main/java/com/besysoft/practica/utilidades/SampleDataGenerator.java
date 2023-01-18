@@ -5,6 +5,7 @@ import com.besysoft.practica.dominio.Genero;
 import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.dominio.Personaje;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,33 +48,49 @@ public class SampleDataGenerator {
 
 
     public SampleDataGenerator(){
+        this.capitanAmerica= new Personaje("Capitan America",33,80,"Lo congelaron por años y después se unió a los vengadores");
+        this.mulan= new Personaje("Mulan",15,50," Fue a la guerra a pelear en lugar de su padre disfrazada de hombre");
+        this.shrek= new Personaje("Shrek",40,250,"Es un ogro gordo y feo pero de buen corazón que se casa con una princesa humana convertida en ogro");
+        this.fiona=new Personaje("Fiona",25,80," Es una princesa que se enamoró de Shrek y se volvió ogro para que él no se sienta mal");
+        this.burro=new Personaje("Burro",5,60," Es un amigo de shrek que se casó con una dragona y tuvo muchos hijos");
 
-         capitanAmerica= new Personaje("Capitan America",33,80,"Lo congelaron por años y después se unió a los vengadores");
-         mulan= new Personaje("Mulan",15,50," Fue a la guerra a pelear en lugar de su padre disfrazada de hombre");
-         shrek= new Personaje("Shrek",40,250,"Es un ogro gordo y feo pero de buen corazón que se casa con una princesa humana convertida en ogro");
-         fiona=new Personaje("Fiona",25,80," Es una princesa que se enamoró de Shrek y se volvió ogro para que él no se sienta mal");
-         burro=new Personaje("Burro",5,60," Es un amigo de shrek que se casó con una dragona y tuvo muchos hijos");
+        this.elPrimerVengador=new Pelicula("El primer vengador", LocalDate.of(2011,11,2),8);
+        this.soldadoDeInvierno=new Pelicula("Soldado de invierno", LocalDate.of(2013,10,12),5);
+        this.civilWar=new Pelicula("Civil War",LocalDate.of(2015,8,23),9);
+        this.shrekFilm=new Pelicula("Shrek1", LocalDate.of(2001,3,12),7);
+        this.shrekAfeter=new Pelicula("Shrek Forever After", LocalDate.of(2010,12,1),9);
+        this.mulanFilm= new Pelicula("Mulan live action",LocalDate.of(2020,07,4),10);
+        this.mulan1= new Pelicula("Mulan Disney", LocalDate.of(1998,10,2),10);
 
-        elPrimerVengador=new Pelicula("El primer vengador", LocalDate.of(2011,11,2),8);
-        soldadoDeInvierno=new Pelicula("Soldado de invierno", LocalDate.of(2013,10,12),5);
-        civilWar=new Pelicula("Civil War",LocalDate.of(2015,8,23),9);
-        shrekFilm=new Pelicula("Shrek1", LocalDate.of(2001,3,12),7);
-        shrekAfeter=new Pelicula("Shrek Forever After", LocalDate.of(2010,12,1),9);
-        mulanFilm= new Pelicula("Mulan live action",LocalDate.of(2020,07,4),10);
-        mulan1= new Pelicula("Mulan Disney", LocalDate.of(1998,10,2),10);
+        this.heroes= new Genero("Super Heroes");
+        this.infantil= new Genero("Infantil");
+        this.aventura= new Genero("Aventura");
 
-        heroes= new Genero("Super Heroes");
-        infantil= new Genero("Infantil");
-        aventura= new Genero("Aventura");
+        this.civilWar.setPersonajesAsociados(List.of(capitanAmerica));
+        this.shrekFilm.setPersonajesAsociados(List.of(shrek,burro,fiona));
+        this.shrekAfeter.setPersonajesAsociados(List.of(shrek,burro,fiona));
+        this.mulanFilm.setPersonajesAsociados(List.of(mulan));
+        this.civilWar.setPersonajesAsociados(List.of(capitanAmerica));
 
-        civilWar.setGenero(heroes);
-        shrekFilm.setGenero(aventura);
-        shrekAfeter.setGenero(aventura);
-        mulanFilm.setGenero(infantil);
+        this.civilWar.setGenero(heroes);
+        this.shrekFilm.setGenero(aventura);
+        this.shrekAfeter.setGenero(aventura);
+        this.mulan1.setGenero(infantil);
+        this.mulanFilm.setGenero(infantil);
+        this.elPrimerVengador.setGenero(heroes);
+        this.soldadoDeInvierno.setGenero(heroes);
 
-        logger.info(logger.getName()+"genero heroes es nulo? "+(heroes==null));
+        this.mulan.setPeliculasAsociadas(List.of(mulan1,mulanFilm));
+        this.capitanAmerica.setPeliculasAsociadas(List.of(soldadoDeInvierno,elPrimerVengador,civilWar));
+        this.shrek.setPeliculasAsociadas(List.of(shrekFilm,shrekAfeter));
+        this.fiona.setPeliculasAsociadas(List.of(shrekFilm,shrekAfeter));
+        this.burro.setPeliculasAsociadas(List.of(shrekFilm,shrekAfeter));
+
+
 
            }
+
+
 
 
 
@@ -91,6 +108,8 @@ public class SampleDataGenerator {
         generosSample.add(aventura);
         generosSample.add(heroes);
 
+
+
         return generosSample;
     }
 
@@ -98,15 +117,7 @@ public class SampleDataGenerator {
 
         peliculasSample=new ArrayList<>();
 
-        civilWar.setPersonajesAsociados(List.of(capitanAmerica));
-        shrekFilm.setPersonajesAsociados(List.of(shrek,burro,fiona));
-        shrekAfeter.setPersonajesAsociados(List.of(shrek,burro,fiona));
-        mulanFilm.setPersonajesAsociados(List.of(mulan));
 
-        civilWar.setGenero(heroes);
-        shrekFilm.setGenero(aventura);
-        shrekAfeter.setGenero(aventura);
-        mulanFilm.setGenero(infantil);
 
         peliculasSample.add(elPrimerVengador);
         peliculasSample.add(soldadoDeInvierno);
@@ -126,11 +137,7 @@ public class SampleDataGenerator {
 
 
         personajesSample=new ArrayList<>();
-        mulan.setPeliculasAsociadas(List.of(mulan1,mulanFilm));
-        capitanAmerica.setPeliculasAsociadas(List.of(soldadoDeInvierno,elPrimerVengador,civilWar));
-        shrek.setPeliculasAsociadas(List.of(shrekFilm,shrekAfeter));
-        fiona.setPeliculasAsociadas(List.of(shrekFilm,shrekAfeter));
-        burro.setPeliculasAsociadas(List.of(shrekFilm,shrekAfeter));
+
 
         personajesSample.add(capitanAmerica);
         personajesSample.add(mulan);
