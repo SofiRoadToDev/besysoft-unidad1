@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @RestController
 public class PeliculasController {
 
-    private SampleDataGenerator genData= new SampleDataGenerator();
+    private SampleDataGenerator genData= SampleDataGenerator.getInstance();
 
      @GetMapping("/peliculas")
     public List<Pelicula> buscarTodas(){

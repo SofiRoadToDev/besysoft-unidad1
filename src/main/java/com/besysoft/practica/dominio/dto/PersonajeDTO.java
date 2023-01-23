@@ -9,6 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PersonajeDTO {
 
+    private int id;
+
     private String nombre;
 
     private int edad;

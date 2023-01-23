@@ -14,7 +14,7 @@ import java.util.Optional;
 @Service
 public class PeliculaService {
 
-    private SampleDataGenerator gen=new SampleDataGenerator();
+    private SampleDataGenerator gen=SampleDataGenerator.getInstance();
 
     private List<PeliculaDTO> peliculas=new ArrayList<>();
 

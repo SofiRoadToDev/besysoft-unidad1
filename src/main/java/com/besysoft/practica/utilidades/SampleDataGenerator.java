@@ -1,11 +1,8 @@
 package com.besysoft.practica.utilidades;
 
-import com.besysoft.practica.controllers.PeliculasController;
 import com.besysoft.practica.dominio.Genero;
 import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.dominio.Personaje;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -42,12 +39,12 @@ public class SampleDataGenerator {
     Genero aventura;
     Genero heroes;
 
+    public static SampleDataGenerator generator=null;
 
 
 
 
-
-    public SampleDataGenerator(){
+    private SampleDataGenerator(){
         this.capitanAmerica= new Personaje("Capitan America",33,80,"Lo congelaron por años y después se unió a los vengadores");
         this.mulan= new Personaje("Mulan",15,50," Fue a la guerra a pelear en lugar de su padre disfrazada de hombre");
         this.shrek= new Personaje("Shrek",40,250,"Es un ogro gordo y feo pero de buen corazón que se casa con una princesa humana convertida en ogro");
@@ -65,6 +62,8 @@ public class SampleDataGenerator {
         this.heroes= new Genero("superheroes");
         this.infantil= new Genero("infantil");
         this.aventura= new Genero("aventura");
+
+
 
         this.civilWar.setPersonajesAsociados(List.of(capitanAmerica));
         this.shrekFilm.setPersonajesAsociados(List.of(shrek,burro,fiona));
@@ -134,4 +133,15 @@ public class SampleDataGenerator {
 
         return personajesSample;
     }
+
+    public static SampleDataGenerator getInstance(){
+        if(generator==null){
+            generator=new SampleDataGenerator();
+        }
+        return generator;
+    }
+
+
+
+
 }

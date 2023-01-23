@@ -1,6 +1,5 @@
 package com.besysoft.practica.dominio;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,6 +9,10 @@ import java.util.List;
 
 @Getter @Setter
 public class Pelicula {
+
+    private static int id=0;
+
+    private int idPelicula;
 
     private String titulo;
 
@@ -24,6 +27,7 @@ public class Pelicula {
 
 
     public Pelicula(String titulo, LocalDate fechaCreacion, int calificacion) {
+        this.idPelicula=++id;
         this.personajesAsociados=new ArrayList<>();
         this.titulo = titulo;
         this.fechaCreacion = fechaCreacion;
@@ -31,6 +35,7 @@ public class Pelicula {
     }
 
     public Pelicula() {
+        this.idPelicula=++id;
     }
 
 

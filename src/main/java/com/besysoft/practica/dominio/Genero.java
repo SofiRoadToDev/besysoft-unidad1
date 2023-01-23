@@ -10,13 +10,20 @@ import java.util.List;
 @Getter @Setter
 public class Genero {
 
+    private static int id=0;
+
+    private int idGenero;
+
     private String nombre;
 
     @JsonIgnore
     List<Pelicula>peliculasDelGenero;
 
     public Genero(String nombre) {
+        this.idGenero=++id;
         this.peliculasDelGenero=new ArrayList<>();
         this.nombre = nombre;
     }
+
+
 }

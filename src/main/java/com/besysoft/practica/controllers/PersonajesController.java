@@ -11,15 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.logging.Logger;
 import java.util.stream.Collectors;
-
-import static com.fasterxml.jackson.core.io.NumberInput.parseInt;
 
 @RestController
 public class PersonajesController {
 
-    private SampleDataGenerator genData= new SampleDataGenerator();
+    private SampleDataGenerator genData= SampleDataGenerator.getInstance();
 
     @GetMapping("/personajes")
     public List<Personaje> buscarTodos(){
