@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 public class PersonajesController {
@@ -31,14 +30,14 @@ public class PersonajesController {
         boolean isOnlyLetters=nombre.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
 
         if(isOnlyLetters){
-          Optional<List<Personaje>> p= Optional.of(genData.getPersonajesSample()
+          Optional<Personaje> p= genData.getPersonajesSample()
                   .stream()
                   .filter(per -> per.getNombre().equals(nombre))
-                  .collect(Collectors.toList()));
-           if(p.get().size()>0){
-               return new ResponseEntity(p.get().get(0), HttpStatus.OK);
+                  .findAny();
+           if(p.isPresent()){
+               return new ResponseEntity(p.get(), HttpStatus.OK);
            }else{
-               return new ResponseEntity("personaje no encontrado",HttpStatus.NOT_FOUND);
+               return new ResponseEntity("personaje no encontrado",HttpStatus.BAD_REQUEST);
            }
 
         }else{
@@ -50,16 +49,16 @@ public class PersonajesController {
     @GetMapping("/personajes/edad/{edad}")
     public ResponseEntity buscarPorEdad(@PathVariable int edad){
         /*Hay personajes ficticios con miles de años, como Dracula o las momias*/
-        List<Personaje>personajes= new ArrayList<>();
+
         if((edad>0 && edad<10000)){
-            personajes= genData.getPersonajesSample()
+            Optional<Personaje>personaje= genData.getPersonajesSample()
                     .stream()
                     .filter(p->p.getEdad()==edad)
-                    .collect(Collectors.toList());
-            if(personajes.isEmpty()){
-                return new ResponseEntity<>("No se encontraron personajes con esa edad", HttpStatus.NOT_FOUND);
+                    .findAny();
+            if(personaje.isPresent()){
+                return new ResponseEntity<>("No se encontraron personajes con esa edad", HttpStatus.BAD_REQUEST);
             }else{
-                return new ResponseEntity(personajes,HttpStatus.OK);
+                return new ResponseEntity(personaje.get(),HttpStatus.OK);
             }
         }else{
             return new ResponseEntity("Coloque una edad valida, un número entero, entre 0 y 10000", HttpStatus.BAD_REQUEST);

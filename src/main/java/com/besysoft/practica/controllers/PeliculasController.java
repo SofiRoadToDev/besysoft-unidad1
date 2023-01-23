@@ -8,10 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 public class PeliculasController {
@@ -29,16 +27,16 @@ public class PeliculasController {
         boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");
         if(isTituloRight){
 
-            Optional<List<Pelicula>>peli= Optional.of(genData.getPeliculasSample()
+            Optional<Pelicula>peli= genData.getPeliculasSample()
                     .stream()
                     .filter(pelicula -> {
                         return pelicula.getTitulo().equals(titulo);
                     })
-                    .collect(Collectors.toList()));
-            if(peli.get().size()>0){
-                return new ResponseEntity<>(peli.get().get(0),HttpStatus.OK);
+                    .findAny();
+            if(peli.isPresent()){
+                return new ResponseEntity<>(peli.get(),HttpStatus.OK);
             }else{
-                return new ResponseEntity("No se ha encontrado esa pelicula", HttpStatus.NOT_FOUND);
+                return new ResponseEntity("No se ha encontrado esa pelicula", HttpStatus.BAD_REQUEST);
             }
         }else{
             return new ResponseEntity("Solo se admiten letras en el titulo", HttpStatus.BAD_REQUEST);
@@ -48,18 +46,18 @@ public class PeliculasController {
     @GetMapping("/peliculas/genero/{genero}")
     public ResponseEntity buscarPorGenero(@PathVariable(name="genero") String genero){
          boolean isOnlyLetters=genero.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
-         List<Pelicula>peliculas=new ArrayList<>();
+
          if(isOnlyLetters){
-             peliculas=genData.getPeliculasSample()
+             Optional<Pelicula>peli=genData.getPeliculasSample()
                      .stream()
                      .filter(pelicula -> {
                          return pelicula.getGenero().getNombre().equals(genero.toLowerCase());
-                     })
-                     .collect(Collectors.toList());
-             if(peliculas.size()>0){
-                 return new ResponseEntity(peliculas,HttpStatus.OK);
+                     }).findAny();
+
+             if(peli.isPresent()){
+                 return new ResponseEntity(peli.get(),HttpStatus.OK);
              }else{
-                 return new ResponseEntity("No se encontraron peliculas para ese genero",HttpStatus.NOT_FOUND);
+                 return new ResponseEntity("No se encontraron peliculas para ese genero",HttpStatus.BAD_REQUEST);
              }
          }else{
              return new ResponseEntity<>("El genero debe estar compuesto solo de letras",HttpStatus.BAD_REQUEST);
