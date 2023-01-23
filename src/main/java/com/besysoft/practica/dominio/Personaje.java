@@ -2,12 +2,13 @@ package com.besysoft.practica.dominio;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
+@Getter @Setter @NoArgsConstructor
 public class Personaje {
 
     private String nombre;
@@ -31,7 +32,7 @@ public class Personaje {
         this.historia = historia;
     }
 
-    public Personaje(){
-
+    public Personaje(String nombre){
+        this.nombre=nombre;
     }
 }
