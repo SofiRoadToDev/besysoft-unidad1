@@ -4,26 +4,25 @@ import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/peliculas")
 public class PeliculasController {
 
     private SampleDataGenerator genData= SampleDataGenerator.getInstance();
 
-     @GetMapping("/peliculas")
+     @GetMapping()
     public List<Pelicula> buscarTodas(){
          List<Pelicula> peliculas=genData.getPeliculasSample();
          return peliculas;
     }
 
-    @GetMapping("/peliculas/titulo/{titulo}")
-    public ResponseEntity<Pelicula> buscarPorTitulo(@PathVariable(name="titulo") String titulo){
+    @GetMapping("/titulo")
+    public ResponseEntity<Pelicula> buscarPorTitulo(@RequestParam(name="titulo") String titulo){
         boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");
         if(isTituloRight){
 
@@ -43,8 +42,8 @@ public class PeliculasController {
         }
     }
 
-    @GetMapping("/peliculas/genero/{genero}")
-    public ResponseEntity buscarPorGenero(@PathVariable(name="genero") String genero){
+    @GetMapping("/genero")
+    public ResponseEntity buscarPorGenero(@RequestParam(name="genero") String genero){
          boolean isOnlyLetters=genero.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
 
          if(isOnlyLetters){

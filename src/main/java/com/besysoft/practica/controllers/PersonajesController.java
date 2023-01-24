@@ -4,14 +4,12 @@ import com.besysoft.practica.dominio.Personaje;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/personajes")
@@ -48,22 +46,21 @@ public class PersonajesController {
 
     }
 
-    @GetMapping("/personajes/edad/{edad}")
-    public ResponseEntity buscarPorEdad(@PathVariable int edad){
-        /*Hay personajes ficticios con miles de años, como Dracula o las momias*/
-
-        if((edad>0 && edad<10000)){
-            Optional<Personaje>personaje= genData.getPersonajesSample()
+    @GetMapping("/edad")
+    public ResponseEntity buscarPorEdad(@RequestParam int desde,@RequestParam int hasta){
+              List<Personaje>personajes=new ArrayList<>();
+        if((desde>0 && hasta>0)){
+            personajes= genData.getPersonajesSample()
                     .stream()
-                    .filter(p->p.getEdad()==edad)
-                    .findAny();
-            if(personaje.isPresent()){
+                    .filter(p->p.getEdad()>=desde && p.getEdad()<=hasta )
+                    .collect(Collectors.toList());
+            if(personajes.isEmpty()){
                 return new ResponseEntity<>("No se encontraron personajes con esa edad", HttpStatus.BAD_REQUEST);
             }else{
-                return new ResponseEntity(personaje.get(),HttpStatus.OK);
+                return new ResponseEntity(personajes,HttpStatus.OK);
             }
         }else{
-            return new ResponseEntity("Coloque una edad valida, un número entero, entre 0 y 10000", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity("Coloque rango de edad válido números enteros positivos", HttpStatus.BAD_REQUEST);
         }
     }
 
