@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
@@ -13,11 +14,12 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequestMapping("/personajes")
 public class PersonajesController {
 
     private SampleDataGenerator genData= SampleDataGenerator.getInstance();
 
-    @GetMapping("/personajes")
+    @GetMapping()
     public List<Personaje> buscarTodos(){
         List<Personaje>personajes=new ArrayList<>();
         personajes=genData.getPersonajesSample();
@@ -25,7 +27,7 @@ public class PersonajesController {
         return personajes;
     }
 
-    @GetMapping("/personajes/nombre/{nombre}")
+    @GetMapping("/nombre/{nombre}")
     public ResponseEntity<Personaje> buscarPorNombre(@PathVariable String nombre){
         boolean isOnlyLetters=nombre.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
 
