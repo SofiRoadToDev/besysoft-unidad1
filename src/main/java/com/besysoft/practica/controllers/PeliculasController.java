@@ -85,22 +85,8 @@ public class PeliculasController {
 
          if(Validators.isDateRight(desde) && Validators.isDateRight(hasta)){
 
-             System.out.println("COntroller "+desde+" "+hasta);
-
-             int dayDesde=Integer.parseInt(desde.substring(0,2)) ;
-             int monthDesde=Integer.parseInt(desde.substring(2,4));
-             int yearDesde=Integer.parseInt(desde.substring(4,8));
-
-
-
-             int dayHasta=Integer.parseInt(hasta.substring(0,2)) ;
-             int monthHasta=Integer.parseInt(hasta.substring(2,4));
-             int yearHasta=Integer.parseInt(hasta.substring(4,8));
-
-             var fechaDesde=LocalDate.of(dayDesde,monthDesde,yearDesde);
-             var fechaHasta=LocalDate.of(dayHasta,monthHasta,yearHasta);
-
-             System.out.println("desde "+fechaDesde+" Hasta "+fechaHasta);
+             var fechaDesde=LocalDate.parse(desde,DateTimeFormatter.ofPattern("ddMMyyyy"));
+             var fechaHasta=LocalDate.parse(hasta,DateTimeFormatter.ofPattern("ddMMyyyy"));
 
              peliculas=pelisService.getAllPeliculas().stream()
                      .filter(p->
@@ -109,7 +95,7 @@ public class PeliculasController {
                      .collect(Collectors.toList());
              return new ResponseEntity(peliculas,HttpStatus.OK);
          }else{
-             return new ResponseEntity("Ingrese fecha válidas con el formato ddMMyyyy, por ejemplo 12102004",HttpStatus.BAD_REQUEST);
+             return new ResponseEntity("Ingrese fecha válidas con el formato ddMMyyyy, por ejemplo 12102004 y que el año este entre 1900 y el actual",HttpStatus.BAD_REQUEST);
          }
     }
 }
