@@ -10,7 +10,7 @@ import java.util.List;
 @Getter @Setter
 public class Pelicula {
 
-    private static int id=0;
+    private static int id=1;
 
     private int idPelicula;
 
@@ -27,7 +27,7 @@ public class Pelicula {
 
 
     public Pelicula(String titulo, LocalDate fechaCreacion, int calificacion) {
-        this.idPelicula=++id;
+        this.idPelicula=id++;
         this.personajesAsociados=new ArrayList<>();
         this.titulo = titulo;
         this.fechaCreacion = fechaCreacion;
@@ -35,7 +35,7 @@ public class Pelicula {
     }
 
     public Pelicula() {
-        this.idPelicula=++id;
+        this.idPelicula=id++;
     }
 
 

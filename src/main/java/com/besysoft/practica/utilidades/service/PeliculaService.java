@@ -20,10 +20,10 @@ public class PeliculaService {
 
 
     public List<PeliculaDTO> getAllPeliculas(){
-        List< Pelicula>pelis =SampleDataGenerator.getPeliculasSample();
+        List<Pelicula>pelis =SampleDataGenerator.getPeliculasSample();
 
         pelis.stream().forEach(p->{
-            PeliculaDTO pel=new PeliculaDTO(p.getTitulo(),p.getFechaCreacion(),p.getCalificacion(),p.getGenero().getNombre());
+            PeliculaDTO pel=new PeliculaDTO(p.getIdPelicula(),p.getTitulo(),p.getFechaCreacion(),p.getCalificacion(),p.getGenero().getNombre());
             List<String>personajes=new ArrayList<>();
             p.getPersonajesAsociados().stream().forEach(per -> {personajes.add(per.getNombre());});
             pel.setPersonajes(personajes);

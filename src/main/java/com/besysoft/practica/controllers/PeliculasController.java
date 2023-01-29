@@ -8,10 +8,11 @@ import com.besysoft.practica.utilidades.service.PeliculaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.swing.text.DateFormatter;
-import javax.xml.validation.Validator;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -29,8 +30,8 @@ public class PeliculasController {
 
 
      @GetMapping()
-    public List<Pelicula> buscarTodas(){
-         List<Pelicula> peliculas=SampleDataGenerator.getPeliculasSample();
+    public List<PeliculaDTO> buscarTodas(){
+         List<PeliculaDTO> peliculas=pelisService.getAllPeliculas();
          return peliculas;
     }
 

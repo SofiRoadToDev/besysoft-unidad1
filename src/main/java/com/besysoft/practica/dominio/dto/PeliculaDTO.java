@@ -25,7 +25,8 @@ public class PeliculaDTO {
     private String genero;
 
 
-    public PeliculaDTO(String titulo, LocalDate fechaCreacion, int calificacion, String genero) {
+    public PeliculaDTO(int id,String titulo, LocalDate fechaCreacion, int calificacion, String genero) {
+        this.id=id;
         this.titulo = titulo;
         this.fechaCreacion = fechaCreacion;
         this.calificacion = calificacion;
