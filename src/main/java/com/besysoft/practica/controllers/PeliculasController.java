@@ -33,11 +33,11 @@ public class PeliculasController {
     }
 
     @GetMapping("/titulo")
-    public ResponseEntity<Pelicula> buscarPorTitulo(@RequestParam(name="titulo") String titulo){
+    public ResponseEntity buscarPorTitulo(@RequestParam(name="titulo") String titulo){
         boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");
         if(isTituloRight){
 
-            Optional<Pelicula>peli= SampleDataGenerator.getPeliculasSample()
+            Optional<PeliculaDTO>peli= pelisService.getAllPeliculas()
                     .stream()
                     .filter(pelicula -> {
                         return pelicula.getTitulo().equals(titulo);

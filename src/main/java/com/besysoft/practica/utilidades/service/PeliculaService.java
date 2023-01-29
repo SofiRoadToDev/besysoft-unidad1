@@ -5,6 +5,7 @@ import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.dominio.Personaje;
 import com.besysoft.practica.dominio.dto.PeliculaDTO;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
+import com.besysoft.practica.utilidades.Validators;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -21,11 +22,10 @@ public class PeliculaService {
 
     public List<PeliculaDTO> getAllPeliculas(){
         List<Pelicula>pelis =SampleDataGenerator.getPeliculasSample();
-
-        pelis.stream().forEach(p->{
+        pelis.forEach(p->{
             PeliculaDTO pel=new PeliculaDTO(p.getIdPelicula(),p.getTitulo(),p.getFechaCreacion(),p.getCalificacion(),p.getGenero().getNombre());
             List<String>personajes=new ArrayList<>();
-            p.getPersonajesAsociados().stream().forEach(per -> {personajes.add(per.getNombre());});
+            p.getPersonajesAsociados().forEach(per -> {personajes.add(per.getNombre());});
             pel.setPersonajes(personajes);
             peliculas.add(pel);
         });
@@ -34,6 +34,9 @@ public class PeliculaService {
 
 
     public void crearPelicula(PeliculaDTO pelicula) throws Exception {
+        if(Validators.isPeliculaAlreadyStored(pelicula.getTitulo())){
+            throw new Exception("Esa pelicula ya existe ");
+        }
         /* Creo un objeto pelicula, acorde al modelo de negocio*/
         Pelicula peli= new Pelicula(pelicula.getTitulo(),pelicula.getFechaCreacion(),pelicula.getCalificacion());
         /*Busco si existe el genero que llego en el post*/

@@ -1,6 +1,9 @@
 package com.besysoft.practica.utilidades;
 
+import com.besysoft.practica.dominio.Pelicula;
+
 import java.time.LocalDate;
+import java.util.Optional;
 
 public class Validators {
 
@@ -18,5 +21,16 @@ public class Validators {
         boolean rigthYearValue=year>1900 && year<= LocalDate.now().getYear();
 
         return digits && rightDayValue && rightMonthValue && rigthYearValue;
+    }
+
+    public static boolean isPeliculaAlreadyStored(String peli){
+        Optional<Pelicula> pelicula=SampleDataGenerator
+                .getPeliculasSample()
+                .stream().filter(p->p.getTitulo().toLowerCase().equals(peli.toLowerCase())).findAny();
+        if(pelicula.isPresent()){
+            return true;
+        }else{
+            return false;
+        }
     }
 }

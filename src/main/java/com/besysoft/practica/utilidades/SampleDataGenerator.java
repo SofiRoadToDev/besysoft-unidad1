@@ -133,7 +133,7 @@ public class SampleDataGenerator {
         aventura= new Genero("aventura");
 
 
-        civilWar.getPersonajesAsociados().add(capitanAmerica);
+
         shrekFilm.getPersonajesAsociados().add(shrek);
         shrekFilm.getPersonajesAsociados().add(burro);
         shrekFilm.getPersonajesAsociados().add(fiona);
@@ -146,10 +146,9 @@ public class SampleDataGenerator {
 
         mulan1.getPersonajesAsociados().add(mulan);
 
-        civilWar.getPersonajesAsociados().add(capitanAmerica);
 
         elPrimerVengador.getPersonajesAsociados().add(capitanAmerica);
-
+        civilWar.getPersonajesAsociados().add(capitanAmerica);
         soldadoDeInvierno.getPersonajesAsociados().add(capitanAmerica);
 
 
