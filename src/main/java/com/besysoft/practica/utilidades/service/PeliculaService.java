@@ -65,7 +65,7 @@ public class PeliculaService {
         /*Una vez hechas las relaciones en el modelo de datos con el nuevo objeto pelicula, se agrega a la lista de peliculas guardada
         * y se agrega a la lista del DTO pelicula el objeto recibido PeliculaDTO
         * */
-        SampleDataGenerator.getPeliculasSample().add(peli);
+        System.out.println(SampleDataGenerator.crearPeliculaSample(peli));
         pelicula.setId(peli.getIdPelicula());
         peliculas.add(pelicula);
         System.out.println(peli.toString());

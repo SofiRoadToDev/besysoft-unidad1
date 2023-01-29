@@ -107,6 +107,11 @@ public class SampleDataGenerator {
         return personajesSample;
     }
 
+    public static int crearPeliculaSample(Pelicula p){
+        peliculasSample.add(p);
+        return peliculasSample.size();
+    }
+
 
     private static void initializeData(){
         capitanAmerica= new Personaje("Capitan America",33,80,"Lo congelaron por años y después se unió a los vengadores");
