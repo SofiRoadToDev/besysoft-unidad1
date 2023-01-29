@@ -14,13 +14,13 @@ import java.util.Optional;
 @Service
 public class PeliculaService {
 
-    private SampleDataGenerator gen=SampleDataGenerator.getInstance();
+
 
     private List<PeliculaDTO> peliculas=new ArrayList<>();
 
 
     public List<PeliculaDTO> getAllPeliculas(){
-        List< Pelicula>pelis =gen.getPeliculasSample();
+        List< Pelicula>pelis =SampleDataGenerator.getPeliculasSample();
 
         pelis.stream().forEach(p->{
             PeliculaDTO pel=new PeliculaDTO(p.getTitulo(),p.getFechaCreacion(),p.getCalificacion(),p.getGenero().getNombre());
@@ -37,10 +37,10 @@ public class PeliculaService {
         /* Creo un objeto pelicula, acorde al modelo de negocio*/
         Pelicula peli= new Pelicula(pelicula.getTitulo(),pelicula.getFechaCreacion(),pelicula.getCalificacion());
         /*Busco si existe el genero que llego en el post*/
-        Optional<Genero> genero=gen.getGenerosSample().stream().filter(g ->g.getNombre().equals(pelicula.getGenero())).findAny();
+        Optional<Genero> genero=SampleDataGenerator.getGenerosSample().stream().filter(g ->g.getNombre().equals(pelicula.getGenero())).findAny();
         /*consulto y separo en dos listas los personajes que llegaron en el post y los que estaban ya guardados*/
         List<String>personajes=pelicula.getPersonajes();
-        List<Personaje>storedPersonajes=gen.getPersonajesSample();
+        List<Personaje>storedPersonajes=SampleDataGenerator.getPersonajesSample();
         /*por cada personaje que llego en el post, si existe en lo guardado se agrega la referencia de su objeto a la lista del modelo de datos
         * si no, se crea un nuevo personaje y se agrega a la lista.
         * */
@@ -50,7 +50,7 @@ public class PeliculaService {
                         peli.getPersonajesAsociados().add(storedPersonajes.stream().filter(f->f.getNombre().equals(per)).findAny().get());
                     }else{
                         Personaje nuevo=new Personaje(per);
-                        gen.getPersonajesSample().add(nuevo);
+                        SampleDataGenerator.getPersonajesSample().add(nuevo);
                         peli.getPersonajesAsociados().add(nuevo);
                         nuevo.getPeliculasAsociadas().add(peli);
                     }
@@ -65,7 +65,7 @@ public class PeliculaService {
         /*Una vez hechas las relaciones en el modelo de datos con el nuevo objeto pelicula, se agrega a la lista de peliculas guardada
         * y se agrega a la lista del DTO pelicula el objeto recibido PeliculaDTO
         * */
-        gen.getPeliculasSample().add(peli);
+        SampleDataGenerator.getPeliculasSample().add(peli);
         peliculas.add(pelicula);
 
     }

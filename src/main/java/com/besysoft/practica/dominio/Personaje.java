@@ -37,6 +37,7 @@ public class Personaje {
 
     public Personaje(String nombre){
         this.idPersonaje=++id;
+        this.peliculasAsociadas= new ArrayList<>();
         this.nombre=nombre;
     }
 }

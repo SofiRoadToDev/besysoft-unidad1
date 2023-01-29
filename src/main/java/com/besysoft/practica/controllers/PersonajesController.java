@@ -15,12 +15,12 @@ import java.util.stream.Collectors;
 @RequestMapping("/personajes")
 public class PersonajesController {
 
-    private SampleDataGenerator genData= SampleDataGenerator.getInstance();
+
 
     @GetMapping()
     public List<Personaje> buscarTodos(){
         List<Personaje>personajes=new ArrayList<>();
-        personajes=genData.getPersonajesSample();
+        personajes=SampleDataGenerator.getPersonajesSample();
 
         return personajes;
     }
@@ -30,7 +30,7 @@ public class PersonajesController {
         boolean isOnlyLetters=nombre.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
 
         if(isOnlyLetters){
-          Optional<Personaje> p= genData.getPersonajesSample()
+          Optional<Personaje> p= SampleDataGenerator.getPersonajesSample()
                   .stream()
                   .filter(per -> per.getNombre().equals(nombre))
                   .findAny();
@@ -50,7 +50,7 @@ public class PersonajesController {
     public ResponseEntity buscarPorEdad(@RequestParam int desde,@RequestParam int hasta){
               List<Personaje>personajes=new ArrayList<>();
         if((desde>0 && hasta>0)){
-            personajes= genData.getPersonajesSample()
+            personajes= SampleDataGenerator.getPersonajesSample()
                     .stream()
                     .filter(p->p.getEdad()>=desde && p.getEdad()<=hasta )
                     .collect(Collectors.toList());

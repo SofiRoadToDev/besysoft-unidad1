@@ -26,11 +26,11 @@ public class PeliculasController {
     @Autowired
     PeliculaService pelisService;
 
-    private SampleDataGenerator genData= SampleDataGenerator.getInstance();
+
 
      @GetMapping()
     public List<Pelicula> buscarTodas(){
-         List<Pelicula> peliculas=genData.getPeliculasSample();
+         List<Pelicula> peliculas=SampleDataGenerator.getPeliculasSample();
          return peliculas;
     }
 
@@ -39,7 +39,7 @@ public class PeliculasController {
         boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");
         if(isTituloRight){
 
-            Optional<Pelicula>peli= genData.getPeliculasSample()
+            Optional<Pelicula>peli= SampleDataGenerator.getPeliculasSample()
                     .stream()
                     .filter(pelicula -> {
                         return pelicula.getTitulo().equals(titulo);
@@ -60,7 +60,7 @@ public class PeliculasController {
          boolean isOnlyLetters=genero.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
 
          if(isOnlyLetters){
-             Optional<Pelicula>peli=genData.getPeliculasSample()
+             Optional<Pelicula>peli=SampleDataGenerator.getPeliculasSample()
                      .stream()
                      .filter(pelicula -> {
                          return pelicula.getGenero().getNombre().equals(genero.toLowerCase());
