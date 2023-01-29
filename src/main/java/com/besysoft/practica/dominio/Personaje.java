@@ -28,7 +28,7 @@ public class Personaje {
     public Personaje(String nombre, int edad, double peso, String historia) {
 
         this.idPersonaje=id++;
-        System.out.println("personaje creado id: "+idPersonaje);
+      //  System.out.println("personaje creado id: "+idPersonaje);
         this.peliculasAsociadas= new ArrayList<>();
         this.nombre = nombre;
         this.edad = edad;

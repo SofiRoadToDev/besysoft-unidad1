@@ -8,10 +8,7 @@ import com.besysoft.practica.utilidades.service.PeliculaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -98,5 +95,17 @@ public class PeliculasController {
          }else{
              return new ResponseEntity("Ingrese fecha válidas con el formato ddMMyyyy, por ejemplo 12102004 y que el año este entre 1900 y el actual",HttpStatus.BAD_REQUEST);
          }
+    }
+
+
+    @PostMapping()
+    public ResponseEntity crearPelicula(@RequestBody PeliculaDTO peliculaDTO){
+
+        try {
+            pelisService.crearPelicula(peliculaDTO);
+            return new ResponseEntity("pelicula creada correctamente",HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 }

@@ -87,6 +87,10 @@ public class SampleDataGenerator {
         return peliculasSample;
     }
 
+    public static void addPeliculaSample(Pelicula p){
+        peliculasSample.add(p);
+    }
+
     public static List<Personaje>getPersonajesSample(){
             if(isInitialized==false){
                 initializeData();

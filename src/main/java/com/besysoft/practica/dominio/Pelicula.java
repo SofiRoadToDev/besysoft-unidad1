@@ -2,12 +2,13 @@ package com.besysoft.practica.dominio;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter @Setter
+@Getter @Setter @ToString
 public class Pelicula {
 
     private static int id=1;
@@ -35,6 +36,8 @@ public class Pelicula {
     }
 
     public Pelicula() {
+
+        this.personajesAsociados=new ArrayList<>();
         this.idPelicula=id++;
     }
 
