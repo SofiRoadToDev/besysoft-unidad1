@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class PeliculaService {
@@ -75,4 +76,24 @@ public class PeliculaService {
         peliculas.forEach(p-> System.out.println(p.getTitulo()));
         SampleDataGenerator.getPeliculasSample().forEach(p-> System.out.println("sample: "+p.getTitulo()));
     }
+
+
+    public void actualizarPelicula(PeliculaDTO peliculaDTO){
+        int id=peliculaDTO.getId();
+        Pelicula peli=new Pelicula(
+                peliculaDTO.getId()
+                ,peliculaDTO.getTitulo()
+                ,peliculaDTO.getFechaCreacion()
+                ,peliculaDTO.getCalificacion());
+
+                peliculas.forEach(pelicula -> {
+                    if(pelicula.getId()==id){
+                        int index=peliculas.indexOf(pelicula);
+                        peliculas.set(index,peliculaDTO);
+                    }
+                });
+    }
+
+
+    private Pelicula
 }

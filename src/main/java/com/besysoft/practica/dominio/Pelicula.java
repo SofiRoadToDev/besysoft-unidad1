@@ -1,5 +1,6 @@
 package com.besysoft.practica.dominio;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,6 +30,14 @@ public class Pelicula {
 
     public Pelicula(String titulo, LocalDate fechaCreacion, int calificacion) {
         this.idPelicula=id++;
+        this.personajesAsociados=new ArrayList<>();
+        this.titulo = titulo;
+        this.fechaCreacion = fechaCreacion;
+        this.calificacion = calificacion;
+    }
+
+    public Pelicula(int id,String titulo, LocalDate fechaCreacion, int calificacion) {
+        this.idPelicula=id;
         this.personajesAsociados=new ArrayList<>();
         this.titulo = titulo;
         this.fechaCreacion = fechaCreacion;
