@@ -50,22 +50,6 @@ public class SampleDataGenerator {
         if(isInitialized==false){
             initializeData();
         }
-
-        heroes.getPeliculasDelGenero().add(civilWar);
-        heroes.getPeliculasDelGenero().add(elPrimerVengador);
-        heroes.getPeliculasDelGenero().add(soldadoDeInvierno);
-
-        infantil.getPeliculasDelGenero().add(mulan1);
-        infantil.getPeliculasDelGenero().add(mulanFilm);
-
-       aventura.getPeliculasDelGenero().add(shrekFilm);
-       aventura.getPeliculasDelGenero().add(shrekAfeter);
-
-        generosSample=new ArrayList<>();
-        generosSample.add(infantil);
-        generosSample.add(aventura);
-        generosSample.add(heroes);
-
         return generosSample;
     }
 
@@ -73,44 +57,19 @@ public class SampleDataGenerator {
         if(isInitialized==false){
             initializeData();
         }
-        peliculasSample=new ArrayList<>();
-
-        peliculasSample.add(elPrimerVengador);
-        peliculasSample.add(soldadoDeInvierno);
-        peliculasSample.add(civilWar);
-        peliculasSample.add(shrekAfeter);
-        peliculasSample.add(shrekFilm);
-        peliculasSample.add(mulanFilm);
-        peliculasSample.add(mulan1);
-
-
         return peliculasSample;
     }
 
-    public static void addPeliculaSample(Pelicula p){
-        peliculasSample.add(p);
-    }
+
 
     public static List<Personaje>getPersonajesSample(){
             if(isInitialized==false){
                 initializeData();
             }
-
-        personajesSample=new ArrayList<>();
-
-        personajesSample.add(capitanAmerica);
-        personajesSample.add(mulan);
-        personajesSample.add(shrek);
-        personajesSample.add(fiona);
-        personajesSample.add(burro);
-
         return personajesSample;
     }
 
-    public static int crearPeliculaSample(Pelicula p){
-        peliculasSample.add(p);
-        return peliculasSample.size();
-    }
+
 
 
     private static void initializeData(){
@@ -172,6 +131,40 @@ public class SampleDataGenerator {
         fiona.getPeliculasAsociadas().add(shrekFilm);
         burro.getPeliculasAsociadas().add(shrekAfeter);
         burro.getPeliculasAsociadas().add(shrekFilm);
+
+        peliculasSample=new ArrayList<>();
+
+        peliculasSample.add(elPrimerVengador);
+        peliculasSample.add(soldadoDeInvierno);
+        peliculasSample.add(civilWar);
+        peliculasSample.add(shrekAfeter);
+        peliculasSample.add(shrekFilm);
+        peliculasSample.add(mulanFilm);
+        peliculasSample.add(mulan1);
+
+        personajesSample=new ArrayList<>();
+
+        personajesSample.add(capitanAmerica);
+        personajesSample.add(mulan);
+        personajesSample.add(shrek);
+        personajesSample.add(fiona);
+        personajesSample.add(burro);
+
+
+        heroes.getPeliculasDelGenero().add(civilWar);
+        heroes.getPeliculasDelGenero().add(elPrimerVengador);
+        heroes.getPeliculasDelGenero().add(soldadoDeInvierno);
+
+        infantil.getPeliculasDelGenero().add(mulan1);
+        infantil.getPeliculasDelGenero().add(mulanFilm);
+
+        aventura.getPeliculasDelGenero().add(shrekFilm);
+        aventura.getPeliculasDelGenero().add(shrekAfeter);
+
+        generosSample=new ArrayList<>();
+        generosSample.add(infantil);
+        generosSample.add(aventura);
+        generosSample.add(heroes);
 
         isInitialized=true;
     }

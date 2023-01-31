@@ -45,7 +45,6 @@ public class Pelicula {
     }
 
     public Pelicula() {
-
         this.personajesAsociados=new ArrayList<>();
         this.idPelicula=id++;
     }

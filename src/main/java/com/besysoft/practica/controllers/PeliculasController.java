@@ -109,6 +109,11 @@ public class PeliculasController {
         }
     }
 
+    @GetMapping("/test")
+    public List<Pelicula>getAll(){
+         return SampleDataGenerator.getPeliculasSample();
+    }
+
     @PutMapping()
     public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @RequestParam int id){
         try {

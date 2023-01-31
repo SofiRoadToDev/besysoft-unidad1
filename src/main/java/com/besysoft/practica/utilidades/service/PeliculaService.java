@@ -38,13 +38,13 @@ public class PeliculaService {
         if(Validators.isPeliculaAlreadyStored(pelicula.getTitulo())){
             throw new Exception("Esa pelicula ya existe ");
         }
+        if(!(pelicula.getCalificacion()>=1 && pelicula.getCalificacion()<=10)){
+            throw new Exception("La calificacion es del 1 al 10, solo enteros");
+        }
         Pelicula peli=crearPelicula(pelicula);
-        //System.out.println(SampleDataGenerator.crearPeliculaSample(peli));
         pelicula.setId(peli.getIdPelicula());
         peliculas.add(pelicula);
-        //System.out.println(peli.toString());
-        peliculas.forEach(p-> System.out.println(p.getTitulo()));
-        SampleDataGenerator.getPeliculasSample().forEach(p-> System.out.println("sample: "+p.getTitulo()));
+        SampleDataGenerator.getPeliculasSample().add(peli);
     }
 
 
