@@ -34,66 +34,70 @@ public class PeliculaService {
     }
 
 
-    public void crearPelicula(PeliculaDTO pelicula) throws Exception {
+    public void crearPeliculaFull(PeliculaDTO pelicula) throws Exception {
         if(Validators.isPeliculaAlreadyStored(pelicula.getTitulo())){
             throw new Exception("Esa pelicula ya existe ");
         }
-        /* Creo un objeto pelicula, acorde al modelo de negocio*/
-        Pelicula peli= new Pelicula(pelicula.getTitulo(),pelicula.getFechaCreacion(),pelicula.getCalificacion());
-        /*Busco si existe el genero que llego en el post*/
-        Optional<Genero> genero=SampleDataGenerator.getGenerosSample().stream().filter(g ->g.getNombre().equals(pelicula.getGenero())).findAny();
-        /*consulto y separo en dos listas los personajes que llegaron en el post y los que estaban ya guardados*/
-        List<String>personajes=pelicula.getPersonajes();
-        List<Personaje>storedPersonajes=SampleDataGenerator.getPersonajesSample();
-        /*por cada personaje que llego en el post, si existe en lo guardado se agrega la referencia de su objeto a la lista del modelo de datos
-        * si no, se crea un nuevo personaje y se agrega a la lista.
-        * */
-        personajes.stream().forEach(per->{
-               for(String p : personajes){
-                    if(storedPersonajes.contains(per)){
-                        peli.getPersonajesAsociados().add(storedPersonajes.stream().filter(f->f.getNombre().equals(per)).findAny().get());
-                    }else{
-                        Personaje nuevo=new Personaje(per);
-                        SampleDataGenerator.getPersonajesSample().add(nuevo);
-                        peli.getPersonajesAsociados().add(nuevo);
-                        nuevo.getPeliculasAsociadas().add(peli);
-                    }
-               }
-        });
-        /*Con el genero consulto si existe, true se vincula el objeto pelicula creado con el genero existente en modelo de datos*/
-        if(genero.isPresent()){
-            peli.setGenero(genero.get());
-        }else{/*false lanzo una excepcion, mejor crear al genero desde un post apart. En el cliente seguramente habrá una lista para elegir el genero*/
-            throw new Exception("El genero de pelicula ingresado no existe");
-        }
-        /*Una vez hechas las relaciones en el modelo de datos con el nuevo objeto pelicula, se agrega a la lista de peliculas guardada
-        * y se agrega a la lista del DTO pelicula el objeto recibido PeliculaDTO
-        * */
-        System.out.println(SampleDataGenerator.crearPeliculaSample(peli));
+        Pelicula peli=crearPelicula(pelicula);
+        //System.out.println(SampleDataGenerator.crearPeliculaSample(peli));
         pelicula.setId(peli.getIdPelicula());
         peliculas.add(pelicula);
-        System.out.println(peli.toString());
+        //System.out.println(peli.toString());
         peliculas.forEach(p-> System.out.println(p.getTitulo()));
         SampleDataGenerator.getPeliculasSample().forEach(p-> System.out.println("sample: "+p.getTitulo()));
     }
 
 
-    public void actualizarPelicula(PeliculaDTO peliculaDTO){
-        int id=peliculaDTO.getId();
-        Pelicula peli=new Pelicula(
-                peliculaDTO.getId()
-                ,peliculaDTO.getTitulo()
-                ,peliculaDTO.getFechaCreacion()
-                ,peliculaDTO.getCalificacion());
+    public void actualizarPelicula(PeliculaDTO peliculaDTO, int id) throws Exception{
+        Pelicula peli=crearPelicula(peliculaDTO);
+        if(Validators.isPeliculaAlreadyStored(id)){
+            peliculas.forEach(pelicula -> {
+                if(pelicula.getId()==id){
+                    int index=peliculas.indexOf(pelicula);
+                    peliculas.set(index,peliculaDTO);
+                }
+            });
 
-                peliculas.forEach(pelicula -> {
-                    if(pelicula.getId()==id){
-                        int index=peliculas.indexOf(pelicula);
-                        peliculas.set(index,peliculaDTO);
-                    }
-                });
+            SampleDataGenerator.getPeliculasSample().forEach(p->{
+                if(p.getIdPelicula()==id){
+                    int index=SampleDataGenerator.getPeliculasSample().indexOf(p);
+                    SampleDataGenerator.getPeliculasSample().set(index,peli);
+                }
+            });
+        }else{
+            throw new Exception("El id proporcionado no corresponde a ninguna pelicula existente");
+        }
+
     }
 
 
-    private Pelicula
+    private Pelicula crearPelicula(PeliculaDTO pelicula) throws Exception{
+        Pelicula peli= new Pelicula(pelicula.getTitulo(),pelicula.getFechaCreacion(),pelicula.getCalificacion());
+
+        Optional<Genero> genero=SampleDataGenerator.getGenerosSample().stream().filter(g ->g.getNombre().equals(pelicula.getGenero())).findAny();
+
+        List<String>personajes=pelicula.getPersonajes();
+        List<Personaje>storedPersonajes=SampleDataGenerator.getPersonajesSample();
+
+        personajes.stream().forEach(per->{
+            for(String p : personajes){
+                if(storedPersonajes.contains(per)){
+                    peli.getPersonajesAsociados().add(storedPersonajes.stream().filter(f->f.getNombre().equals(per)).findAny().get());
+                }else{
+                    Personaje nuevo=new Personaje(per);
+                    SampleDataGenerator.getPersonajesSample().add(nuevo);
+                    peli.getPersonajesAsociados().add(nuevo);
+                    nuevo.getPeliculasAsociadas().add(peli);
+                }
+            }
+        });
+
+        if(genero.isPresent()){
+            peli.setGenero(genero.get());
+        }else{
+            throw new Exception("El genero de pelicula ingresado no existe");
+        }
+        pelicula.setId(peli.getIdPelicula());
+        return peli;
+    }
 }

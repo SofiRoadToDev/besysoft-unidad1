@@ -102,10 +102,20 @@ public class PeliculasController {
     public ResponseEntity crearPelicula(@RequestBody PeliculaDTO peliculaDTO){
 
         try {
-            pelisService.crearPelicula(peliculaDTO);
+            pelisService.crearPeliculaFull(peliculaDTO);
             return new ResponseEntity("pelicula creada correctamente",HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    @PutMapping()
+    public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @RequestParam int id){
+        try {
+            pelisService.actualizarPelicula(peliculaDTO,id);
+            return new ResponseEntity("Pelicula actualizada correctamente",HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+           return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 }

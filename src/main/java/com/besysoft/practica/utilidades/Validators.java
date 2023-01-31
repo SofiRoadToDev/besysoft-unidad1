@@ -33,4 +33,17 @@ public class Validators {
             return false;
         }
     }
+
+    public static boolean isPeliculaAlreadyStored(int id){
+
+        Optional<Pelicula> pelicula=SampleDataGenerator
+                .getPeliculasSample()
+                .stream().filter(p->p.getIdPelicula()==id).findAny();
+        System.out.println("stored: "+pelicula.get().getIdPelicula());
+        if(pelicula.isPresent()){
+            return true;
+        }else{
+            return false;
+        }
+    }
 }
