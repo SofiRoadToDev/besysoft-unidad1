@@ -26,7 +26,11 @@ public class PeliculaService {
         pelis.forEach(p->{
             PeliculaDTO pel=new PeliculaDTO(p.getIdPelicula(),p.getTitulo(),p.getFechaCreacion(),p.getCalificacion(),p.getGenero().getNombre());
             List<String>personajes=new ArrayList<>();
-            p.getPersonajesAsociados().forEach(per -> {personajes.add(per.getNombre());});
+            p.getPersonajesAsociados().forEach(per -> {
+                if(!p.getPersonajesAsociados().contains(per.getNombre())){
+                    personajes.add(per.getNombre());
+                }
+            });
             pel.setPersonajes(personajes);
             peliculas.add(pel);
         });
@@ -53,15 +57,19 @@ public class PeliculaService {
         if(Validators.isPeliculaAlreadyStored(id)){
             peliculas.forEach(pelicula -> {
                 if(pelicula.getId()==id){
+
                     int index=peliculas.indexOf(pelicula);
                     peliculas.set(index,peliculaDTO);
+                    peliculas.forEach(p-> System.out.println(p.getTitulo()));
                 }
             });
 
             SampleDataGenerator.getPeliculasSample().forEach(p->{
                 if(p.getIdPelicula()==id){
                     int index=SampleDataGenerator.getPeliculasSample().indexOf(p);
+
                     SampleDataGenerator.getPeliculasSample().set(index,peli);
+                    SampleDataGenerator.getPeliculasSample().forEach(pe-> System.out.println(pe.getTitulo()));
                 }
             });
         }else{
