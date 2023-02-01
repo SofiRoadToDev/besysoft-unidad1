@@ -34,44 +34,24 @@ public class PeliculasController {
 
     @GetMapping("/titulo")
     public ResponseEntity buscarPorTitulo(@RequestParam(name="titulo") String titulo){
-        boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");
-        if(isTituloRight){
-
-            Optional<PeliculaDTO>peli= pelisService.getAllPeliculas()
-                    .stream()
-                    .filter(pelicula -> {
-                        return pelicula.getTitulo().equals(titulo);
-                    })
-                    .findAny();
-            if(peli.isPresent()){
-                return new ResponseEntity<>(peli.get(),HttpStatus.OK);
-            }else{
-                return new ResponseEntity("No se ha encontrado esa pelicula", HttpStatus.BAD_REQUEST);
-            }
-        }else{
-            return new ResponseEntity("Solo se admiten letras en el titulo", HttpStatus.BAD_REQUEST);
+         Pelicula peli;
+        try {
+            peli=pelisService.buscarPeliculaPorTitulo(titulo).get();
+            return new ResponseEntity(peli, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/genero")
     public ResponseEntity buscarPorGenero(@RequestParam(name="genero") String genero){
-         boolean isOnlyLetters=genero.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
-
-         if(isOnlyLetters){
-             Optional<Pelicula>peli=SampleDataGenerator.getPeliculasSample()
-                     .stream()
-                     .filter(pelicula -> {
-                         return pelicula.getGenero().getNombre().equals(genero.toLowerCase());
-                     }).findAny();
-
-             if(peli.isPresent()){
-                 return new ResponseEntity(peli.get(),HttpStatus.OK);
-             }else{
-                 return new ResponseEntity("No se encontraron peliculas para ese genero",HttpStatus.BAD_REQUEST);
-             }
-         }else{
-             return new ResponseEntity<>("El genero debe estar compuesto solo de letras",HttpStatus.BAD_REQUEST);
-         }
+         List<Pelicula>peliculas;
+        try {
+            peliculas=pelisService.buscarPorGenero(genero).get();
+            return new ResponseEntity(peliculas,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 
 

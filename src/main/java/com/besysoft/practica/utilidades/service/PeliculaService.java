@@ -6,6 +6,8 @@ import com.besysoft.practica.dominio.Personaje;
 import com.besysoft.practica.dominio.dto.PeliculaDTO;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.utilidades.Validators;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -53,6 +55,21 @@ public class PeliculaService {
     }
 
 
+    public Optional<List<Pelicula>>buscarPorGenero(String genero) throws Exception{
+        boolean isOnlyLetters=genero.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
+        if(isOnlyLetters) {
+            Optional<List<Pelicula>> pelis = Optional.of(SampleDataGenerator.getPeliculasSample()
+                    .stream()
+                    .filter(pelicula -> {
+                        return pelicula.getGenero().getNombre().equals(genero.toLowerCase());
+                    }).collect(Collectors.toList()));
+            if (pelis.get().size()>0) {
+                return pelis;
+            } else {
+                throw new Exception("No existen peliculas con ese genero");
+            }
+        }else throw  new Exception("El genero debe estar compuesto solo por letras");
+    }
     public void actualizarPelicula(PeliculaDTO peliculaDTO, int id) throws Exception{
         Pelicula peli=crearPelicula(peliculaDTO,id);
         if(Validators.isPeliculaAlreadyStored(id)){
@@ -77,8 +94,30 @@ public class PeliculaService {
 
     }
 
+    public Optional<Pelicula> buscarPeliculaPorTitulo(String titulo) throws Exception{
 
-    //Retorna una pelicula sin id
+        boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");
+        Optional<Pelicula>peli;
+
+        if(isTituloRight){
+            peli= SampleDataGenerator.getPeliculasSample()
+                    .stream()
+                    .filter(pelicula -> {
+                        return pelicula.getTitulo().equals(titulo);
+                    })
+                    .findAny();
+            if(peli.isPresent()){
+                return peli;
+            }else{
+                throw new Exception("No se ha encontrado esa pelicula");
+            }
+        }else{
+            throw new Exception("El titulo solo debe contener letras, espacios y numeros ");
+        }
+    }
+
+
+    //crea objeto pelicula con o sin id, metodo usado por  actualizar y tambien crear
     private Pelicula crearPelicula(PeliculaDTO pelicula, int id) throws Exception{
         Pelicula peli;
         /*-1 indica que debe crear el id*/
