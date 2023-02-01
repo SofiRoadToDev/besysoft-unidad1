@@ -116,6 +116,25 @@ public class PeliculaService {
         }
     }
 
+    public List<Pelicula> buscarPorRangoCalificacion(int desde, int hasta) throws Exception{
+
+        List<Pelicula>peliculas=new ArrayList<>();
+
+        boolean isDesdeRight=desde>=1 && desde<=10;
+        boolean isHastaRight=desde>=1 && desde<=10;
+        boolean isDesdeMenor= desde<=hasta;
+
+        if(isDesdeRight && isHastaRight && isDesdeMenor){
+            peliculas=SampleDataGenerator.getPeliculasSample().stream()
+                    .filter(p->p.getCalificacion()>=desde && p.getCalificacion()<=hasta)
+                    .collect(Collectors.toList());
+        }else{
+            throw new Exception(" La calificación debe ser un número entero entre 1y 10. Desde debe ser menor o igual que hasta");
+        }
+
+        return peliculas;
+    }
+
 
     //crea objeto pelicula con o sin id, metodo usado por  actualizar y tambien crear
     private Pelicula crearPelicula(PeliculaDTO pelicula, int id) throws Exception{

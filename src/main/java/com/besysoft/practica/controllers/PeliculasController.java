@@ -77,6 +77,17 @@ public class PeliculasController {
          }
     }
 
+    @GetMapping("/calificacion")
+    public ResponseEntity getByRangoCalificacion( @RequestParam int desde, @RequestParam int hasta){
+         List<Pelicula>pelis=new ArrayList<>();
+        try {
+            pelis=pelisService.buscarPorRangoCalificacion(desde,hasta);
+            return new ResponseEntity(pelis,HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+    }
+
 
     @PostMapping()
     public ResponseEntity crearPelicula(@RequestBody PeliculaDTO peliculaDTO){
@@ -94,8 +105,8 @@ public class PeliculasController {
          return SampleDataGenerator.getPeliculasSample();
     }
 
-    @PutMapping()
-    public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @RequestParam int id){
+    @PutMapping("/{id}")
+    public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @PathVariable int id){
         try {
             pelisService.actualizarPelicula(peliculaDTO,id);
             return new ResponseEntity("Pelicula actualizada correctamente",HttpStatus.ACCEPTED);

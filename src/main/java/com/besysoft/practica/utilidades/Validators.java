@@ -1,5 +1,6 @@
 package com.besysoft.practica.utilidades;
 
+import com.besysoft.practica.dominio.Genero;
 import com.besysoft.practica.dominio.Pelicula;
 
 import java.time.LocalDate;
@@ -45,5 +46,16 @@ public class Validators {
         }else{
             return false;
         }
+    }
+
+    public static boolean isGeneroAlreadyStores( String genero){
+        boolean isStored=false;
+        Optional<Genero>gen=SampleDataGenerator.getGenerosSample()
+                .stream().filter(g->g.getNombre().equals(genero))
+                .findAny();
+        if(gen.isPresent()){
+            isStored= true;
+        }
+        return isStored;
     }
 }

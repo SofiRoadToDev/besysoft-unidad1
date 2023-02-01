@@ -10,7 +10,7 @@ import java.util.List;
 @Getter @Setter
 public class Genero {
 
-    private static int id=0;
+    private static int id=1;
 
     private int idGenero;
 
@@ -20,7 +20,8 @@ public class Genero {
     List<Pelicula>peliculasDelGenero;
 
     public Genero(String nombre) {
-        this.idGenero=++id;
+        id++;
+        this.idGenero=id;
         this.peliculasDelGenero=new ArrayList<>();
         this.nombre = nombre;
     }
