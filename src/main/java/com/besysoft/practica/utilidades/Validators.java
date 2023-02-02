@@ -52,7 +52,7 @@ public class Validators {
         Optional<Pelicula> pelicula=SampleDataGenerator
                 .getPeliculasSample()
                 .stream().filter(p->p.getIdPelicula()==id).findAny();
-        System.out.println("stored: "+pelicula.get().getIdPelicula());
+
         if(pelicula.isPresent()){
             return true;
         }else{

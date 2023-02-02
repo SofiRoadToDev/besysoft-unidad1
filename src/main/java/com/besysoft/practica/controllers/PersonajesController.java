@@ -56,8 +56,8 @@ public class PersonajesController {
         }
     }
 
-    @PutMapping
-    public ResponseEntity actualizarPersonaje(@RequestBody Personaje personaje, @RequestParam int id){
+    @PutMapping("/{id}")
+    public ResponseEntity actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable int id){
         try {
             personajeService.actualizarPersonaje(personaje,id);
             return new ResponseEntity("personaje actualizado correctamente",HttpStatus.OK);

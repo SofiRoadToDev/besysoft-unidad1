@@ -10,7 +10,7 @@ import java.util.List;
 @Getter @Setter
 public class Personaje {
 
-    private static int id=1;
+    private static int id=0;
     private int idPersonaje;
 
     private String nombre;
@@ -26,9 +26,8 @@ public class Personaje {
 
 
     public Personaje(String nombre, int edad, double peso, String historia) {
-
-        this.idPersonaje=id++;
-      //  System.out.println("personaje creado id: "+idPersonaje);
+        id++;
+        this.idPersonaje=id;
         this.peliculasAsociadas= new ArrayList<>();
         this.nombre = nombre;
         this.edad = edad;
@@ -37,8 +36,9 @@ public class Personaje {
     }
 
     public Personaje(String nombre){
-        this.idPersonaje=id++;
+        id++;
         this.peliculasAsociadas= new ArrayList<>();
         this.nombre=nombre;
+        this.idPersonaje=id;
     }
 }

@@ -16,7 +16,6 @@ public class PersonajeService {
 
 
     public List<Personaje> getAll(){
-
         return SampleDataGenerator.getPersonajesSample();
     }
 

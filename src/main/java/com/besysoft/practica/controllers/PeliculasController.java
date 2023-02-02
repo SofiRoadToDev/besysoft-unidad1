@@ -1,7 +1,6 @@
 package com.besysoft.practica.controllers;
 
 import com.besysoft.practica.dominio.Pelicula;
-import com.besysoft.practica.dominio.dto.PeliculaDTO;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.utilidades.Validators;
 import com.besysoft.practica.utilidades.service.PeliculaService;
@@ -14,7 +13,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -27,9 +25,9 @@ public class PeliculasController {
 
 
      @GetMapping()
-    public List<PeliculaDTO> buscarTodas(){
-         List<PeliculaDTO> peliculas=pelisService.getAllPeliculas();
-         return peliculas;
+    public List<Pelicula> buscarTodas(){
+
+         return pelisService.getAllPeliculas();
     }
 
     @GetMapping("/titulo")
@@ -59,7 +57,7 @@ public class PeliculasController {
     public ResponseEntity getDesdeHastaFecha(@RequestParam String desde, @RequestParam String hasta){
 
 
-        List<PeliculaDTO>peliculas=new ArrayList<>();
+        List<Pelicula>peliculas=new ArrayList<>();
 
          if(Validators.isDateRight(desde) && Validators.isDateRight(hasta)){
 
@@ -90,10 +88,10 @@ public class PeliculasController {
 
 
     @PostMapping()
-    public ResponseEntity crearPelicula(@RequestBody PeliculaDTO peliculaDTO){
+    public ResponseEntity crearPelicula(@RequestBody Pelicula pelicula){
 
         try {
-            pelisService.crearPeliculaFull(peliculaDTO);
+            pelisService.crearPelicula(pelicula);
             return new ResponseEntity("pelicula creada correctamente",HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
@@ -106,9 +104,10 @@ public class PeliculasController {
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @PathVariable int id){
+    public  ResponseEntity actualizarPelicula(@RequestBody Pelicula pelicula, @PathVariable int id){
+
         try {
-            pelisService.actualizarPelicula(peliculaDTO,id);
+            pelisService.actualizarPelicula(pelicula,id);
             return new ResponseEntity("Pelicula actualizada correctamente",HttpStatus.ACCEPTED);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
