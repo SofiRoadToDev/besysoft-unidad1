@@ -17,7 +17,7 @@ public class GeneroService {
         if(!isOnlyLetters){
             throw new Exception("El genero solo debe tener letras");
         }else{
-            if(Validators.isGeneroAlreadyStores(genero.getNombre())){
+            if(Validators.isGeneroAlreadyStored(genero.getNombre())){
                throw new Exception("Ese género ya existe");
             }else{
                 genero.setIdGenero(Genero.getIdCounter()+1);
