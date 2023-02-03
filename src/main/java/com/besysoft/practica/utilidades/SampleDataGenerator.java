@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+@Deprecated
 public class SampleDataGenerator {
 
     private static  List<Personaje> personajesSample;
