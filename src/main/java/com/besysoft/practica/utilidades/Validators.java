@@ -3,12 +3,19 @@ package com.besysoft.practica.utilidades;
 import com.besysoft.practica.dominio.Genero;
 import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.dominio.Personaje;
+import com.besysoft.practica.repositories.interfaces.GeneroRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
+@Component
 public class Validators {
 
+
+    @Autowired
+    GeneroRepository generoRepository;
 
 
     public static boolean isDateRight(String date){
@@ -63,9 +70,9 @@ public class Validators {
     // En estos casos para validar también podría usar el trim() para quitar los espacios
     // me parece mejor que los géneros se escriban con el espacio y si no este incorrecto
 
-    public static boolean isGeneroAlreadyStored(String genero){
+    public  boolean isGeneroAlreadyStored(String genero){
         boolean isStored=false;
-        Optional<Genero>gen=SampleDataGenerator.getGenerosSample()
+        Optional<Genero>gen=generoRepository.getByNombre(genero)
                 .stream().filter(g->g.getNombre().toLowerCase().equals(genero.toLowerCase()))
                 .findAny();
         if(gen.isPresent()){
