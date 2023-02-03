@@ -14,7 +14,7 @@ public interface PeliculaRepository {
     Optional<Pelicula> getByTitle(String title);
 
     Pelicula createPelicula(Pelicula pelicula);
-
+    Iterable<Pelicula>getByDates(String desde, String hasta);
     Pelicula updatePelicula(Pelicula pelicula, int id);
 
 }

@@ -33,6 +33,13 @@ public class PeliculaRepositoryInMemoryImpl implements PeliculaRepository {
         mulanFilm= new Pelicula("Mulan live action",LocalDate.of(2020,07,4),10);
         mulan1= new Pelicula("Mulan Disney", LocalDate.of(1998,10,2),10);
 
+        peliculas.add(elPrimerVengador);
+        peliculas.add(soldadoDeInvierno);
+        peliculas.add(civilWar);
+        peliculas.add(shrekFilm);
+        peliculas.add(shrekAfeter);
+        peliculas.add(mulan1);
+        peliculas.add(mulanFilm);
     }
     @Override
     public Iterable<Pelicula> getAll() {
@@ -74,6 +81,11 @@ public class PeliculaRepositoryInMemoryImpl implements PeliculaRepository {
         pelicula.setIdPelicula(Pelicula.getIdCounter()+1);
         peliculas.add(pelicula);
         return pelicula;
+    }
+
+    @Override
+    public Iterable<Pelicula> getByDates(String desde, String hasta) {
+
     }
 
     @Override
