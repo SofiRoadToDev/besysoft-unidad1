@@ -2,17 +2,19 @@ package com.besysoft.practica.repositories.interfaces;
 
 import com.besysoft.practica.dominio.Pelicula;
 
+import java.util.Optional;
+
 public interface PeliculaRepository {
 
 
-    Iterable<Pelicula> getAllFromSampleData();
-    Iterable<Pelicula>getByGenre(String title);
-    Pelicula getById() throws Exception;
+    Iterable<Pelicula> getAll();
+    Iterable<Pelicula>getByGenre(String genero);
+    Optional<Pelicula> getById(int id) ;
     Iterable<Pelicula>getByRatingScale(int desde,int hasta);
-    Pelicula getByTitle(String title) throws Exception;
+    Optional<Pelicula> getByTitle(String title);
 
-    void createPelicula(Pelicula pelicula) throws Exception;
+    Pelicula createPelicula(Pelicula pelicula);
 
-    void updatePelicula(Pelicula pelicula)throws Exception;
+    Pelicula updatePelicula(Pelicula pelicula, int id);
 
 }

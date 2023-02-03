@@ -4,6 +4,7 @@ import com.besysoft.practica.dominio.Genero;
 import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.dominio.Personaje;
 import com.besysoft.practica.repositories.interfaces.GeneroRepository;
+import com.besysoft.practica.repositories.interfaces.PeliculaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,6 +17,9 @@ public class Validators {
 
     @Autowired
     GeneroRepository generoRepository;
+
+    @Autowired
+    PeliculaRepository peliculaRepository;
 
 
     public static boolean isDateRight(String date){
@@ -54,11 +58,9 @@ public class Validators {
         }
     }
 
-    public static boolean isPeliculaAlreadyStored(int id){
+    public  boolean isPeliculaAlreadyStored(int id){
 
-        Optional<Pelicula> pelicula=SampleDataGenerator
-                .getPeliculasSample()
-                .stream().filter(p->p.getIdPelicula()==id).findAny();
+        Optional<Pelicula> pelicula=peliculaRepository.getById(id);
 
         if(pelicula.isPresent()){
             return true;

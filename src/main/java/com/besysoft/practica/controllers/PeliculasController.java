@@ -3,7 +3,7 @@ package com.besysoft.practica.controllers;
 import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.utilidades.Validators;
-import com.besysoft.practica.utilidades.service.PeliculaService;
+import com.besysoft.practica.services.interfaces.PeliculaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,23 +19,26 @@ import java.util.stream.Collectors;
 @RequestMapping("/peliculas")
 public class PeliculasController {
 
-    @Autowired
-    PeliculaService pelisService;
+
+    private final PeliculaService pelisService;
 
 
-
-     @GetMapping()
-    public List<Pelicula> buscarTodas(){
-
-         return pelisService.getAllPeliculas();
+    public PeliculasController(PeliculaService pelisService){
+        this.pelisService=pelisService;
     }
+     @GetMapping()
+    public ResponseEntity buscarTodas(){
+         try {
+             return new ResponseEntity(pelisService.obtenerTodos(),HttpStatus.OK);
+         } catch (Exception e) {
+            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+         }
+     }
 
     @GetMapping("/titulo")
     public ResponseEntity buscarPorTitulo(@RequestParam(name="titulo") String titulo){
-         Pelicula peli;
         try {
-            peli=pelisService.buscarPeliculaPorTitulo(titulo).get();
-            return new ResponseEntity(peli, HttpStatus.OK);
+            return new ResponseEntity(pelisService.buscarPorTitulo(titulo), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -43,10 +46,8 @@ public class PeliculasController {
 
     @GetMapping("/genero")
     public ResponseEntity buscarPorGenero(@RequestParam(name="genero") String genero){
-         List<Pelicula>peliculas;
         try {
-            peliculas=pelisService.buscarPorGenero(genero).get();
-            return new ResponseEntity(peliculas,HttpStatus.OK);
+            return new ResponseEntity(pelisService.buscarPorGenero(genero),HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -55,10 +56,6 @@ public class PeliculasController {
 
     @GetMapping("/fechas")
     public ResponseEntity getDesdeHastaFecha(@RequestParam String desde, @RequestParam String hasta){
-
-
-        List<Pelicula>peliculas=new ArrayList<>();
-
          if(Validators.isDateRight(desde) && Validators.isDateRight(hasta)){
 
              var fechaDesde=LocalDate.parse(desde,DateTimeFormatter.ofPattern("ddMMyyyy"));
