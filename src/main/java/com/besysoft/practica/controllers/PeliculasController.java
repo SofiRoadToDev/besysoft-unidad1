@@ -55,29 +55,20 @@ public class PeliculasController {
 
 
     @GetMapping("/fechas")
-    public ResponseEntity getDesdeHastaFecha(@RequestParam String desde, @RequestParam String hasta){
-         if(Validators.isDateRight(desde) && Validators.isDateRight(hasta)){
-
-             var fechaDesde=LocalDate.parse(desde,DateTimeFormatter.ofPattern("ddMMyyyy"));
-             var fechaHasta=LocalDate.parse(hasta,DateTimeFormatter.ofPattern("ddMMyyyy"));
-
-             peliculas=pelisService.getAllPeliculas().stream()
-                     .filter(p->
-                             (p.getFechaCreacion().isEqual(fechaDesde)|| p.getFechaCreacion().isAfter(fechaDesde))
-                             && (p.getFechaCreacion().isBefore(fechaHasta)))
-                     .collect(Collectors.toList());
-             return new ResponseEntity(peliculas,HttpStatus.OK);
-         }else{
-             return new ResponseEntity("Ingrese fecha válidas con el formato ddMMyyyy, por ejemplo 12102004 y que el año este entre 1900 y el actual",HttpStatus.BAD_REQUEST);
-         }
+    public ResponseEntity getDesdeHastaFecha(@RequestParam String desde, @RequestParam String hasta) throws Exception {
+        try {
+           return new ResponseEntity<>( pelisService.buscarPorRangoFechas(desde,hasta),HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
     }
 
     @GetMapping("/calificacion")
     public ResponseEntity getByRangoCalificacion( @RequestParam int desde, @RequestParam int hasta){
         try {
-            return new ResponseEntity(pelisService.buscarPorRangoCalificacion(desde,hasta),HttpStatus.OK);
+           return new ResponseEntity( pelisService.buscarPorRangoCalificacion(desde,hasta),HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 

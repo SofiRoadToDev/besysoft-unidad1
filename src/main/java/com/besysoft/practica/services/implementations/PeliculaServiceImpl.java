@@ -5,6 +5,8 @@ import com.besysoft.practica.repositories.interfaces.PeliculaRepository;
 import com.besysoft.practica.services.interfaces.PeliculaService;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.utilidades.Validators;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -89,6 +91,15 @@ public class PeliculaServiceImpl implements PeliculaService {
             return peliculaRepository.updatePelicula(pelicula,id);
         }else{
             throw new Exception("El id proporcionado no corresponde a ninguna pelicula existente");
+        }
+    }
+
+    @Override
+    public Iterable<Pelicula> buscarPorRangoFechas(String desde, String hasta) throws Exception {
+        if(Validators.isDateRight(desde) && Validators.isDateRight(hasta)){
+            return peliculaRepository.getByDates(desde,hasta);
+        }else{
+           throw  new Exception("Ingrese fecha válidas con el formato ddMMyyyy, por ejemplo 12102004 y que el año este entre 1900 y el actual");
         }
     }
 }

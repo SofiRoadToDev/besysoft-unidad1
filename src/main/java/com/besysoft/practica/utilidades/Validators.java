@@ -5,6 +5,7 @@ import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.dominio.Personaje;
 import com.besysoft.practica.repositories.interfaces.GeneroRepository;
 import com.besysoft.practica.repositories.interfaces.PeliculaRepository;
+import com.besysoft.practica.repositories.interfaces.PersonajeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,6 +22,9 @@ public class Validators {
     @Autowired
     PeliculaRepository peliculaRepository;
 
+    @Autowired
+    PersonajeRepository personajeRepository;
+
 
     public static boolean isDateRight(String date){
 
@@ -36,10 +40,8 @@ public class Validators {
         return digits && rightDayValue && rightMonthValue && rigthYearValue;
     }
 
-    public static boolean isPeliculaAlreadyStored(String peli){
-        Optional<Pelicula> pelicula=SampleDataGenerator
-                .getPeliculasSample()
-                .stream().filter(p->p.getTitulo().toLowerCase().equals(peli.toLowerCase())).findAny();
+    public  boolean isPeliculaAlreadyStored(String peli){
+        Optional<Pelicula> pelicula=peliculaRepository.getByTitle(peli);
         if(pelicula.isPresent()){
             return true;
         }else{
@@ -47,10 +49,8 @@ public class Validators {
         }
     }
 
-    public static boolean isPersonajeAlreadyStored(String per){
-        Optional<Personaje> personaje=SampleDataGenerator
-                .getPersonajesSample()
-                .stream().filter(p->p.getNombre().toLowerCase().equals(per.toLowerCase())).findAny();
+    public  boolean isPersonajeAlreadyStored(String per)  {
+        Optional<Personaje> personaje=personajeRepository.getByName(per);
         if(personaje.isPresent()){
             return true;
         }else{

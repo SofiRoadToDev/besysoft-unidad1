@@ -41,4 +41,8 @@ public class Personaje {
         this.nombre=nombre;
         this.idPersonaje=id;
     }
+
+    public static int getIdCounter(){
+        return id;
+    }
 }

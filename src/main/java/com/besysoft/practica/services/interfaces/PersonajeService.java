@@ -1,15 +1,14 @@
 package com.besysoft.practica.services.interfaces;
 
-import com.besysoft.practica.dominio.Genero;
 import com.besysoft.practica.dominio.Pelicula;
 
 import java.util.Optional;
 
-public interface PeliculaService {
+public interface PersonajeService {
 
     Iterable<Pelicula>obtenerTodos() throws Exception;
 
-    Optional<Pelicula>buscarPorTitulo(String titulo) throws Exception;
+    Optional<Pelicula> buscarPorTitulo(String titulo) throws Exception;
 
     Pelicula crearPelicula(Pelicula pelicula) throws Exception;
 

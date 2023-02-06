@@ -2,14 +2,16 @@ package com.besysoft.practica.repositories.interfaces;
 
 import com.besysoft.practica.dominio.Personaje;
 
+import java.util.Optional;
+
 public interface PersonajeRepository {
     Iterable<Personaje> getAllFromSampleData();
    
-    Personaje getById() throws Exception;
+    Optional<Personaje> getById(int id) ;
     Iterable<Personaje>getByAgeRange(int desde,int hasta);
-    Personaje getByName(String name) throws Exception;
+    Optional<Personaje> getByName(String name);
 
-    void createPersonaje(Personaje personaje) throws Exception;
+    Personaje createPersonaje(Personaje personaje) ;
 
-    void updatePersonaje(Personaje personaje)throws Exception;
+    Personaje updatePersonaje(Personaje personaje, int id);
 }

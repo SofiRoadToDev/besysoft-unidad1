@@ -22,7 +22,7 @@ public class GeneroServiceImpl implements GeneroService {
     }
     @Override
     public Iterable<Genero> obtenerTodos() throws Exception {
-        return repository.getAll();
+        return this.repository.getAll();
     }
 
     @Override

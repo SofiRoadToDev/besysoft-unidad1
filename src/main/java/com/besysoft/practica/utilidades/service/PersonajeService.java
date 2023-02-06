@@ -56,7 +56,7 @@ public class PersonajeService {
     }
 
     public void crearPersonaje(Personaje personaje)throws Exception{
-        if(!Validators.isPersonajeAlreadyStored(personaje.getNombre())){
+        if(!validator.isPersonajeAlreadyStored(personaje.getNombre())){
             if(!(personaje.getEdad()>0 && personaje.getEdad()<20000)){
                 throw new Exception("La edad del personaje debe ser entre 0 y 20000");
             }

@@ -7,6 +7,7 @@ import com.besysoft.practica.utilidades.SampleDataGenerator;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -85,7 +86,13 @@ public class PeliculaRepositoryInMemoryImpl implements PeliculaRepository {
 
     @Override
     public Iterable<Pelicula> getByDates(String desde, String hasta) {
-
+        var fechaDesde=LocalDate.parse(desde, DateTimeFormatter.ofPattern("ddMMyyyy"));
+        var fechaHasta=LocalDate.parse(hasta,DateTimeFormatter.ofPattern("ddMMyyyy"));
+        return peliculas.stream()
+                .filter(p->
+                        (p.getFechaCreacion().isEqual(fechaDesde)|| p.getFechaCreacion().isAfter(fechaDesde))
+                                && (p.getFechaCreacion().isBefore(fechaHasta)))
+                .collect(Collectors.toList());
     }
 
     @Override
