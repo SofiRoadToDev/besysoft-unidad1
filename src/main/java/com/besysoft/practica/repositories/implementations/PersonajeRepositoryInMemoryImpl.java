@@ -3,12 +3,14 @@ package com.besysoft.practica.repositories.implementations;
 import com.besysoft.practica.dominio.Personaje;
 import com.besysoft.practica.repositories.interfaces.PersonajeRepository;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
+import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Repository
 public class PersonajeRepositoryInMemoryImpl implements PersonajeRepository {
 
 
@@ -26,7 +28,11 @@ public class PersonajeRepositoryInMemoryImpl implements PersonajeRepository {
         shrek= new Personaje("Shrek",40,250,"Es un ogro gordo y feo pero de buen corazón que se casa con una princesa humana convertida en ogro");
         fiona=new Personaje("Fiona",25,80," Es una princesa que se enamoró de Shrek y se volvió ogro para que él no se sienta mal");
         burro=new Personaje("Burro",5,60," Es un amigo de shrek que se casó con una dragona y tuvo muchos hijos");
-
+        personajes.add(capitanAmerica);
+        personajes.add(mulan);
+        personajes.add(shrek);
+        personajes.add(fiona);
+        personajes.add(burro);
     }
     @Override
     public Iterable<Personaje> getAllFromSampleData() {
