@@ -30,10 +30,7 @@ public class PeliculaServiceImpl implements PeliculaService {
         return peliculaRepository.getAll();
     }
 
-    @Override
-    public Optional<Pelicula> buscarPorId(int id) throws Exception {
-        return peliculaRepository.getById(id);
-    }
+
 
     @Override
     public Optional<Pelicula> buscarPorTitulo(String titulo) throws Exception {
