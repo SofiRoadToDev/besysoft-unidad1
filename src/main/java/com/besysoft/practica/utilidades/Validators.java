@@ -3,9 +3,9 @@ package com.besysoft.practica.utilidades;
 import com.besysoft.practica.dominio.Genero;
 import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.dominio.Personaje;
-import com.besysoft.practica.repositories.interfaces.GeneroRepository;
-import com.besysoft.practica.repositories.interfaces.PeliculaRepository;
-import com.besysoft.practica.repositories.interfaces.PersonajeRepository;
+import com.besysoft.practica.repositories.memory.interfaces.GeneroRepository;
+import com.besysoft.practica.repositories.memory.interfaces.PeliculaRepository;
+import com.besysoft.practica.repositories.memory.interfaces.PersonajeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

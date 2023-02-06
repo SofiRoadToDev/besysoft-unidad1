@@ -1,8 +1,7 @@
-package com.besysoft.practica.repositories.implementations;
+package com.besysoft.practica.repositories.memory.implementations;
 
 import com.besysoft.practica.dominio.Genero;
-import com.besysoft.practica.repositories.interfaces.GeneroRepository;
-import com.besysoft.practica.utilidades.SampleDataGenerator;
+import com.besysoft.practica.repositories.memory.interfaces.GeneroRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;

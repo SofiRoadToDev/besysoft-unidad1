@@ -1,18 +1,12 @@
 package com.besysoft.practica.services.implementations;
 
 import com.besysoft.practica.dominio.Pelicula;
-import com.besysoft.practica.repositories.interfaces.PeliculaRepository;
+import com.besysoft.practica.repositories.memory.interfaces.PeliculaRepository;
 import com.besysoft.practica.services.interfaces.PeliculaService;
-import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.utilidades.Validators;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PeliculaServiceImpl implements PeliculaService {

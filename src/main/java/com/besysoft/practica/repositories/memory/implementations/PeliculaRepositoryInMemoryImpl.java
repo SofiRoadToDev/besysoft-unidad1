@@ -1,8 +1,8 @@
-package com.besysoft.practica.repositories.implementations;
+package com.besysoft.practica.repositories.memory.implementations;
 
 
 import com.besysoft.practica.dominio.Pelicula;
-import com.besysoft.practica.repositories.interfaces.PeliculaRepository;
+import com.besysoft.practica.repositories.memory.interfaces.PeliculaRepository;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
 import org.springframework.stereotype.Repository;
 

@@ -1,7 +1,7 @@
-package com.besysoft.practica.repositories.implementations;
+package com.besysoft.practica.repositories.memory.implementations;
 
 import com.besysoft.practica.dominio.Personaje;
-import com.besysoft.practica.repositories.interfaces.PersonajeRepository;
+import com.besysoft.practica.repositories.memory.interfaces.PersonajeRepository;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
 import org.springframework.stereotype.Repository;
 

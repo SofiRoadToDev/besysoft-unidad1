@@ -1,4 +1,4 @@
-package com.besysoft.practica.repositories.interfaces;
+package com.besysoft.practica.repositories.memory.interfaces;
 
 import com.besysoft.practica.dominio.Pelicula;
 

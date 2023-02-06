@@ -1,17 +1,12 @@
 package com.besysoft.practica.services.implementations;
 
-import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.dominio.Personaje;
-import com.besysoft.practica.repositories.interfaces.PersonajeRepository;
+import com.besysoft.practica.repositories.memory.interfaces.PersonajeRepository;
 import com.besysoft.practica.services.interfaces.PersonajeService;
-import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.utilidades.Validators;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PersonajeServiceImpl implements PersonajeService {
