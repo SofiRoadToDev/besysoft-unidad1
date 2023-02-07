@@ -1,6 +1,7 @@
 package com.besysoft.practica.controllers;
 
 import com.besysoft.practica.dominio.PersonajeMem;
+import com.besysoft.practica.entities.Personaje;
 import com.besysoft.practica.services.interfaces.PersonajeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -45,9 +46,9 @@ public class PersonajesController {
     }
 
     @PostMapping()
-    public ResponseEntity crearPersonaje(@RequestBody PersonajeMem personajeMem){
+    public ResponseEntity crearPersonaje(@RequestBody Personaje personaje){
         try {
-            personajeService.crearPersonaje(personajeMem);
+            personajeService.crearPersonaje(personaje);
             return new ResponseEntity("personaje creado correctamente",HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
@@ -55,9 +56,9 @@ public class PersonajesController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity actualizarPersonaje(@RequestBody PersonajeMem personajeMem, @PathVariable int id){
+    public ResponseEntity actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable int id){
         try {
-           return new ResponseEntity(personajeService.actualizaPersonaje(personajeMem,id),HttpStatus.OK);
+           return new ResponseEntity(personajeService.actualizaPersonaje(personaje,id),HttpStatus.OK);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

@@ -1,9 +1,7 @@
 package com.besysoft.practica.services.implementations;
 
-import com.besysoft.practica.dominio.PeliculaMem;
 import com.besysoft.practica.entities.Pelicula;
-import com.besysoft.practica.repositories.database.interfaces.PeliculaRepositoryDB;
-import com.besysoft.practica.repositories.memory.interfaces.PeliculaRepository;
+import com.besysoft.practica.repositories.database.PeliculaRepositoryDB;
 import com.besysoft.practica.services.interfaces.PeliculaService;
 import com.besysoft.practica.utilidades.Validators;
 import org.springframework.stereotype.Service;

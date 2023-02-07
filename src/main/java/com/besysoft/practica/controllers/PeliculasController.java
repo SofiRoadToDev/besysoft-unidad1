@@ -1,6 +1,7 @@
 package com.besysoft.practica.controllers;
 
 import com.besysoft.practica.dominio.PeliculaMem;
+import com.besysoft.practica.entities.Pelicula;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.services.interfaces.PeliculaService;
 import org.springframework.http.HttpStatus;
@@ -68,25 +69,21 @@ public class PeliculasController {
 
 
     @PostMapping()
-    public ResponseEntity crearPelicula(@RequestBody PeliculaMem peliculaMem){
+    public ResponseEntity crearPelicula(@RequestBody Pelicula pelicula){
 
         try {
-           return new ResponseEntity<>(pelisService.crearPelicula(peliculaMem),HttpStatus.CREATED);
+           return new ResponseEntity<>(pelisService.crearPelicula(pelicula),HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
-    @GetMapping("/test")
-    public List<PeliculaMem>getAll(){
-         return SampleDataGenerator.getPeliculasSample();
-    }
 
     @PutMapping("/{id}")
-    public  ResponseEntity actualizarPelicula(@RequestBody PeliculaMem peliculaMem, @PathVariable int id){
+    public  ResponseEntity actualizarPelicula(@RequestBody Pelicula pelicula, @PathVariable int id){
 
         try {
-            return new ResponseEntity(pelisService.actualizarPelicula(peliculaMem,id),HttpStatus.ACCEPTED);
+            return new ResponseEntity(pelisService.actualizarPelicula(pelicula,id),HttpStatus.ACCEPTED);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

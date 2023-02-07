@@ -2,8 +2,7 @@ package com.besysoft.practica.services.implementations;
 
 import com.besysoft.practica.dominio.GeneroMem;
 import com.besysoft.practica.entities.Genero;
-import com.besysoft.practica.repositories.database.interfaces.GeneroRepositoryDB;
-import com.besysoft.practica.repositories.memory.interfaces.GeneroRepository;
+import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.services.interfaces.GeneroService;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.utilidades.Validators;

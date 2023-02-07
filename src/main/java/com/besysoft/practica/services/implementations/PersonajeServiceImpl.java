@@ -1,7 +1,8 @@
 package com.besysoft.practica.services.implementations;
 
 import com.besysoft.practica.dominio.PersonajeMem;
-import com.besysoft.practica.repositories.memory.interfaces.PersonajeRepository;
+import com.besysoft.practica.entities.Personaje;
+import com.besysoft.practica.repositories.database.PersonajeRepositoryDB;
 import com.besysoft.practica.services.interfaces.PersonajeService;
 import com.besysoft.practica.utilidades.Validators;
 import org.springframework.stereotype.Service;
@@ -13,24 +14,24 @@ public class PersonajeServiceImpl implements PersonajeService {
 
     private final Validators validators;
 
-    private final PersonajeRepository personajeRepository;
+    private final PersonajeRepositoryDB personajeRepository;
 
-    public PersonajeServiceImpl(Validators validators, PersonajeRepository personajeRepository) {
+    public PersonajeServiceImpl(Validators validators, PersonajeRepositoryDB personajeRepository) {
         this.validators = validators;
         this.personajeRepository = personajeRepository;
     }
 
     @Override
-    public Iterable<PersonajeMem> obtenerTodos() {
-        return personajeRepository.getAllFromSampleData();
+    public Iterable<Personaje> obtenerTodos() {
+        return personajeRepository.findAll();
     }
 
     @Override
-    public Optional<PersonajeMem> buscarPorNombre(String nombre) throws Exception {
+    public Optional<Personaje> buscarPorNombre(String nombre) throws Exception {
         boolean isOnlyLetters=nombre.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
-        Optional<PersonajeMem>p;
+        Optional<Personaje>p;
         if(isOnlyLetters){
-               p=personajeRepository.getByName(nombre);
+               p=personajeRepository.findByNombre(nombre);
             if(p.isPresent()){
                 return p;
             }else{
@@ -44,24 +45,25 @@ public class PersonajeServiceImpl implements PersonajeService {
     }
 
     @Override
-    public PersonajeMem crearPersonaje(PersonajeMem personajeMem) throws Exception {
-        return personajeRepository.createPersonaje(personajeMem);
+    public Personaje crearPersonaje(Personaje personaje) throws Exception {
+        return personajeRepository.save(personaje);
     }
 
     @Override
-    public Iterable<PersonajeMem> buscarPorRangoEdad(int desde, int hasta) throws Exception {
+    public Iterable<Personaje> buscarPorRangoEdad(int desde, int hasta) throws Exception {
 
         if((desde>0 && hasta>0)&& desde<=hasta && hasta <20000){
-           return  personajeRepository.getByAgeRange(desde,hasta);
+           return  personajeRepository.findByEdadBetween(desde,hasta);
         }else{
             throw new Exception("Coloque rango de edad válido números enteros positivos y desde debe ser menor o igual que hasta. La edad máxima de los personajes es 20000 años");
         }
     }
 
     @Override
-    public PersonajeMem actualizaPersonaje(PersonajeMem personajeMem, int id) throws Exception {
+    public Personaje actualizaPersonaje(Personaje personaje, int id) throws Exception {
         if(Validators.isPersonajeAlreadyStored(id)){
-            return personajeRepository.updatePersonaje(personajeMem,id);
+            personaje.setId(Long.parseLong(String.valueOf(id)));
+            return personajeRepository.save(personaje);
         }else{
             throw new Exception("No existe un personaje con ese id");
         }

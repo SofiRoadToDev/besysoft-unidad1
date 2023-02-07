@@ -1,4 +1,4 @@
-package com.besysoft.practica.repositories.database.interfaces;
+package com.besysoft.practica.repositories.database;
 
 import com.besysoft.practica.entities.Pelicula;
 import org.springframework.data.repository.CrudRepository;

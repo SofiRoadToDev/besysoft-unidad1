@@ -7,13 +7,14 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 @Entity
 @NoArgsConstructor
 @Data
 @Table(name = "personajes")
-public class Personaje {
+public class Personaje implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
