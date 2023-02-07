@@ -9,7 +9,6 @@ import  com.besysoft.practica.entities.Personaje;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 @Entity @Data @NoArgsConstructor
@@ -28,6 +27,6 @@ public class Pelicula implements Serializable {
     @ManyToMany(mappedBy = "peliculasAsociadas")
     private List<Personaje> personajesAsociados;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.MERGE})
     private Genero genero;
 }

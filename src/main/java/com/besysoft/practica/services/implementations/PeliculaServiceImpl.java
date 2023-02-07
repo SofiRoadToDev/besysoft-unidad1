@@ -60,7 +60,7 @@ public class PeliculaServiceImpl implements PeliculaService {
         boolean isDesdeMenor= desde<=hasta;
 
         if(isDesdeRight && isHastaRight && isDesdeMenor){
-           return peliculaRepository.findByCalificacionGreatherThanEqualAndCalificacionLessThanEqual(desde,hasta);
+           return peliculaRepository.findByCalificacionBetween(desde,hasta);
         }else{
             throw new Exception(" La calificación debe ser un número entero entre 1y 10. Desde debe ser menor o igual que hasta");
         }
@@ -88,7 +88,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     @Override
     public Iterable<Pelicula> buscarPorRangoFechas(String desde, String hasta) throws Exception {
         if(Validators.isDateRight(desde) && Validators.isDateRight(hasta)){
-            return peliculaRepository.findByFechaGreatherThanEqualAndFechaLessThanEqual(desde,hasta);
+            return peliculaRepository.findByFechaCreacionBetween(desde,hasta);
         }else{
            throw  new Exception("Ingrese fecha válidas con el formato ddMMyyyy, por ejemplo 12102004 y que el año este entre 1900 y el actual");
         }

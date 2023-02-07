@@ -15,4 +15,8 @@ public class Genero implements Serializable {
     private Long id;
 
     private String nombre;
+
+    public Genero(String nombre) {
+        this.nombre = nombre;
+    }
 }
