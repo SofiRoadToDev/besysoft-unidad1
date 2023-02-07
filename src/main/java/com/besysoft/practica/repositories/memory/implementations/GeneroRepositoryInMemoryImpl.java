@@ -1,6 +1,6 @@
 package com.besysoft.practica.repositories.memory.implementations;
 
-import com.besysoft.practica.dominio.Genero;
+import com.besysoft.practica.dominio.GeneroMem;
 import com.besysoft.practica.repositories.memory.interfaces.GeneroRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,57 +12,57 @@ import java.util.Optional;
 public class GeneroRepositoryInMemoryImpl implements GeneroRepository {
 
 
-    private List<Genero>generos=new ArrayList<>();
+    private List<GeneroMem> generoMems =new ArrayList<>();
 
-    private  Genero infantil;
-    private  Genero aventura;
-    private  Genero heroes;
+    private GeneroMem infantil;
+    private GeneroMem aventura;
+    private GeneroMem heroes;
 
     public GeneroRepositoryInMemoryImpl(){
         System.out.println("creando instancia de genero GenroRepImpl");
 
-        heroes= new Genero("superheroes");
-        infantil= new Genero("infantil");
-        aventura= new Genero("aventura");
+        heroes= new GeneroMem("superheroes");
+        infantil= new GeneroMem("infantil");
+        aventura= new GeneroMem("aventura");
 
-        generos.add(heroes);
-        generos.add(infantil);
-        generos.add(aventura);
+        generoMems.add(heroes);
+        generoMems.add(infantil);
+        generoMems.add(aventura);
     }
     @Override
-    public Genero createGenero(Genero genero)  {
-        genero.setIdGenero(Genero.getIdCounter()+1);
-        this.generos.add(genero);
-        return genero;
-    }
-
-    @Override
-    public Iterable<Genero> getAll() {
-        return this.generos;
+    public GeneroMem createGenero(GeneroMem generoMem)  {
+        generoMem.setIdGenero(GeneroMem.getIdCounter()+1);
+        this.generoMems.add(generoMem);
+        return generoMem;
     }
 
     @Override
-    public Optional<Genero> getById(int id)  {
-        return  generos
+    public Iterable<GeneroMem> getAll() {
+        return this.generoMems;
+    }
+
+    @Override
+    public Optional<GeneroMem> getById(int id)  {
+        return  generoMems
                 .stream().filter(g->g.getIdGenero()==id).findAny();
     }
 
     @Override
-    public Optional<Genero> getByNombre(String nombre)  {
-        return generos
+    public Optional<GeneroMem> getByNombre(String nombre)  {
+        return generoMems
                 .stream().filter(g->g.getNombre().toLowerCase().equals(nombre.toLowerCase()))
                 .findAny();
     }
 
     @Override
-    public Genero updateGenero(Genero genero, int id)  {
-        generos.forEach(g->{
+    public GeneroMem updateGenero(GeneroMem generoMem, int id)  {
+        generoMems.forEach(g->{
             if(g.getIdGenero()==id){
-                int i=generos.indexOf(g);
-                genero.setIdGenero(g.getIdGenero());
-                generos.set(i,genero);
+                int i= generoMems.indexOf(g);
+                generoMem.setIdGenero(g.getIdGenero());
+                generoMems.set(i, generoMem);
             }
         });
-        return genero;
+        return generoMem;
     }
 }

@@ -1,8 +1,8 @@
 package com.besysoft.practica.utilidades;
 
-import com.besysoft.practica.dominio.Genero;
-import com.besysoft.practica.dominio.Pelicula;
-import com.besysoft.practica.dominio.Personaje;
+import com.besysoft.practica.dominio.GeneroMem;
+import com.besysoft.practica.dominio.PeliculaMem;
+import com.besysoft.practica.dominio.PersonajeMem;
 import com.besysoft.practica.repositories.memory.interfaces.GeneroRepository;
 import com.besysoft.practica.repositories.memory.interfaces.PeliculaRepository;
 import com.besysoft.practica.repositories.memory.interfaces.PersonajeRepository;
@@ -41,7 +41,7 @@ public class Validators {
     }
 
     public  boolean isPeliculaAlreadyStored(String peli){
-        Optional<Pelicula> pelicula=peliculaRepository.getByTitle(peli);
+        Optional<PeliculaMem> pelicula=peliculaRepository.getByTitle(peli);
         if(pelicula.isPresent()){
             return true;
         }else{
@@ -50,7 +50,7 @@ public class Validators {
     }
 
     public  boolean isPersonajeAlreadyStored(String per)  {
-        Optional<Personaje> personaje=personajeRepository.getByName(per);
+        Optional<PersonajeMem> personaje=personajeRepository.getByName(per);
         if(personaje.isPresent()){
             return true;
         }else{
@@ -60,7 +60,7 @@ public class Validators {
 
     public  boolean isPeliculaAlreadyStored(int id){
 
-        Optional<Pelicula> pelicula=peliculaRepository.getById(id);
+        Optional<PeliculaMem> pelicula=peliculaRepository.getById(id);
 
         if(pelicula.isPresent()){
             return true;
@@ -74,7 +74,7 @@ public class Validators {
 
     public  boolean isGeneroAlreadyStored(String genero){
         boolean isStored=false;
-        Optional<Genero>gen=generoRepository.getByNombre(genero)
+        Optional<GeneroMem>gen=generoRepository.getByNombre(genero)
                 .stream().filter(g->g.getNombre().toLowerCase().equals(genero.toLowerCase()))
                 .findAny();
         if(gen.isPresent()){
@@ -85,7 +85,7 @@ public class Validators {
 
     public static boolean isPersonajeAlreadyStored(int id){
 
-        Optional<Personaje> personaje=SampleDataGenerator
+        Optional<PersonajeMem> personaje=SampleDataGenerator
                 .getPersonajesSample()
                 .stream().filter(p->p.getIdPersonaje()==id).findAny();
         if(personaje.isPresent()){

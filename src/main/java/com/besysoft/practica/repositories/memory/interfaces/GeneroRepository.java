@@ -1,17 +1,17 @@
 package com.besysoft.practica.repositories.memory.interfaces;
 
-import com.besysoft.practica.dominio.Genero;
+import com.besysoft.practica.dominio.GeneroMem;
 
 import java.util.Optional;
 
 public interface GeneroRepository {
 
-Genero createGenero (Genero genero);
+GeneroMem createGenero (GeneroMem generoMem);
 
-Iterable<Genero>getAll();
-Optional<Genero> getById(int id);
+Iterable<GeneroMem>getAll();
+Optional<GeneroMem> getById(int id);
 
-Optional<Genero> getByNombre(String nombre);
-Genero updateGenero(Genero genero, int id) ;
+Optional<GeneroMem> getByNombre(String nombre);
+GeneroMem updateGenero(GeneroMem generoMem, int id) ;
 
 }

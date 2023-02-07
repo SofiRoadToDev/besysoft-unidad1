@@ -1,17 +1,17 @@
 package com.besysoft.practica.repositories.memory.interfaces;
 
-import com.besysoft.practica.dominio.Personaje;
+import com.besysoft.practica.dominio.PersonajeMem;
 
 import java.util.Optional;
 
 public interface PersonajeRepository {
-    Iterable<Personaje> getAllFromSampleData();
+    Iterable<PersonajeMem> getAllFromSampleData();
    
-    Optional<Personaje> getById(int id) ;
-    Iterable<Personaje>getByAgeRange(int desde,int hasta);
-    Optional<Personaje> getByName(String name);
+    Optional<PersonajeMem> getById(int id) ;
+    Iterable<PersonajeMem>getByAgeRange(int desde, int hasta);
+    Optional<PersonajeMem> getByName(String name);
 
-    Personaje createPersonaje(Personaje personaje) ;
+    PersonajeMem createPersonaje(PersonajeMem personajeMem) ;
 
-    Personaje updatePersonaje(Personaje personaje, int id);
+    PersonajeMem updatePersonaje(PersonajeMem personajeMem, int id);
 }

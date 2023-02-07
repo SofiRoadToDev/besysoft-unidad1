@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter @NoArgsConstructor
-public class Genero {
+public class GeneroMem {
 
     private static int id=0;
 
@@ -18,9 +18,9 @@ public class Genero {
     private String nombre;
 
     @JsonIgnore
-    List<Pelicula>peliculasDelGenero;
+    List<PeliculaMem>peliculasDelGenero;
 
-    public Genero(String nombre) {
+    public GeneroMem(String nombre) {
         id++;
         this.idGenero=id;
         this.peliculasDelGenero=new ArrayList<>();

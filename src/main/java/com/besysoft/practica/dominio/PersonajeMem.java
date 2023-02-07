@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter
-public class Personaje {
+public class PersonajeMem {
 
     private static int id=0;
     private int idPersonaje;
@@ -22,10 +22,10 @@ public class Personaje {
     private String historia;
 
     @JsonIgnore
-    private List<Pelicula> peliculasAsociadas;
+    private List<PeliculaMem> peliculasAsociadas;
 
 
-    public Personaje(String nombre, int edad, double peso, String historia) {
+    public PersonajeMem(String nombre, int edad, double peso, String historia) {
         id++;
         this.idPersonaje=id;
         this.peliculasAsociadas= new ArrayList<>();
@@ -35,7 +35,7 @@ public class Personaje {
         this.historia = historia;
     }
 
-    public Personaje(String nombre){
+    public PersonajeMem(String nombre){
         id++;
         this.peliculasAsociadas= new ArrayList<>();
         this.nombre=nombre;

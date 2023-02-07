@@ -1,7 +1,6 @@
 package com.besysoft.practica.services.interfaces;
 
-import com.besysoft.practica.dominio.Genero;
-import com.besysoft.practica.dominio.Pelicula;
+import com.besysoft.practica.entities.Pelicula;
 
 import java.util.Optional;
 

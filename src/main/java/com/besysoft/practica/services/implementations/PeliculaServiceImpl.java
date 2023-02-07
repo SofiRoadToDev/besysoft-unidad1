@@ -1,6 +1,8 @@
 package com.besysoft.practica.services.implementations;
 
-import com.besysoft.practica.dominio.Pelicula;
+import com.besysoft.practica.dominio.PeliculaMem;
+import com.besysoft.practica.entities.Pelicula;
+import com.besysoft.practica.repositories.database.interfaces.PeliculaRepositoryDB;
 import com.besysoft.practica.repositories.memory.interfaces.PeliculaRepository;
 import com.besysoft.practica.services.interfaces.PeliculaService;
 import com.besysoft.practica.utilidades.Validators;
@@ -12,16 +14,16 @@ import java.util.Optional;
 public class PeliculaServiceImpl implements PeliculaService {
 
 
-    private final PeliculaRepository peliculaRepository;
+    private final PeliculaRepositoryDB peliculaRepository;
 
     private final Validators validators;
-    public PeliculaServiceImpl(PeliculaRepository peliculaRepository,Validators validators){
+    public PeliculaServiceImpl(PeliculaRepositoryDB peliculaRepository,Validators validators){
         this.peliculaRepository=peliculaRepository;
         this.validators=validators;
     }
     @Override
     public Iterable<Pelicula> obtenerTodos() throws Exception {
-        return peliculaRepository.getAll();
+        return peliculaRepository.findAll();
     }
 
 
@@ -31,7 +33,7 @@ public class PeliculaServiceImpl implements PeliculaService {
         boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");
         Optional<Pelicula>peli;
         if(isTituloRight){
-            peli= peliculaRepository.getByTitle(titulo);
+            peli= peliculaRepository.findByTitulo(titulo);
             if(peli.isPresent()){
                 return peli;
             }else{
@@ -50,7 +52,7 @@ public class PeliculaServiceImpl implements PeliculaService {
         if(!(pelicula.getCalificacion()>=1 && pelicula.getCalificacion()<=10)){
             throw new Exception("La calificacion es del 1 al 10, solo enteros");
         }
-       return peliculaRepository.createPelicula(pelicula);
+       return peliculaRepository.save(pelicula);
     }
 
     @Override
@@ -60,7 +62,7 @@ public class PeliculaServiceImpl implements PeliculaService {
         boolean isDesdeMenor= desde<=hasta;
 
         if(isDesdeRight && isHastaRight && isDesdeMenor){
-           return peliculaRepository.getByRatingScale(desde,hasta);
+           return peliculaRepository.findByCalificacionGreatherThanEqualAndCalificacionLessThanEqual(desde,hasta);
         }else{
             throw new Exception(" La calificación debe ser un número entero entre 1y 10. Desde debe ser menor o igual que hasta");
         }
@@ -72,14 +74,14 @@ public class PeliculaServiceImpl implements PeliculaService {
     public Iterable<Pelicula> buscarPorGenero(String genero) throws Exception {
         boolean isOnlyLetters=genero.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
         if(isOnlyLetters) {
-         return peliculaRepository.getByGenre(genero);
+         return peliculaRepository.findByGeneroNombre(genero);
         }else throw  new Exception("El genero debe estar compuesto solo por letras");
     }
 
     @Override
     public Pelicula actualizarPelicula(Pelicula pelicula, int id) throws Exception {
         if(validators.isPeliculaAlreadyStored(id)){
-            return peliculaRepository.updatePelicula(pelicula,id);
+            return peliculaRepository.save(pelicula);
         }else{
             throw new Exception("El id proporcionado no corresponde a ninguna pelicula existente");
         }
@@ -88,7 +90,7 @@ public class PeliculaServiceImpl implements PeliculaService {
     @Override
     public Iterable<Pelicula> buscarPorRangoFechas(String desde, String hasta) throws Exception {
         if(Validators.isDateRight(desde) && Validators.isDateRight(hasta)){
-            return peliculaRepository.getByDates(desde,hasta);
+            return peliculaRepository.findByFechaGreatherThanEqualAndFechaLessThanEqual(desde,hasta);
         }else{
            throw  new Exception("Ingrese fecha válidas con el formato ddMMyyyy, por ejemplo 12102004 y que el año este entre 1900 y el actual");
         }

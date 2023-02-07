@@ -1,10 +1,11 @@
 package com.besysoft.practica.entities;
 
-import com.besysoft.practica.dominio.Genero;
-import com.besysoft.practica.dominio.Personaje;
+
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
+import com.besysoft.practica.entities.Genero;
+import  com.besysoft.practica.entities.Personaje;
 import javax.persistence.*;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -23,7 +24,9 @@ public class Pelicula {
 
     private Integer calificacion;
 
+    @ManyToMany(mappedBy = "peliculasAsociadas")
     private List<Personaje> personajesAsociados;
 
+    @ManyToOne
     private Genero genero;
 }

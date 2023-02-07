@@ -1,19 +1,13 @@
 package com.besysoft.practica.controllers;
 
-import com.besysoft.practica.dominio.Pelicula;
+import com.besysoft.practica.dominio.PeliculaMem;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
-import com.besysoft.practica.utilidades.Validators;
 import com.besysoft.practica.services.interfaces.PeliculaService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/peliculas")
@@ -74,25 +68,25 @@ public class PeliculasController {
 
 
     @PostMapping()
-    public ResponseEntity crearPelicula(@RequestBody Pelicula pelicula){
+    public ResponseEntity crearPelicula(@RequestBody PeliculaMem peliculaMem){
 
         try {
-           return new ResponseEntity<>(pelisService.crearPelicula(pelicula),HttpStatus.CREATED);
+           return new ResponseEntity<>(pelisService.crearPelicula(peliculaMem),HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
     @GetMapping("/test")
-    public List<Pelicula>getAll(){
+    public List<PeliculaMem>getAll(){
          return SampleDataGenerator.getPeliculasSample();
     }
 
     @PutMapping("/{id}")
-    public  ResponseEntity actualizarPelicula(@RequestBody Pelicula pelicula, @PathVariable int id){
+    public  ResponseEntity actualizarPelicula(@RequestBody PeliculaMem peliculaMem, @PathVariable int id){
 
         try {
-            return new ResponseEntity(pelisService.actualizarPelicula(pelicula,id),HttpStatus.ACCEPTED);
+            return new ResponseEntity(pelisService.actualizarPelicula(peliculaMem,id),HttpStatus.ACCEPTED);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

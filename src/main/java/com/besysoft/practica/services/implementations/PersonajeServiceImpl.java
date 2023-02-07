@@ -1,6 +1,6 @@
 package com.besysoft.practica.services.implementations;
 
-import com.besysoft.practica.dominio.Personaje;
+import com.besysoft.practica.dominio.PersonajeMem;
 import com.besysoft.practica.repositories.memory.interfaces.PersonajeRepository;
 import com.besysoft.practica.services.interfaces.PersonajeService;
 import com.besysoft.practica.utilidades.Validators;
@@ -21,14 +21,14 @@ public class PersonajeServiceImpl implements PersonajeService {
     }
 
     @Override
-    public Iterable<Personaje> obtenerTodos() {
+    public Iterable<PersonajeMem> obtenerTodos() {
         return personajeRepository.getAllFromSampleData();
     }
 
     @Override
-    public Optional<Personaje> buscarPorNombre(String nombre) throws Exception {
+    public Optional<PersonajeMem> buscarPorNombre(String nombre) throws Exception {
         boolean isOnlyLetters=nombre.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
-        Optional<Personaje>p;
+        Optional<PersonajeMem>p;
         if(isOnlyLetters){
                p=personajeRepository.getByName(nombre);
             if(p.isPresent()){
@@ -44,12 +44,12 @@ public class PersonajeServiceImpl implements PersonajeService {
     }
 
     @Override
-    public Personaje crearPersonaje(Personaje personaje) throws Exception {
-        return personajeRepository.createPersonaje(personaje);
+    public PersonajeMem crearPersonaje(PersonajeMem personajeMem) throws Exception {
+        return personajeRepository.createPersonaje(personajeMem);
     }
 
     @Override
-    public Iterable<Personaje> buscarPorRangoEdad(int desde, int hasta) throws Exception {
+    public Iterable<PersonajeMem> buscarPorRangoEdad(int desde, int hasta) throws Exception {
 
         if((desde>0 && hasta>0)&& desde<=hasta && hasta <20000){
            return  personajeRepository.getByAgeRange(desde,hasta);
@@ -59,9 +59,9 @@ public class PersonajeServiceImpl implements PersonajeService {
     }
 
     @Override
-    public Personaje actualizaPersonaje(Personaje personaje, int id) throws Exception {
+    public PersonajeMem actualizaPersonaje(PersonajeMem personajeMem, int id) throws Exception {
         if(Validators.isPersonajeAlreadyStored(id)){
-            return personajeRepository.updatePersonaje(personaje,id);
+            return personajeRepository.updatePersonaje(personajeMem,id);
         }else{
             throw new Exception("No existe un personaje con ese id");
         }

@@ -1,20 +1,20 @@
 package com.besysoft.practica.repositories.memory.interfaces;
 
-import com.besysoft.practica.dominio.Pelicula;
+import com.besysoft.practica.dominio.PeliculaMem;
 
 import java.util.Optional;
 
 public interface PeliculaRepository {
 
 
-    Iterable<Pelicula> getAll();
-    Iterable<Pelicula>getByGenre(String genero);
-    Optional<Pelicula> getById(int id) ;
-    Iterable<Pelicula>getByRatingScale(int desde,int hasta);
-    Optional<Pelicula> getByTitle(String title);
+    Iterable<PeliculaMem> getAll();
+    Iterable<PeliculaMem>getByGenre(String genero);
+    Optional<PeliculaMem> getById(int id) ;
+    Iterable<PeliculaMem>getByRatingScale(int desde, int hasta);
+    Optional<PeliculaMem> getByTitle(String title);
 
-    Pelicula createPelicula(Pelicula pelicula);
-    Iterable<Pelicula>getByDates(String desde, String hasta);
-    Pelicula updatePelicula(Pelicula pelicula, int id);
+    PeliculaMem createPelicula(PeliculaMem peliculaMem);
+    Iterable<PeliculaMem>getByDates(String desde, String hasta);
+    PeliculaMem updatePelicula(PeliculaMem peliculaMem, int id);
 
 }

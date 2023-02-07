@@ -1,6 +1,6 @@
 package com.besysoft.practica.controllers;
 
-import com.besysoft.practica.dominio.Genero;
+import com.besysoft.practica.dominio.GeneroMem;
 import com.besysoft.practica.services.interfaces.GeneroService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,9 +18,9 @@ public class GeneroController {
     }
 
     @PostMapping()
-    public ResponseEntity crearGenero(@RequestBody Genero genero){
+    public ResponseEntity crearGenero(@RequestBody GeneroMem generoMem){
         try {
-           generoService.crearGenero(genero);
+           generoService.crearGenero(generoMem);
             return new ResponseEntity("Genero creado correctamente", HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
@@ -37,9 +37,9 @@ public class GeneroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity actualizarGenero(@RequestBody Genero genero, @PathVariable int id){
+    public ResponseEntity actualizarGenero(@RequestBody GeneroMem generoMem, @PathVariable int id){
         try {
-            generoService.actualizarGenero(genero,id);
+            generoService.actualizarGenero(generoMem,id);
             return new ResponseEntity("genero actualizado correctamente",HttpStatus.OK);
         } catch (Exception e) {
            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
