@@ -60,9 +60,8 @@ public class PersonajeServiceImpl implements PersonajeService {
     }
 
     @Override
-    public Personaje actualizaPersonaje(Personaje personaje, int id) throws Exception {
-        if(Validators.isPersonajeAlreadyStored(id)){
-            personaje.setId(Long.parseLong(String.valueOf(id)));
+    public Personaje actualizaPersonaje(Personaje personaje) throws Exception {
+        if(validators.isPersonajeAlreadyStored(personaje.getId())){
             return personajeRepository.save(personaje);
         }else{
             throw new Exception("No existe un personaje con ese id");

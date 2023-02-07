@@ -1,8 +1,6 @@
 package com.besysoft.practica.controllers;
 
-import com.besysoft.practica.dominio.PeliculaMem;
 import com.besysoft.practica.entities.Pelicula;
-import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.services.interfaces.PeliculaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,7 +81,7 @@ public class PeliculasController {
     public  ResponseEntity actualizarPelicula(@RequestBody Pelicula pelicula, @PathVariable int id){
 
         try {
-            return new ResponseEntity(pelisService.actualizarPelicula(pelicula,id),HttpStatus.ACCEPTED);
+            return new ResponseEntity(pelisService.actualizarPelicula(pelicula),HttpStatus.ACCEPTED);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

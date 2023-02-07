@@ -8,8 +8,8 @@ import java.util.Optional;
 
 public interface PeliculaRepositoryDB extends CrudRepository<Pelicula,Long> {
 
-    Optional<Pelicula>findByTitulo(String titulo) throws Exception;
+    Optional<Pelicula>findByTitulo(String titulo)throws Exception ;
     Iterable<Pelicula>findByFechaCreacionBetween (String desde,String hasta);
-    Iterable<Pelicula>findByGeneroNombre(String nombre)throws Exception;
-    Iterable<Pelicula> findByCalificacionBetween(int desde, int hasta) throws Exception;
+    Iterable<Pelicula>findByGeneroNombre(String nombre);
+    Iterable<Pelicula> findByCalificacionBetween(int desde, int hasta);
 }

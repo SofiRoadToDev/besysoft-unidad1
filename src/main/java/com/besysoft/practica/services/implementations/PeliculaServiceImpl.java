@@ -77,8 +77,8 @@ public class PeliculaServiceImpl implements PeliculaService {
     }
 
     @Override
-    public Pelicula actualizarPelicula(Pelicula pelicula, int id) throws Exception {
-        if(validators.isPeliculaAlreadyStored(id)){
+    public Pelicula actualizarPelicula(Pelicula pelicula) throws Exception {
+        if(validators.isPeliculaAlreadyStored(pelicula.getId())){
             return peliculaRepository.save(pelicula);
         }else{
             throw new Exception("El id proporcionado no corresponde a ninguna pelicula existente");

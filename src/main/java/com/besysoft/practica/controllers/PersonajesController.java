@@ -58,7 +58,7 @@ public class PersonajesController {
     @PutMapping("/{id}")
     public ResponseEntity actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable int id){
         try {
-           return new ResponseEntity(personajeService.actualizaPersonaje(personaje,id),HttpStatus.OK);
+           return new ResponseEntity(personajeService.actualizaPersonaje(personaje),HttpStatus.OK);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

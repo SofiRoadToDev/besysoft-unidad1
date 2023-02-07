@@ -3,9 +3,12 @@ package com.besysoft.practica.utilidades;
 import com.besysoft.practica.dominio.GeneroMem;
 import com.besysoft.practica.dominio.PeliculaMem;
 import com.besysoft.practica.dominio.PersonajeMem;
-import com.besysoft.practica.repositories.memory.interfaces.GeneroRepository;
-import com.besysoft.practica.repositories.memory.interfaces.PeliculaRepository;
-import com.besysoft.practica.repositories.memory.interfaces.PersonajeRepository;
+import com.besysoft.practica.entities.Genero;
+import com.besysoft.practica.entities.Pelicula;
+import com.besysoft.practica.entities.Personaje;
+import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
+import com.besysoft.practica.repositories.database.PeliculaRepositoryDB;
+import com.besysoft.practica.repositories.database.PersonajeRepositoryDB;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,13 +20,13 @@ public class Validators {
 
 
     @Autowired
-    GeneroRepository generoRepository;
+    GeneroRepositoryDB generoRepository;
 
     @Autowired
-    PeliculaRepository peliculaRepository;
+    PeliculaRepositoryDB peliculaRepository;
 
     @Autowired
-    PersonajeRepository personajeRepository;
+    PersonajeRepositoryDB personajeRepository;
 
 
     public static boolean isDateRight(String date){
@@ -40,8 +43,8 @@ public class Validators {
         return digits && rightDayValue && rightMonthValue && rigthYearValue;
     }
 
-    public  boolean isPeliculaAlreadyStored(String peli){
-        Optional<PeliculaMem> pelicula=peliculaRepository.getByTitle(peli);
+    public  boolean isPeliculaAlreadyStored(String peli)throws Exception{
+        Optional<Pelicula> pelicula=peliculaRepository.findByTitulo(peli);
         if(pelicula.isPresent()){
             return true;
         }else{
@@ -49,8 +52,8 @@ public class Validators {
         }
     }
 
-    public  boolean isPersonajeAlreadyStored(String per)  {
-        Optional<PersonajeMem> personaje=personajeRepository.getByName(per);
+    public  boolean isPersonajeAlreadyStored(String per) throws Exception {
+        Optional<Personaje> personaje=personajeRepository.findByNombre(per);
         if(personaje.isPresent()){
             return true;
         }else{
@@ -58,9 +61,9 @@ public class Validators {
         }
     }
 
-    public  boolean isPeliculaAlreadyStored(int id){
+    public  boolean isPeliculaAlreadyStored(Long id){
 
-        Optional<PeliculaMem> pelicula=peliculaRepository.getById(id);
+        Optional<Pelicula> pelicula=peliculaRepository.findById(id);
 
         if(pelicula.isPresent()){
             return true;
@@ -72,22 +75,17 @@ public class Validators {
     // En estos casos para validar también podría usar el trim() para quitar los espacios
     // me parece mejor que los géneros se escriban con el espacio y si no este incorrecto
 
-    public  boolean isGeneroAlreadyStored(String genero){
+    public  boolean isGeneroAlreadyStored(String genero) throws Exception{
         boolean isStored=false;
-        Optional<GeneroMem>gen=generoRepository.getByNombre(genero)
-                .stream().filter(g->g.getNombre().toLowerCase().equals(genero.toLowerCase()))
-                .findAny();
+        Optional<Genero>gen=generoRepository.findByNombre(genero);
         if(gen.isPresent()){
             isStored= true;
         }
         return isStored;
     }
 
-    public static boolean isPersonajeAlreadyStored(int id){
-
-        Optional<PersonajeMem> personaje=SampleDataGenerator
-                .getPersonajesSample()
-                .stream().filter(p->p.getIdPersonaje()==id).findAny();
+    public  boolean isPersonajeAlreadyStored(Long id){
+        Optional<Personaje> personaje=personajeRepository.findById(id);
         if(personaje.isPresent()){
             return true;
         }else{
