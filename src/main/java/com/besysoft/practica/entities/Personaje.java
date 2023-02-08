@@ -28,7 +28,7 @@ public class Personaje implements Serializable {
     private String historia;
 
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(mappedBy = "personajesAsociados")
     private List<Pelicula> peliculasAsociadas;
 
 

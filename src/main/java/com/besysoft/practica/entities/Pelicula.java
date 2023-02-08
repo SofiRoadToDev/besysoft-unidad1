@@ -24,9 +24,12 @@ public class Pelicula implements Serializable {
 
     private Integer calificacion;
 
-    @ManyToMany(mappedBy = "peliculasAsociadas")
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "personajes_peliculas"
+            ,joinColumns = @JoinColumn(name = "pelicula_id")
+            ,inverseJoinColumns = @JoinColumn(name = "personaje_id"))
     private List<Personaje> personajesAsociados;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     private Genero genero;
 }
