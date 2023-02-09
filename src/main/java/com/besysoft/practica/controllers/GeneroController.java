@@ -21,8 +21,7 @@ public class GeneroController {
     @PostMapping()
     public ResponseEntity crearGenero(@RequestBody Genero genero){
         try {
-           generoService.crearGenero(genero);
-            return new ResponseEntity("Genero creado correctamente", HttpStatus.CREATED);
+            return new ResponseEntity(generoService.crearGenero(genero), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

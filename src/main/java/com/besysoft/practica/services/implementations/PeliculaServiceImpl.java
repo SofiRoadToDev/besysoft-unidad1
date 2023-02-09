@@ -6,6 +6,9 @@ import com.besysoft.practica.services.interfaces.PeliculaService;
 import com.besysoft.practica.utilidades.Validators;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -88,7 +91,10 @@ public class PeliculaServiceImpl implements PeliculaService {
     @Override
     public Iterable<Pelicula> buscarPorRangoFechas(String desde, String hasta) throws Exception {
         if(Validators.isDateRight(desde) && Validators.isDateRight(hasta)){
-            return peliculaRepository.findByFechaCreacionBetween(desde,hasta);
+            DateFormat formatter=new SimpleDateFormat("ddMMYYYY");
+            Date desdeF=formatter.parse(desde);
+            Date hastaF=formatter.parse(hasta);
+            return peliculaRepository.findByFechaCreacionBetween(desdeF,hastaF);
         }else{
            throw  new Exception("Ingrese fecha válidas con el formato ddMMyyyy, por ejemplo 12102004 y que el año este entre 1900 y el actual");
         }

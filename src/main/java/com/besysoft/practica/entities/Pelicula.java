@@ -4,11 +4,10 @@ package com.besysoft.practica.entities;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import com.besysoft.practica.entities.Genero;
-import  com.besysoft.practica.entities.Personaje;
+
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 @Entity @Data @NoArgsConstructor
@@ -20,16 +19,18 @@ public class Pelicula implements Serializable {
 
     private String titulo;
 
+    @Temporal(TemporalType.DATE)
     private Date fechaCreacion;
 
     private Integer calificacion;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
     @JoinTable(name = "personajes_peliculas"
             ,joinColumns = @JoinColumn(name = "pelicula_id")
             ,inverseJoinColumns = @JoinColumn(name = "personaje_id"))
     private List<Personaje> personajesAsociados;
 
     @ManyToOne(cascade = {CascadeType.MERGE,CascadeType.PERSIST})
+    @JoinColumn(name = "genero_id")
     private Genero genero;
 }
