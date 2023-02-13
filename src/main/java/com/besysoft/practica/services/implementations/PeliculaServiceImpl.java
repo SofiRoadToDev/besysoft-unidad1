@@ -1,14 +1,20 @@
 package com.besysoft.practica.services.implementations;
 
+import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.entities.Pelicula;
+import com.besysoft.practica.entities.Personaje;
+import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.repositories.database.PeliculaRepositoryDB;
+import com.besysoft.practica.repositories.database.PersonajeRepositoryDB;
 import com.besysoft.practica.services.interfaces.PeliculaService;
 import com.besysoft.practica.utilidades.Validators;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -16,10 +22,18 @@ public class PeliculaServiceImpl implements PeliculaService {
 
 
     private final PeliculaRepositoryDB peliculaRepository;
+    private final GeneroRepositoryDB generoRepositoryDB;
+
+    private final PersonajeRepositoryDB personajeRepositoryDB;
 
     private final Validators validators;
-    public PeliculaServiceImpl(PeliculaRepositoryDB peliculaRepository,Validators validators){
+    public PeliculaServiceImpl(PeliculaRepositoryDB peliculaRepository
+            , GeneroRepositoryDB generoRepositoryDB,
+                               PersonajeRepositoryDB personajeRepositoryDB,
+                               Validators validators){
         this.peliculaRepository=peliculaRepository;
+        this.generoRepositoryDB = generoRepositoryDB;
+        this.personajeRepositoryDB = personajeRepositoryDB;
         this.validators=validators;
     }
     @Override
@@ -82,6 +96,25 @@ public class PeliculaServiceImpl implements PeliculaService {
     @Override
     public Pelicula actualizarPelicula(Pelicula pelicula) throws Exception {
         if(validators.isPeliculaAlreadyStored(pelicula.getId())){
+            Optional<Genero>genero;
+            if(pelicula.getGenero()!=null){
+                genero= generoRepositoryDB.findById(pelicula.getGenero().getId());
+                if(genero.isPresent()){
+                    pelicula.setGenero(genero.get());
+                }
+            }
+            if(pelicula.getPersonajesAsociados()!=null && !pelicula.getPersonajesAsociados().isEmpty()){
+                List<Personaje> personajesAsociados=new ArrayList<>();
+                pelicula.getPersonajesAsociados().forEach(per->{
+                    Optional<Personaje>personaje=personajeRepositoryDB.findById(per.getId());
+                    if(personaje.isPresent()){
+                        personajesAsociados.add(personaje.get());
+                    }
+                });
+                pelicula.setPersonajesAsociados(personajesAsociados);
+            }
+
+
             return peliculaRepository.save(pelicula);
         }else{
             throw new Exception("El id proporcionado no corresponde a ninguna pelicula existente");
