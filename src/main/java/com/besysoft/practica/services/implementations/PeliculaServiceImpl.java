@@ -59,16 +59,7 @@ public class PeliculaServiceImpl implements PeliculaService {
         }
     }
 
-    @Override
-    public Pelicula crearPelicula(Pelicula pelicula) throws Exception {
-        if(validators.isPeliculaAlreadyStored(pelicula.getTitulo())){
-            throw new Exception("Esa pelicula ya existe ");
-        }
-        if(!(pelicula.getCalificacion()>=1 && pelicula.getCalificacion()<=10)){
-            throw new Exception("La calificacion es del 1 al 10, solo enteros");
-        }
-       return peliculaRepository.save(pelicula);
-    }
+
 
     @Override
     public Iterable<Pelicula> buscarPorRangoCalificacion(int desde, int hasta) throws Exception {
@@ -101,6 +92,8 @@ public class PeliculaServiceImpl implements PeliculaService {
                 genero= generoRepositoryDB.findById(pelicula.getGenero().getId());
                 if(genero.isPresent()){
                     pelicula.setGenero(genero.get());
+                }else{
+                    pelicula.setGenero(generoRepositoryDB.save(pelicula.getGenero()));
                 }
             }
             if(pelicula.getPersonajesAsociados()!=null && !pelicula.getPersonajesAsociados().isEmpty()){
@@ -109,16 +102,48 @@ public class PeliculaServiceImpl implements PeliculaService {
                     Optional<Personaje>personaje=personajeRepositoryDB.findById(per.getId());
                     if(personaje.isPresent()){
                         personajesAsociados.add(personaje.get());
+                    }else{
+                        personajesAsociados.add(personajeRepositoryDB.save(per));
                     }
                 });
                 pelicula.setPersonajesAsociados(personajesAsociados);
             }
-
-
             return peliculaRepository.save(pelicula);
         }else{
             throw new Exception("El id proporcionado no corresponde a ninguna pelicula existente");
         }
+    }
+
+    @Override
+    public Pelicula crearPelicula(Pelicula pelicula) throws Exception {
+        if(validators.isPeliculaAlreadyStored(pelicula.getTitulo())){
+            throw new Exception("Esa pelicula ya existe ");
+        }
+        if(!(pelicula.getCalificacion()>=1 && pelicula.getCalificacion()<=10)){
+            throw new Exception("La calificacion es del 1 al 10, solo enteros");
+        }
+        Optional<Genero>genero;
+        if(pelicula.getGenero()!=null){
+            genero= generoRepositoryDB.findByNombre(pelicula.getGenero().getNombre());
+            if(genero.isPresent()){
+                pelicula.setGenero(genero.get());
+            }else{
+                pelicula.setGenero(generoRepositoryDB.save(pelicula.getGenero()));
+            }
+        }
+        if(pelicula.getPersonajesAsociados()!=null && !pelicula.getPersonajesAsociados().isEmpty()){
+            List<Personaje> personajesAsociados=new ArrayList<>();
+            pelicula.getPersonajesAsociados().forEach(per->{
+                Optional<Personaje>personaje=personajeRepositoryDB.findByNombre(per.getNombre());
+                if(personaje.isPresent()){
+                    personajesAsociados.add(personaje.get());
+                }else{
+                    personajesAsociados.add(personajeRepositoryDB.save(per));
+                }
+            });
+            pelicula.setPersonajesAsociados(personajesAsociados);
+        }
+        return peliculaRepository.save(pelicula);
     }
 
     @Override

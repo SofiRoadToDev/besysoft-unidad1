@@ -24,13 +24,13 @@ public class Pelicula implements Serializable {
 
     private Integer calificacion;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "personajes_peliculas"
             ,joinColumns = @JoinColumn(name = "pelicula_id")
             ,inverseJoinColumns = @JoinColumn(name = "personaje_id"))
     private List<Personaje> personajesAsociados;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)// El servicio maneja la actualizacion de entidades anidadas, y esta anotación permite que se actualicen cuando van con id
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "genero_id")
     private Genero genero;
 }
