@@ -91,12 +91,14 @@ public class PeliculaServiceImpl implements PeliculaService {
         if(validators.isPeliculaAlreadyStored(id)){// Ya aqui se hizo la comprobacion de su existencia por eso no uso Optional
             Pelicula peliculaStored=peliculaRepository.getById(id).get();
             if(pelicula.getPersonajesAsociados()!=null && !pelicula.getPersonajesAsociados().isEmpty()){
-                peliculaStored.getPersonajesAsociados().forEach(per->{
+                pelicula.getPersonajesAsociados().forEach(per->{
                     Optional<Personaje>personaje=personajeRepository.getByName(per.getNombre());
                     if(personaje.isPresent()){
                         peliculaStored.getPersonajesAsociados().add(personaje.get());
+                        pelicula.setPersonajesAsociados(peliculaStored.getPersonajesAsociados());
                     }else{
                         peliculaStored.getPersonajesAsociados().add(personajeRepository.createPersonaje(personaje.get()));
+
                     }
                 });
                 Optional<Genero>genero=generoRepository.getByNombre(pelicula.getGenero().getNombre());
