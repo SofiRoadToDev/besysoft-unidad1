@@ -15,4 +15,6 @@ public interface GeneroService {
 
     Genero actualizarGenero(Genero genero, int id)throws Exception;
 
+    void borrarGenero(Long id);
+
 }

@@ -18,4 +18,7 @@ public interface PersonajeService {
     Personaje actualizaPersonaje(Personaje personaje)throws Exception;
 
 
+    void borrarPersonaje( Long id);
+
+
 }

@@ -97,16 +97,14 @@ public class PeliculaServiceImpl implements PeliculaService {
                 }
             }
             if(pelicula.getPersonajesAsociados()!=null && !pelicula.getPersonajesAsociados().isEmpty()){
-                List<Personaje> personajesAsociados=new ArrayList<>();
                 pelicula.getPersonajesAsociados().forEach(per->{
                     Optional<Personaje>personaje=personajeRepositoryDB.findById(per.getId());
                     if(personaje.isPresent()){
-                        personajesAsociados.add(personaje.get());
+                        pelicula.getPersonajesAsociados().add(personaje.get());
                     }else{
-                        personajesAsociados.add(personajeRepositoryDB.save(per));
+                        pelicula.getPersonajesAsociados().add(personajeRepositoryDB.save(per));
                     }
                 });
-                pelicula.setPersonajesAsociados(personajesAsociados);
             }
             return peliculaRepository.save(pelicula);
         }else{
@@ -156,5 +154,10 @@ public class PeliculaServiceImpl implements PeliculaService {
         }else{
            throw  new Exception("Ingrese fecha válidas con el formato ddMMyyyy, por ejemplo 12102004 y que el año este entre 1900 y el actual");
         }
+    }
+
+    @Override
+    public void borrarPelicula(Long id) {
+        peliculaRepository.deleteById(id);
     }
 }

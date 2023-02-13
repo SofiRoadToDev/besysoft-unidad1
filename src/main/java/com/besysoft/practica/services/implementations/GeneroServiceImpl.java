@@ -72,4 +72,8 @@ public class GeneroServiceImpl implements GeneroService {
         }
 
     }
+        @Override
+        public void borrarGenero(Long id)  {
+        repository.deleteById(id);
+        }
 }

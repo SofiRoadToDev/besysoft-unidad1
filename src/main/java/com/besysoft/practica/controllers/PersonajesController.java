@@ -64,6 +64,9 @@ public class PersonajesController {
         }
     }
 
-
+    @DeleteMapping("/{id}")
+    public ResponseEntity borrarPersonaje(@PathVariable Long id){
+        return ResponseEntity.ok("personaje borrado exitosamente");
+    }
 
 }

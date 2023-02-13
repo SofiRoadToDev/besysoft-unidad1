@@ -24,7 +24,7 @@ public class Pelicula implements Serializable {
 
     private Integer calificacion;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "personajes_peliculas"
             ,joinColumns = @JoinColumn(name = "pelicula_id")
             ,inverseJoinColumns = @JoinColumn(name = "personaje_id"))

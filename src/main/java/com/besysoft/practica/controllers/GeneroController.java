@@ -46,5 +46,11 @@ public class GeneroController {
         }
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity borrarGenero(@PathVariable Long id){
+        generoService.borrarGenero(id);
+        return ResponseEntity.ok("Genero borrado exitosamente");
+    }
+
 
 }

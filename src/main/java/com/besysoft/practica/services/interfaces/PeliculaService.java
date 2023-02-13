@@ -18,4 +18,6 @@ public interface PeliculaService {
     Pelicula actualizarPelicula(Pelicula pelicula)throws Exception;
 
     Iterable<Pelicula> buscarPorRangoFechas(String desde, String hasta)throws Exception;
+
+    void borrarPelicula(Long id);
 }
