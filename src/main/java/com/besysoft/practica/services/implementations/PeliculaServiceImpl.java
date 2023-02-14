@@ -95,10 +95,9 @@ public class PeliculaServiceImpl implements PeliculaService {
                     Optional<Personaje>personaje=personajeRepository.getByName(per.getNombre());
                     if(personaje.isPresent()){
                         peliculaStored.getPersonajesAsociados().add(personaje.get());
-                        pelicula.setPersonajesAsociados(peliculaStored.getPersonajesAsociados());
                     }else{
-                        peliculaStored.getPersonajesAsociados().add(personajeRepository.createPersonaje(personaje.get()));
-
+                       Personaje personajeNuevo= personajeRepository.createPersonaje(per);
+                       peliculaStored.getPersonajesAsociados().add(personajeNuevo);
                     }
                 });
                 Optional<Genero>genero=generoRepository.getByNombre(pelicula.getGenero().getNombre());
@@ -107,7 +106,9 @@ public class PeliculaServiceImpl implements PeliculaService {
                 }else{
                     pelicula.setGenero(generoRepository.createGenero(pelicula.getGenero()));
                 }
-
+                peliculaStored.setTitulo(pelicula.getTitulo());
+                peliculaStored.setCalificacion(pelicula.getCalificacion());
+                peliculaStored.setFechaCreacion(pelicula.getFechaCreacion());
             }
             return peliculaRepository.updatePelicula(peliculaStored,id);
         }else{

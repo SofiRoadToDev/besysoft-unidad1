@@ -2,16 +2,13 @@ package com.besysoft.practica.services.implementations;
 
 import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.dominio.Personaje;
+import com.besysoft.practica.repositories.interfaces.PeliculaRepository;
 import com.besysoft.practica.repositories.interfaces.PersonajeRepository;
 import com.besysoft.practica.services.interfaces.PersonajeService;
-import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.utilidades.Validators;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PersonajeServiceImpl implements PersonajeService {
@@ -20,9 +17,12 @@ public class PersonajeServiceImpl implements PersonajeService {
 
     private final PersonajeRepository personajeRepository;
 
-    public PersonajeServiceImpl(Validators validators, PersonajeRepository personajeRepository) {
+    private final PeliculaRepository peliculaRepository;
+
+    public PersonajeServiceImpl(Validators validators, PersonajeRepository personajeRepository, PeliculaRepository peliculaRepository) {
         this.validators = validators;
         this.personajeRepository = personajeRepository;
+        this.peliculaRepository = peliculaRepository;
     }
 
     @Override
@@ -66,7 +66,21 @@ public class PersonajeServiceImpl implements PersonajeService {
     @Override
     public Personaje actualizaPersonaje(Personaje personaje, int id) throws Exception {
         if(Validators.isPersonajeAlreadyStored(id)){
-            return personajeRepository.updatePersonaje(personaje,id);
+            Personaje personajeStored=personajeRepository.getById(id).get();
+            personajeStored.setEdad(personaje.getEdad());
+            personajeStored.setPeso(personaje.getPeso());
+            personajeStored.setNombre(personaje.getNombre());
+            personajeStored.setHistoria(personaje.getHistoria());
+
+            personaje.getPeliculasAsociadas().forEach(p->{
+                Optional<Pelicula>storedFilm=peliculaRepository.getById(p.getIdPelicula());
+                if(storedFilm.isPresent()){
+                    personajeStored.getPeliculasAsociadas().add(p);
+                }else{
+                    personajeStored.getPeliculasAsociadas().add(peliculaRepository.createPelicula(p));
+                }
+            });
+            return personajeRepository.updatePersonaje(personajeStored,id);
         }else{
             throw new Exception("No existe un personaje con ese id");
         }
