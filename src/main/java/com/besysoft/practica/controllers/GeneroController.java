@@ -28,7 +28,7 @@ public class GeneroController {
     }
 
     @GetMapping()
-    public ResponseEntity getAll(){
+    public ResponseEntity obtenerGeneros(){
         try {
             return new ResponseEntity(generoService.obtenerTodos(),HttpStatus.OK);
         } catch (Exception e) {
