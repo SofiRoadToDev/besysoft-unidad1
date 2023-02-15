@@ -45,6 +45,8 @@ public class SeederService {
 
 
         generoRepositoryDB.save(new Genero("aventura"));
+        generoRepositoryDB.save(new Genero("animacion"));
+        generoRepositoryDB.save(new Genero("superheroes"));
     }
 
 }
