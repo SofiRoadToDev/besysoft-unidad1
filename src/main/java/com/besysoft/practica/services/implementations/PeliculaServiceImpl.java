@@ -102,9 +102,9 @@ public class PeliculaServiceImpl implements PeliculaService {
                 });
                 Optional<Genero>genero=generoRepository.getByNombre(pelicula.getGenero().getNombre());
                 if(genero.isPresent()){
-                    pelicula.setGenero(genero.get());
+                    peliculaStored.setGenero(genero.get());
                 }else{
-                    pelicula.setGenero(generoRepository.createGenero(pelicula.getGenero()));
+                    peliculaStored.setGenero(generoRepository.createGenero(pelicula.getGenero()));
                 }
                 peliculaStored.setTitulo(pelicula.getTitulo());
                 peliculaStored.setCalificacion(pelicula.getCalificacion());

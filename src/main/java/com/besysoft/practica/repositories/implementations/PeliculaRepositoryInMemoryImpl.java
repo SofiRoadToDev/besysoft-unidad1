@@ -3,7 +3,6 @@ package com.besysoft.practica.repositories.implementations;
 
 import com.besysoft.practica.dominio.Pelicula;
 import com.besysoft.practica.repositories.interfaces.PeliculaRepository;
-import com.besysoft.practica.utilidades.SampleDataGenerator;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -99,9 +98,9 @@ public class PeliculaRepositoryInMemoryImpl implements PeliculaRepository {
     public Pelicula updatePelicula(Pelicula pelicula, int id) {
        peliculas.forEach(p->{
                     if(p.getIdPelicula()==id){
-                        int index=SampleDataGenerator.getPeliculasSample().indexOf(p);
+                        int index=peliculas.indexOf(p);
                         pelicula.setIdPelicula(id);
-                        SampleDataGenerator.getPeliculasSample().set(index,pelicula);
+                        peliculas.set(index,pelicula);
 
                     }
                 });
