@@ -1,7 +1,9 @@
 package com.besysoft.practica.controllers;
 
 import com.besysoft.practica.entities.Pelicula;
+import com.besysoft.practica.mappers.PeliculaMapper;
 import com.besysoft.practica.services.interfaces.PeliculaService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,19 +12,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/peliculas")
+@AllArgsConstructor
 public class PeliculasController {
 
 
     private final PeliculaService pelisService;
 
 
-    public PeliculasController(PeliculaService pelisService){
-        this.pelisService=pelisService;
-    }
+
      @GetMapping()
     public ResponseEntity buscarTodas(){
          try {
-             return new ResponseEntity(pelisService.obtenerTodos(),HttpStatus.OK);
+             return new ResponseEntity(PeliculaMapper.INSTANCE.mapToListPeliculaDTO((List<Pelicula>) pelisService.obtenerTodos()),HttpStatus.OK);
          } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
          }

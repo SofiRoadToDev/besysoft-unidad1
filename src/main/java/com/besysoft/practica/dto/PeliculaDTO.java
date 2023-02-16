@@ -16,6 +16,8 @@ public class PeliculaDTO {
 
     private int calificacion;
 
+    private String genero;
+
     private String fechaEstreno;//Nombre diferente en la entidad
 
     private List<String> personajes=new ArrayList<>();
