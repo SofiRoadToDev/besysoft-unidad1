@@ -1,35 +1,29 @@
 package com.besysoft.practica.controllers;
 
-import com.besysoft.practica.dominio.Pelicula;
-import com.besysoft.practica.utilidades.SampleDataGenerator;
-import com.besysoft.practica.utilidades.Validators;
+import com.besysoft.practica.entities.Pelicula;
+import com.besysoft.practica.mappers.PeliculaMapper;
 import com.besysoft.practica.services.interfaces.PeliculaService;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/peliculas")
+@AllArgsConstructor
 public class PeliculasController {
 
 
     private final PeliculaService pelisService;
 
 
-    public PeliculasController(PeliculaService pelisService){
-        this.pelisService=pelisService;
-    }
+
      @GetMapping()
     public ResponseEntity buscarTodas(){
          try {
-             return new ResponseEntity(pelisService.obtenerTodos(),HttpStatus.OK);
+             return new ResponseEntity(PeliculaMapper.INSTANCE.mapToListPeliculaDTO((List<Pelicula>) pelisService.obtenerTodos()),HttpStatus.OK);
          } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
          }
@@ -83,18 +77,19 @@ public class PeliculasController {
         }
     }
 
-    @GetMapping("/test")
-    public List<Pelicula>getAll(){
-         return SampleDataGenerator.getPeliculasSample();
-    }
 
     @PutMapping("/{id}")
     public  ResponseEntity actualizarPelicula(@RequestBody Pelicula pelicula, @PathVariable int id){
 
         try {
-            return new ResponseEntity(pelisService.actualizarPelicula(pelicula,id),HttpStatus.ACCEPTED);
+            return new ResponseEntity(pelisService.actualizarPelicula(pelicula),HttpStatus.ACCEPTED);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity borrarPelicula(@PathVariable Long id){
+        return ResponseEntity.ok("pelicula borrada exitosamente");
     }
 }

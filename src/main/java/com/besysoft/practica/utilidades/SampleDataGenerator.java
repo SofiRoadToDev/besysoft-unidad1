@@ -1,8 +1,8 @@
 package com.besysoft.practica.utilidades;
 
-import com.besysoft.practica.dominio.Genero;
-import com.besysoft.practica.dominio.Pelicula;
-import com.besysoft.practica.dominio.Personaje;
+import com.besysoft.practica.dominio.GeneroMem;
+import com.besysoft.practica.dominio.PeliculaMem;
+import com.besysoft.practica.dominio.PersonajeMem;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -12,33 +12,33 @@ import java.util.logging.Logger;
 @Deprecated
 public class SampleDataGenerator {
 
-    private static  List<Personaje> personajesSample;
-    private  static List<Pelicula>peliculasSample;
-    private  static  List<Genero>generosSample;
+    private static  List<PersonajeMem> personajesSample;
+    private  static List<PeliculaMem>peliculasSample;
+    private  static  List<GeneroMem>generosSample;
 
     static Logger logger= Logger.getLogger(SampleDataGenerator.class.getName());
 
 
 
     /*Personajes*/
-    private static Personaje capitanAmerica;
-    private static Personaje mulan;
-    private static Personaje shrek;
-    private static Personaje fiona;
-    private static Personaje burro;
+    private static PersonajeMem capitanAmerica;
+    private static PersonajeMem mulan;
+    private static PersonajeMem shrek;
+    private static PersonajeMem fiona;
+    private static PersonajeMem burro;
 
     /*Peliculas*/
-    private static Pelicula elPrimerVengador;
-    private static Pelicula soldadoDeInvierno;
-    private static Pelicula civilWar;
-    private static Pelicula shrekFilm;
-    private static Pelicula shrekAfeter;
-    private static Pelicula mulanFilm;
-    private static Pelicula mulan1;
+    private static PeliculaMem elPrimerVengador;
+    private static PeliculaMem soldadoDeInvierno;
+    private static PeliculaMem civilWar;
+    private static PeliculaMem shrekFilm;
+    private static PeliculaMem shrekAfeter;
+    private static PeliculaMem mulanFilm;
+    private static PeliculaMem mulan1;
     /*Generos*/
-    private static Genero infantil;
-    private static Genero aventura;
-    private static Genero heroes;
+    private static GeneroMem infantil;
+    private static GeneroMem aventura;
+    private static GeneroMem heroes;
 
     private static boolean isInitialized=false;
 
@@ -47,14 +47,14 @@ public class SampleDataGenerator {
 
 
 
-    public static List<Genero> getGenerosSample() {
+    public static List<GeneroMem> getGenerosSample() {
         if(isInitialized==false){
             initializeData();
         }
         return generosSample;
     }
 
-    public static List<Pelicula> getPeliculasSample() {
+    public static List<PeliculaMem> getPeliculasSample() {
         if(isInitialized==false){
             initializeData();
         }
@@ -63,7 +63,7 @@ public class SampleDataGenerator {
 
 
 
-    public static List<Personaje>getPersonajesSample(){
+    public static List<PersonajeMem>getPersonajesSample(){
             if(isInitialized==false){
                 initializeData();
             }
@@ -74,23 +74,23 @@ public class SampleDataGenerator {
 
 
     private static void initializeData(){
-        capitanAmerica= new Personaje("Capitan America",33,80,"Lo congelaron por años y después se unió a los vengadores");
-        mulan= new Personaje("Mulan",15,50," Fue a la guerra a pelear en lugar de su padre disfrazada de hombre");
-        shrek= new Personaje("Shrek",40,250,"Es un ogro gordo y feo pero de buen corazón que se casa con una princesa humana convertida en ogro");
-        fiona=new Personaje("Fiona",25,80," Es una princesa que se enamoró de Shrek y se volvió ogro para que él no se sienta mal");
-        burro=new Personaje("Burro",5,60," Es un amigo de shrek que se casó con una dragona y tuvo muchos hijos");
+        capitanAmerica= new PersonajeMem("Capitan America",33,80,"Lo congelaron por años y después se unió a los vengadores");
+        mulan= new PersonajeMem("Mulan",15,50," Fue a la guerra a pelear en lugar de su padre disfrazada de hombre");
+        shrek= new PersonajeMem("Shrek",40,250,"Es un ogro gordo y feo pero de buen corazón que se casa con una princesa humana convertida en ogro");
+        fiona=new PersonajeMem("Fiona",25,80," Es una princesa que se enamoró de Shrek y se volvió ogro para que él no se sienta mal");
+        burro=new PersonajeMem("Burro",5,60," Es un amigo de shrek que se casó con una dragona y tuvo muchos hijos");
 
-        elPrimerVengador=new Pelicula("El primer vengador", LocalDate.of(2011,11,2),8);
-        soldadoDeInvierno=new Pelicula("Soldado de invierno", LocalDate.of(2013,10,12),5);
-        civilWar=new Pelicula("Civil War",LocalDate.of(2015,8,23),9);
-        shrekFilm=new Pelicula("Shrek1", LocalDate.of(2001,3,12),7);
-        shrekAfeter=new Pelicula("Shrek Forever After", LocalDate.of(2010,12,1),9);
-        mulanFilm= new Pelicula("Mulan live action",LocalDate.of(2020,07,4),10);
-        mulan1= new Pelicula("Mulan Disney", LocalDate.of(1998,10,2),10);
+        elPrimerVengador=new PeliculaMem("El primer vengador", LocalDate.of(2011,11,2),8);
+        soldadoDeInvierno=new PeliculaMem("Soldado de invierno", LocalDate.of(2013,10,12),5);
+        civilWar=new PeliculaMem("Civil War",LocalDate.of(2015,8,23),9);
+        shrekFilm=new PeliculaMem("Shrek1", LocalDate.of(2001,3,12),7);
+        shrekAfeter=new PeliculaMem("Shrek Forever After", LocalDate.of(2010,12,1),9);
+        mulanFilm= new PeliculaMem("Mulan live action",LocalDate.of(2020,07,4),10);
+        mulan1= new PeliculaMem("Mulan Disney", LocalDate.of(1998,10,2),10);
 
-        heroes= new Genero("superheroes");
-        infantil= new Genero("infantil");
-        aventura= new Genero("aventura");
+        heroes= new GeneroMem("superheroes");
+        infantil= new GeneroMem("infantil");
+        aventura= new GeneroMem("aventura");
 
 
 
@@ -112,13 +112,13 @@ public class SampleDataGenerator {
         soldadoDeInvierno.getPersonajesAsociados().add(capitanAmerica);
 
 
-        civilWar.setGenero(heroes);
-        shrekFilm.setGenero(aventura);
-        shrekAfeter.setGenero(aventura);
-        mulan1.setGenero(infantil);
-        mulanFilm.setGenero(infantil);
-        elPrimerVengador.setGenero(heroes);
-        soldadoDeInvierno.setGenero(heroes);
+        civilWar.setGeneroMem(heroes);
+        shrekFilm.setGeneroMem(aventura);
+        shrekAfeter.setGeneroMem(aventura);
+        mulan1.setGeneroMem(infantil);
+        mulanFilm.setGeneroMem(infantil);
+        elPrimerVengador.setGeneroMem(heroes);
+        soldadoDeInvierno.setGeneroMem(heroes);
 
         mulan.getPeliculasAsociadas().add(mulanFilm);
         mulan.getPeliculasAsociadas().add(mulan1);

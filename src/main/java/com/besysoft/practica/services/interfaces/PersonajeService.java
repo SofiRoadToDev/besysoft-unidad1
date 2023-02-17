@@ -1,7 +1,6 @@
 package com.besysoft.practica.services.interfaces;
 
-import com.besysoft.practica.dominio.Pelicula;
-import com.besysoft.practica.dominio.Personaje;
+import com.besysoft.practica.entities.Personaje;
 
 import java.util.Optional;
 
@@ -11,12 +10,15 @@ public interface PersonajeService {
 
     Optional<Personaje> buscarPorNombre(String nombre) throws Exception;
 
-    Personaje crearPersonaje(Personaje personaje) throws Exception;
+    Personaje crearPersonaje(Personaje personajeMem) throws Exception;
 
     Iterable<Personaje>buscarPorRangoEdad(int desde, int hasta)throws Exception;
 
 
-    Personaje actualizaPersonaje(Personaje personaje, int id)throws Exception;
+    Personaje actualizaPersonaje(Personaje personaje)throws Exception;
+
+
+    void borrarPersonaje( Long id);
 
 
 }

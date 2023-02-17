@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter @Setter @ToString
-public class Pelicula {
+public class PeliculaMem {
 
     private static int id=0;
 
@@ -21,13 +21,13 @@ public class Pelicula {
 
     private int calificacion;
 
-    private List<Personaje> personajesAsociados;
+    private List<PersonajeMem> personajesAsociados;
 
 
-    private Genero genero;
+    private GeneroMem generoMem;
 
 
-    public Pelicula(String titulo, LocalDate fechaCreacion, int calificacion) {
+    public PeliculaMem(String titulo, LocalDate fechaCreacion, int calificacion) {
         id++;
         this.idPelicula=id;
         this.personajesAsociados=new ArrayList<>();
@@ -37,7 +37,7 @@ public class Pelicula {
     }
 
 
-    public Pelicula() {
+    public PeliculaMem() {
         id++;
         this.personajesAsociados=new ArrayList<>();
         this.idPelicula=id;

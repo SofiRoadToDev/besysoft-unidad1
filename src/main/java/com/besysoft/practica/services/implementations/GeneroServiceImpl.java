@@ -1,7 +1,8 @@
 package com.besysoft.practica.services.implementations;
 
-import com.besysoft.practica.dominio.Genero;
-import com.besysoft.practica.repositories.interfaces.GeneroRepository;
+import com.besysoft.practica.dominio.GeneroMem;
+import com.besysoft.practica.entities.Genero;
+import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.services.interfaces.GeneroService;
 import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.utilidades.Validators;
@@ -14,38 +15,38 @@ public class GeneroServiceImpl implements GeneroService {
 
     private final Validators validators;
 
-    private final GeneroRepository repository;
+    private final GeneroRepositoryDB repository;
 
-    public GeneroServiceImpl(GeneroRepository repository, Validators validators){
+    public GeneroServiceImpl(GeneroRepositoryDB repository, Validators validators){
         this.repository=repository;
         this.validators=validators;
     }
     @Override
     public Iterable<Genero> obtenerTodos() throws Exception {
-        return this.repository.getAll();
+        return this.repository.findAll();
     }
 
     @Override
-    public Optional<Genero> buscarPorId(int id) throws Exception {
-        return repository.getById(id);
+    public Optional<Genero> buscarPorId(Long id) throws Exception {
+        return repository.findById(id);
     }
 
     @Override
     public Optional<Genero> buscarPorNombre(String nombre) throws Exception {
-        return repository.getByNombre(nombre);
+        return repository.findByNombre(nombre);
     }
 
     @Override
     public Genero crearGenero(Genero genero) throws Exception {
 
-        boolean isOnlyLetters=genero.getNombre().matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
+        boolean isOnlyLetters= genero.getNombre().matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
         if(!isOnlyLetters){
             throw new Exception("El genero solo debe tener letras");
         }else{
             if(validators.isGeneroAlreadyStored(genero.getNombre())){
                 throw new Exception("Ese género ya existe");
             }else{
-                return repository.createGenero(genero);
+                return repository.save(genero);
             }
 
         }
@@ -54,16 +55,16 @@ public class GeneroServiceImpl implements GeneroService {
 
     @Override
     public Genero actualizarGenero(Genero genero, int id) throws Exception {
-        boolean isOnlyLetters=genero.getNombre().matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
+        boolean isOnlyLetters= genero.getNombre().matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
         if(!isOnlyLetters){
             throw new Exception("El nombre del genero solo debe tener letras");
         }else{
-            Optional<Genero> gen=SampleDataGenerator.getGenerosSample()
+            Optional<GeneroMem> gen=SampleDataGenerator.getGenerosSample()
                     .stream()
                     .filter(g->g.getIdGenero()==id)
                     .findAny();
             if(gen.isPresent()){
-               return repository.updateGenero(genero,id);
+               return repository.save(genero);
             }else{
                 throw new Exception("El id no corresponde a ningún género existente");
             }
@@ -71,4 +72,8 @@ public class GeneroServiceImpl implements GeneroService {
         }
 
     }
+        @Override
+        public void borrarGenero(Long id)  {
+        repository.deleteById(id);
+        }
 }
