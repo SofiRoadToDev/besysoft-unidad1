@@ -1,5 +1,6 @@
 package com.besysoft.practica.controllers;
 
+import com.besysoft.practica.dto.PeliculaDTO;
 import com.besysoft.practica.entities.Pelicula;
 import com.besysoft.practica.mappers.PeliculaMapper;
 import com.besysoft.practica.services.interfaces.PeliculaService;
@@ -32,7 +33,7 @@ public class PeliculasController {
     @GetMapping("/titulo")
     public ResponseEntity buscarPorTitulo(@RequestParam(name="titulo") String titulo){
         try {
-            return new ResponseEntity(pelisService.buscarPorTitulo(titulo), HttpStatus.OK);
+            return new ResponseEntity(PeliculaMapper.INSTANCE.mapToPeliculaDTO(pelisService.buscarPorTitulo(titulo).get()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -41,7 +42,7 @@ public class PeliculasController {
     @GetMapping("/genero")
     public ResponseEntity buscarPorGenero(@RequestParam(name="genero") String genero){
         try {
-            return new ResponseEntity(pelisService.buscarPorGenero(genero),HttpStatus.OK);
+            return new ResponseEntity(PeliculaMapper.INSTANCE.mapToListPeliculaDTO((List<Pelicula>) pelisService.buscarPorGenero(genero)),HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -51,7 +52,7 @@ public class PeliculasController {
     @GetMapping("/fechas")
     public ResponseEntity getDesdeHastaFecha(@RequestParam String desde, @RequestParam String hasta) throws Exception {
         try {
-           return new ResponseEntity<>( pelisService.buscarPorRangoFechas(desde,hasta),HttpStatus.OK);
+           return new ResponseEntity<>( PeliculaMapper.INSTANCE.mapToListPeliculaDTO((List<Pelicula>) pelisService.buscarPorRangoFechas(desde,hasta)),HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -60,7 +61,7 @@ public class PeliculasController {
     @GetMapping("/calificacion")
     public ResponseEntity getByRangoCalificacion( @RequestParam int desde, @RequestParam int hasta){
         try {
-           return new ResponseEntity( pelisService.buscarPorRangoCalificacion(desde,hasta),HttpStatus.OK);
+           return new ResponseEntity( PeliculaMapper.INSTANCE.mapToListPeliculaDTO((List<Pelicula>) pelisService.buscarPorRangoCalificacion(desde,hasta)),HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -68,10 +69,10 @@ public class PeliculasController {
 
 
     @PostMapping()
-    public ResponseEntity crearPelicula(@RequestBody Pelicula pelicula){
+    public ResponseEntity crearPelicula(@RequestBody PeliculaDTO peliculaDTO){
 
         try {
-           return new ResponseEntity<>(pelisService.crearPelicula(pelicula),HttpStatus.CREATED);
+           return new ResponseEntity<>(pelisService.crearPelicula(PeliculaMapper.INSTANCE.mapToPelicula(peliculaDTO)),HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -79,10 +80,10 @@ public class PeliculasController {
 
 
     @PutMapping("/{id}")
-    public  ResponseEntity actualizarPelicula(@RequestBody Pelicula pelicula, @PathVariable int id){
+    public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @PathVariable int id){
 
         try {
-            return new ResponseEntity(pelisService.actualizarPelicula(pelicula),HttpStatus.ACCEPTED);
+            return new ResponseEntity(pelisService.actualizarPelicula(PeliculaMapper.INSTANCE.mapToPelicula(peliculaDTO)),HttpStatus.ACCEPTED);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

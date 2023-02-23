@@ -1,7 +1,9 @@
 package com.besysoft.practica.mappers;
 
 import com.besysoft.practica.dto.PeliculaDTO;
+import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.entities.Pelicula;
+import com.besysoft.practica.entities.Personaje;
 import org.mapstruct.InjectionStrategy;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -26,8 +28,12 @@ public interface PeliculaMapper {
     Pelicula mapToPelicula(PeliculaDTO peliculaDTO);
 
 
-
     List<PeliculaDTO>mapToListPeliculaDTO(List<Pelicula>peliculas);
+
+    Genero map(String genero);
+
+    List<String>personajesAsociados(List<Personaje>personajes);
+
 
 
 
