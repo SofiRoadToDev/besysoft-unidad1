@@ -16,7 +16,7 @@ public class PeliculaMapper {
     private static SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
     public static Pelicula mapToPelicula(PeliculaDTO peliculaDTO)  {
 
-<<<<<<< HEAD
+
         Pelicula pelicula=new Pelicula();
         pelicula.setTitulo(peliculaDTO.getTitulo());
         pelicula.setId(peliculaDTO.getId());
@@ -47,19 +47,7 @@ public class PeliculaMapper {
         peliculaDTO.setPersonajes(personajesAsociados);
         return peliculaDTO;
     }
-=======
-    @Mapping(source="fechaCreacion",target="fechaEstreno")
-    PeliculaDTO mapToPeliculaDTO(Pelicula pelicula);
 
-    GeneroDTO mapToGeneroDTO(Genero genero);
-
-    @Mapping(source="fechaEstreno",target="fechaCreacion")
-    Pelicula mapToPelicula(PeliculaDTO peliculaDTO);
-
-
-
-    List<PeliculaDTO>mapToListPeliculaDTO(List<Pelicula>peliculas);
->>>>>>> fe6aab1cc92e414a5ad4eb4cd6643cfa259c47b9
 
     public static List<PeliculaDTO>mapToListPeliculaDTO(List<Pelicula>peliculas){
         return peliculas.stream().map(PeliculaMapper::mapToPeliculaDTO).collect(Collectors.toList());
