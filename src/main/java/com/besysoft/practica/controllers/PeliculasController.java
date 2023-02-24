@@ -24,7 +24,7 @@ public class PeliculasController {
      @GetMapping()
     public ResponseEntity buscarTodas(){
          try {
-             return new ResponseEntity(PeliculaMapper.INSTANCE.mapToListPeliculaDTO((List<Pelicula>) pelisService.obtenerTodos()),HttpStatus.OK);
+             return new ResponseEntity(PeliculaMapper.mapToListPeliculaDTO((List<Pelicula>) pelisService.obtenerTodos()),HttpStatus.OK);
          } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
          }
@@ -33,7 +33,7 @@ public class PeliculasController {
     @GetMapping("/titulo")
     public ResponseEntity buscarPorTitulo(@RequestParam(name="titulo") String titulo){
         try {
-            return new ResponseEntity(PeliculaMapper.INSTANCE.mapToPeliculaDTO(pelisService.buscarPorTitulo(titulo).get()), HttpStatus.OK);
+            return new ResponseEntity(PeliculaMapper.mapToPeliculaDTO(pelisService.buscarPorTitulo(titulo).get()), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -42,7 +42,7 @@ public class PeliculasController {
     @GetMapping("/genero")
     public ResponseEntity buscarPorGenero(@RequestParam(name="genero") String genero){
         try {
-            return new ResponseEntity(PeliculaMapper.INSTANCE.mapToListPeliculaDTO((List<Pelicula>) pelisService.buscarPorGenero(genero)),HttpStatus.OK);
+            return new ResponseEntity(PeliculaMapper.mapToListPeliculaDTO((List<Pelicula>) pelisService.buscarPorGenero(genero)),HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -52,7 +52,7 @@ public class PeliculasController {
     @GetMapping("/fechas")
     public ResponseEntity getDesdeHastaFecha(@RequestParam String desde, @RequestParam String hasta) throws Exception {
         try {
-           return new ResponseEntity<>( PeliculaMapper.INSTANCE.mapToListPeliculaDTO((List<Pelicula>) pelisService.buscarPorRangoFechas(desde,hasta)),HttpStatus.OK);
+           return new ResponseEntity<>( PeliculaMapper.mapToListPeliculaDTO((List<Pelicula>) pelisService.buscarPorRangoFechas(desde,hasta)),HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -61,7 +61,7 @@ public class PeliculasController {
     @GetMapping("/calificacion")
     public ResponseEntity getByRangoCalificacion( @RequestParam int desde, @RequestParam int hasta){
         try {
-           return new ResponseEntity( PeliculaMapper.INSTANCE.mapToListPeliculaDTO((List<Pelicula>) pelisService.buscarPorRangoCalificacion(desde,hasta)),HttpStatus.OK);
+           return new ResponseEntity( PeliculaMapper.mapToListPeliculaDTO((List<Pelicula>) pelisService.buscarPorRangoCalificacion(desde,hasta)),HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -72,7 +72,7 @@ public class PeliculasController {
     public ResponseEntity crearPelicula(@RequestBody PeliculaDTO peliculaDTO){
 
         try {
-           return new ResponseEntity<>(pelisService.crearPelicula(PeliculaMapper.INSTANCE.mapToPelicula(peliculaDTO)),HttpStatus.CREATED);
+           return new ResponseEntity<>(pelisService.crearPelicula(PeliculaMapper.mapToPelicula(peliculaDTO)),HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -83,7 +83,7 @@ public class PeliculasController {
     public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @PathVariable int id){
 
         try {
-            return new ResponseEntity(pelisService.actualizarPelicula(PeliculaMapper.INSTANCE.mapToPelicula(peliculaDTO)),HttpStatus.ACCEPTED);
+            return new ResponseEntity(pelisService.actualizarPelicula(PeliculaMapper.mapToPelicula(peliculaDTO)),HttpStatus.ACCEPTED);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
