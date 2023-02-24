@@ -1,20 +1,32 @@
 package com.besysoft.practica.services.implementations;
 
+<<<<<<< HEAD
+import com.besysoft.practica.dominio.Genero;
+import com.besysoft.practica.dominio.Pelicula;
+import com.besysoft.practica.dominio.Personaje;
+import com.besysoft.practica.repositories.interfaces.GeneroRepository;
+import com.besysoft.practica.repositories.interfaces.PeliculaRepository;
+import com.besysoft.practica.repositories.interfaces.PersonajeRepository;
+=======
 import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.entities.Pelicula;
 import com.besysoft.practica.entities.Personaje;
 import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.repositories.database.PeliculaRepositoryDB;
 import com.besysoft.practica.repositories.database.PersonajeRepositoryDB;
+>>>>>>> 3d1283bc5f21c21d6f65dab3db1f9a98577f1088
 import com.besysoft.practica.services.interfaces.PeliculaService;
 import com.besysoft.practica.utilidades.Validators;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
+=======
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+>>>>>>> 3d1283bc5f21c21d6f65dab3db1f9a98577f1088
 import java.util.Optional;
 
 @Service
@@ -26,7 +38,17 @@ public class PeliculaServiceImpl implements PeliculaService {
 
     private final PersonajeRepositoryDB personajeRepositoryDB;
 
+    private final PersonajeRepository personajeRepository;
+
+    private final GeneroRepository generoRepository;
+
     private final Validators validators;
+<<<<<<< HEAD
+    public PeliculaServiceImpl(PeliculaRepository peliculaRepository, PersonajeRepository personajeRepository, GeneroRepository generoRepository, Validators validators){
+        this.peliculaRepository=peliculaRepository;
+        this.personajeRepository = personajeRepository;
+        this.generoRepository = generoRepository;
+=======
     public PeliculaServiceImpl(PeliculaRepositoryDB peliculaRepository
             , GeneroRepositoryDB generoRepositoryDB,
                                PersonajeRepositoryDB personajeRepositoryDB,
@@ -34,6 +56,7 @@ public class PeliculaServiceImpl implements PeliculaService {
         this.peliculaRepository=peliculaRepository;
         this.generoRepositoryDB = generoRepositoryDB;
         this.personajeRepositoryDB = personajeRepositoryDB;
+>>>>>>> 3d1283bc5f21c21d6f65dab3db1f9a98577f1088
         this.validators=validators;
     }
     @Override
@@ -85,6 +108,31 @@ public class PeliculaServiceImpl implements PeliculaService {
     }
 
     @Override
+<<<<<<< HEAD
+    public Pelicula actualizarPelicula(Pelicula pelicula, int id) throws Exception {
+        if(validators.isPeliculaAlreadyStored(id)){// Ya aqui se hizo la comprobacion de su existencia por eso no uso Optional
+            Pelicula peliculaStored=peliculaRepository.getById(id).get();
+            if(pelicula.getPersonajesAsociados()!=null && !pelicula.getPersonajesAsociados().isEmpty()){
+                pelicula.getPersonajesAsociados().forEach(per->{
+                    Optional<Personaje>personaje=personajeRepository.getByName(per.getNombre());
+                    if(personaje.isPresent()){
+                        peliculaStored.getPersonajesAsociados().add(personaje.get());
+                        pelicula.setPersonajesAsociados(peliculaStored.getPersonajesAsociados());
+                    }else{
+                        peliculaStored.getPersonajesAsociados().add(personajeRepository.createPersonaje(personaje.get()));
+
+                    }
+                });
+                Optional<Genero>genero=generoRepository.getByNombre(pelicula.getGenero().getNombre());
+                if(genero.isPresent()){
+                    pelicula.setGenero(genero.get());
+                }else{
+                    pelicula.setGenero(generoRepository.createGenero(pelicula.getGenero()));
+                }
+
+            }
+            return peliculaRepository.updatePelicula(peliculaStored,id);
+=======
     public Pelicula actualizarPelicula(Pelicula pelicula) throws Exception {
         if(validators.isPeliculaAlreadyStored(pelicula.getId())){
             Optional<Genero>genero;
@@ -107,6 +155,7 @@ public class PeliculaServiceImpl implements PeliculaService {
                 });
             }
             return peliculaRepository.save(pelicula);
+>>>>>>> 3d1283bc5f21c21d6f65dab3db1f9a98577f1088
         }else{
             throw new Exception("El id proporcionado no corresponde a ninguna pelicula existente");
         }
