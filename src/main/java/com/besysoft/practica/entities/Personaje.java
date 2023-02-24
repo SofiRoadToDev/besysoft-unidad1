@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
@@ -27,9 +26,14 @@ public class Personaje implements Serializable {
 
     private String historia;
 
+
     @JsonIgnore
     @ManyToMany(mappedBy = "personajesAsociados")
     private List<Pelicula> peliculasAsociadas;
+
+    public Personaje(String nombre){
+        this.nombre=nombre;
+    }
 
 
 }

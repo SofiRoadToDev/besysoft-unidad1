@@ -2,19 +2,40 @@ package com.besysoft.practica.mappers;
 
 import com.besysoft.practica.dto.PersonajeDTO;
 import com.besysoft.practica.entities.Pelicula;
-import org.mapstruct.Mapper;
-import org.mapstruct.factory.Mappers;
+import com.besysoft.practica.entities.Personaje;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Mapper
-public interface PersonajeMapper {
+public class PersonajeMapper {
 
-    PersonajeMapper INSTANCE= Mappers.getMapper(PersonajeMapper.class);
+    public static PersonajeDTO mapToPersonajeDTO(Personaje personaje){
+        PersonajeDTO personajeDTO=new PersonajeDTO();
+        personajeDTO.setId(personaje.getId());
+        personajeDTO.setEdad(personaje.getEdad());
+        personajeDTO.setNombre(personaje.getNombre());
+        personajeDTO.setHistoria(personaje.getHistoria());
+        personajeDTO.setPeso(personaje.getPeso());
+        List<String> peliculas=personaje.getPeliculasAsociadas().stream().map(
+                p->p.getTitulo()
+        ).collect(Collectors.toList());
+        return personajeDTO;
+    }
 
-    List<String>peliculasAsociadas(List<Pelicula> peliculas);
+    public static Personaje mapToPersonaje(PersonajeDTO personajeDTO){
+        Personaje personaje=new Personaje();
+        personaje.setId(personajeDTO.getId());
+        personaje.setPeso(personajeDTO.getPeso());
+        personaje.setEdad(personajeDTO.getEdad());
+        personaje.setNombre(personajeDTO.getNombre());
+        personaje.setHistoria(personajeDTO.getHistoria());
+        List<Pelicula>peliculas=personajeDTO.getPeliculasAsociadas().stream().map(Pelicula::new).collect(Collectors.toList());
+        return personaje;
+    }
 
-    String mapPeliculaToString(Pelicula pelicula);
+    public static List<PersonajeDTO>mapToListPersonajeDTO(List<Personaje>personajes){
+        return personajes.stream().map(PersonajeMapper::mapToPersonajeDTO).collect(Collectors.toList());
+    }
 
-    List<PersonajeDTO>mapToListPersonajeDTO(List<Pelicula>personajes);
 }
+

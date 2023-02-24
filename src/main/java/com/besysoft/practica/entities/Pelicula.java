@@ -33,4 +33,8 @@ public class Pelicula implements Serializable {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "genero_id")
     private Genero genero;
+
+    public Pelicula(String titulo){
+        this.titulo=titulo;
+    }
 }

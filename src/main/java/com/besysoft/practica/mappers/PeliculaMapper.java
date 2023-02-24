@@ -4,38 +4,56 @@ import com.besysoft.practica.dto.PeliculaDTO;
 import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.entities.Pelicula;
 import com.besysoft.practica.entities.Personaje;
-import org.mapstruct.InjectionStrategy;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.factory.Mappers;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Mapper(
-        componentModel = "spring",
-        injectionStrategy = InjectionStrategy.CONSTRUCTOR,
-        uses={PersonajeMapper.class, GeneroMapper.class}
-)
-public interface PeliculaMapper {
+public class PeliculaMapper {
 
-    PeliculaMapper INSTANCE= Mappers.getMapper(PeliculaMapper.class);
+    private static SimpleDateFormat formatter=new SimpleDateFormat("dd/MM/yyyy");
+    public static Pelicula mapToPelicula(PeliculaDTO peliculaDTO)  {
 
-    @Mapping(source="fechaCreacion",target="fechaEstreno")
-    @Mapping(source = "pelicula.genero.nombre",target = "genero")
-    PeliculaDTO mapToPeliculaDTO(Pelicula pelicula);
+        Pelicula pelicula=new Pelicula();
+        pelicula.setTitulo(peliculaDTO.getTitulo());
+        pelicula.setId(peliculaDTO.getId());
+        pelicula.setCalificacion(peliculaDTO.getCalificacion());
+        try {
+            pelicula.setFechaCreacion(formatter.parse(peliculaDTO.getFechaEstreno()));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+        Genero genero=new Genero(peliculaDTO.getGenero());
+        pelicula.setGenero(genero);
+        List<Personaje> personajesAsociados=peliculaDTO.getPersonajes().stream().map(
+                p->new Personaje(p)
+        ).collect(Collectors.toList());
+        pelicula.setPersonajesAsociados(personajesAsociados);
+        return pelicula;
+    }
 
-    @Mapping(source="fechaEstreno",target="fechaCreacion")
-    Pelicula mapToPelicula(PeliculaDTO peliculaDTO);
+    public static PeliculaDTO mapToPeliculaDTO(Pelicula pelicula){
+        PeliculaDTO peliculaDTO=new PeliculaDTO();
+        peliculaDTO.setCalificacion(pelicula.getCalificacion());
+        peliculaDTO.setTitulo(pelicula.getTitulo());
+        peliculaDTO.setFechaEstreno(formatter.format(pelicula.getFechaCreacion()));
+        peliculaDTO.setGenero(pelicula.getGenero().getNombre());
+        List<String>personajesAsociados=pelicula.getPersonajesAsociados().stream().map(
+                p->p.getNombre()
+        ).collect(Collectors.toList());
+        peliculaDTO.setPersonajes(personajesAsociados);
+        return peliculaDTO;
+    }
 
+    public static List<PeliculaDTO>mapToListPeliculaDTO(List<Pelicula>peliculas){
+        return peliculas.stream().map(PeliculaMapper::mapToPeliculaDTO).collect(Collectors.toList());
+    }
 
-    List<PeliculaDTO>mapToListPeliculaDTO(List<Pelicula>peliculas);
-
-    Genero map(String genero);
-
-    List<String>personajesAsociados(List<Personaje>personajes);
-
-
-
+    public static List<Pelicula>mapToPelicula(List<PeliculaDTO>peliculaDTOS) {
+        return peliculaDTOS.stream().map(PeliculaMapper::mapToPelicula).collect(Collectors.toList());
+    }
 
 
 }
+
