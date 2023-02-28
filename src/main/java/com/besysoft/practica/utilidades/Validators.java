@@ -1,14 +1,13 @@
 package com.besysoft.practica.utilidades;
 
-import com.besysoft.practica.dominio.GeneroMem;
-import com.besysoft.practica.dominio.PeliculaMem;
-import com.besysoft.practica.dominio.PersonajeMem;
 import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.entities.Pelicula;
 import com.besysoft.practica.entities.Personaje;
 import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.repositories.database.PeliculaRepositoryDB;
 import com.besysoft.practica.repositories.database.PersonajeRepositoryDB;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +26,9 @@ public class Validators {
 
     @Autowired
     PersonajeRepositoryDB personajeRepository;
+
+
+    Logger logger= LoggerFactory.getLogger(Validators.class);
 
 
     public static boolean isDateRight(String date){
@@ -62,7 +64,7 @@ public class Validators {
     }
 
     public  boolean isPeliculaAlreadyStored(Long id){
-
+        logger.info("id obtenido en el validator: "+id);
         Optional<Pelicula> pelicula=peliculaRepository.findById(id);
 
         if(pelicula.isPresent()){

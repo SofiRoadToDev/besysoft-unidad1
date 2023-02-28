@@ -2,6 +2,8 @@ package com.besysoft.practica.controllers;
 
 import com.besysoft.practica.entities.Pelicula;
 import com.besysoft.practica.services.interfaces.PeliculaService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,8 @@ public class PeliculasController {
 
 
     private final PeliculaService pelisService;
+
+    Logger logger= LoggerFactory.getLogger(PeliculasController.class);
 
 
     public PeliculasController(PeliculaService pelisService){
@@ -77,7 +81,7 @@ public class PeliculasController {
 
     @PutMapping("/{id}")
     public  ResponseEntity actualizarPelicula(@RequestBody Pelicula pelicula, @PathVariable Long id){
-
+            logger.info("id recibido en el controlador actualizar: "+id);
         try {
             return new ResponseEntity(pelisService.actualizarPelicula(pelicula,id),HttpStatus.ACCEPTED);
         } catch (Exception e) {

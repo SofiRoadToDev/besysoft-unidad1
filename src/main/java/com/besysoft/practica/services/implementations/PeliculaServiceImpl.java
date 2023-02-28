@@ -8,6 +8,8 @@ import com.besysoft.practica.repositories.database.PeliculaRepositoryDB;
 import com.besysoft.practica.repositories.database.PersonajeRepositoryDB;
 import com.besysoft.practica.services.interfaces.PeliculaService;
 import com.besysoft.practica.utilidades.Validators;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.text.DateFormat;
@@ -25,6 +27,8 @@ public class PeliculaServiceImpl implements PeliculaService {
     private final GeneroRepositoryDB generoRepositoryDB;
 
     private final PersonajeRepositoryDB personajeRepositoryDB;
+
+    Logger logger= LoggerFactory.getLogger(PeliculaServiceImpl.class);
 
     private final Validators validators;
     public PeliculaServiceImpl(PeliculaRepositoryDB peliculaRepository
@@ -86,6 +90,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 
     @Override
     public Pelicula actualizarPelicula(Pelicula pelicula, Long id) throws Exception {
+        logger.info("id obtenido servicio: "+id);
         if(validators.isPeliculaAlreadyStored(id)){
             Optional<Genero>genero;
             if(pelicula.getGenero()!=null){

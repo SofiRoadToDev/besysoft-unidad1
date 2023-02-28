@@ -2,20 +2,19 @@ package com.besysoft.practica.controllers;
 
 import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.services.interfaces.GeneroService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/generos")
+@AllArgsConstructor
 public class GeneroController {
 
 
     private final GeneroService generoService;
 
-    public GeneroController(GeneroService service){
-        this.generoService=service;
-    }
+
 
     @PostMapping()
     public ResponseEntity crearGenero(@RequestBody Genero genero){

@@ -4,21 +4,19 @@ import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.services.interfaces.GeneroService;
 import com.besysoft.practica.utilidades.Validators;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class GeneroServiceImpl implements GeneroService {
 
     private final Validators validators;
 
     private final GeneroRepositoryDB repository;
 
-    public GeneroServiceImpl(GeneroRepositoryDB repository, Validators validators){
-        this.repository=repository;
-        this.validators=validators;
-    }
     @Override
     public Iterable<Genero> obtenerTodos() throws Exception {
         return this.repository.findAll();
