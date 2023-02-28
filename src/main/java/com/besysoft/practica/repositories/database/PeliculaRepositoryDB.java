@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface PeliculaRepositoryDB extends CrudRepository<Pelicula,Long> {
 
-    Optional<Pelicula>findByTitulo(String titulo)throws Exception ;
+    Optional<Pelicula>findByTitulo(String titulo) ;
     Iterable<Pelicula>findByFechaCreacionBetween (Date desde, Date hasta);
     Iterable<Pelicula>findByGeneroNombre(String nombre);
     Iterable<Pelicula> findByCalificacionBetween(int desde, int hasta);

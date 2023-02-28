@@ -90,11 +90,12 @@ public class PeliculaServiceImpl implements PeliculaService {
 
     @Override
     public Pelicula actualizarPelicula(Pelicula pelicula, Long id) throws Exception {
-        logger.info("id obtenido servicio: "+id);
+
         if(validators.isPeliculaAlreadyStored(id)){
+            logger.info("id obtenido servicio pasando el validator: "+id);
             Optional<Genero>genero;
             if(pelicula.getGenero()!=null){
-                genero= generoRepositoryDB.findById(pelicula.getGenero().getId());
+                genero= generoRepositoryDB.findByNombre(pelicula.getGenero().getNombre());
                 if(genero.isPresent()){
                     pelicula.setGenero(genero.get());
                 }else{
@@ -103,7 +104,7 @@ public class PeliculaServiceImpl implements PeliculaService {
             }
             if(pelicula.getPersonajesAsociados()!=null && !pelicula.getPersonajesAsociados().isEmpty()){
                 pelicula.getPersonajesAsociados().forEach(per->{
-                    Optional<Personaje>personaje=personajeRepositoryDB.findById(per.getId());
+                    Optional<Personaje>personaje=personajeRepositoryDB.findByNombre(per.getNombre());
                     if(personaje.isPresent()){
                         pelicula.getPersonajesAsociados().add(personaje.get());
                     }else{

@@ -84,7 +84,7 @@ public class PersonajeServiceImpl implements PersonajeService {
         if(validators.isPersonajeAlreadyStored(id)){
             Personaje personajeStored=personajeRepository.findById(personaje.getId()).get();
             personaje.getPeliculasAsociadas().forEach(p->{
-                Optional<Pelicula>pelicula=peliculaRepositoryDB.findById(p.getId());
+                Optional<Pelicula>pelicula=peliculaRepositoryDB.findByTitulo(p.getTitulo());
                 if(pelicula.isPresent()){
                     personajeStored.getPeliculasAsociadas().add(pelicula.get());
                 }else{
