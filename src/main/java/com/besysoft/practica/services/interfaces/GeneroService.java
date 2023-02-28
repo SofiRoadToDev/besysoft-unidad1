@@ -13,7 +13,7 @@ public interface GeneroService {
 
     Genero crearGenero(Genero genero) throws Exception;
 
-    Genero actualizarGenero(Genero genero, int id)throws Exception;
+    Genero actualizarGenero(Genero genero, Long id)throws Exception;
 
     void borrarGenero(Long id);
 

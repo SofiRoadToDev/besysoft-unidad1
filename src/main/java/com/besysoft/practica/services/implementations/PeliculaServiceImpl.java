@@ -1,35 +1,30 @@
 package com.besysoft.practica.services.implementations;
 
-<<<<<<< HEAD
-import com.besysoft.practica.dominio.Genero;
-import com.besysoft.practica.dominio.Pelicula;
-import com.besysoft.practica.dominio.Personaje;
-import com.besysoft.practica.repositories.interfaces.GeneroRepository;
-import com.besysoft.practica.repositories.interfaces.PeliculaRepository;
-import com.besysoft.practica.repositories.interfaces.PersonajeRepository;
-=======
 import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.entities.Pelicula;
 import com.besysoft.practica.entities.Personaje;
 import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.repositories.database.PeliculaRepositoryDB;
 import com.besysoft.practica.repositories.database.PersonajeRepositoryDB;
->>>>>>> 3d1283bc5f21c21d6f65dab3db1f9a98577f1088
+
+
 import com.besysoft.practica.services.interfaces.PeliculaService;
 import com.besysoft.practica.utilidades.Validators;
+import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
-=======
+
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
->>>>>>> 3d1283bc5f21c21d6f65dab3db1f9a98577f1088
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
+@Log4j2
 public class PeliculaServiceImpl implements PeliculaService {
 
 
@@ -38,27 +33,8 @@ public class PeliculaServiceImpl implements PeliculaService {
 
     private final PersonajeRepositoryDB personajeRepositoryDB;
 
-    private final PersonajeRepository personajeRepository;
-
-    private final GeneroRepository generoRepository;
 
     private final Validators validators;
-<<<<<<< HEAD
-    public PeliculaServiceImpl(PeliculaRepository peliculaRepository, PersonajeRepository personajeRepository, GeneroRepository generoRepository, Validators validators){
-        this.peliculaRepository=peliculaRepository;
-        this.personajeRepository = personajeRepository;
-        this.generoRepository = generoRepository;
-=======
-    public PeliculaServiceImpl(PeliculaRepositoryDB peliculaRepository
-            , GeneroRepositoryDB generoRepositoryDB,
-                               PersonajeRepositoryDB personajeRepositoryDB,
-                               Validators validators){
-        this.peliculaRepository=peliculaRepository;
-        this.generoRepositoryDB = generoRepositoryDB;
-        this.personajeRepositoryDB = personajeRepositoryDB;
->>>>>>> 3d1283bc5f21c21d6f65dab3db1f9a98577f1088
-        this.validators=validators;
-    }
     @Override
     public Iterable<Pelicula> obtenerTodos() throws Exception {
         return peliculaRepository.findAll();
@@ -75,12 +51,15 @@ public class PeliculaServiceImpl implements PeliculaService {
             if(peli.isPresent()){
                 return peli;
             }else{
+                log.info("No se ha encontrado la pelicula "+titulo);
                 throw new Exception("No se ha encontrado esa pelicula");
             }
         }else{
+            log.info("El titulo solo debe contener letras, espacios y numeros");
+        }
             throw new Exception("El titulo solo debe contener letras, espacios y numeros ");
         }
-    }
+
 
 
 
@@ -107,56 +86,33 @@ public class PeliculaServiceImpl implements PeliculaService {
         }else throw  new Exception("El genero debe estar compuesto solo por letras");
     }
 
+
     @Override
-<<<<<<< HEAD
-    public Pelicula actualizarPelicula(Pelicula pelicula, int id) throws Exception {
-        if(validators.isPeliculaAlreadyStored(id)){// Ya aqui se hizo la comprobacion de su existencia por eso no uso Optional
-            Pelicula peliculaStored=peliculaRepository.getById(id).get();
-            if(pelicula.getPersonajesAsociados()!=null && !pelicula.getPersonajesAsociados().isEmpty()){
-                pelicula.getPersonajesAsociados().forEach(per->{
-                    Optional<Personaje>personaje=personajeRepository.getByName(per.getNombre());
-                    if(personaje.isPresent()){
-                        peliculaStored.getPersonajesAsociados().add(personaje.get());
-                        pelicula.setPersonajesAsociados(peliculaStored.getPersonajesAsociados());
-                    }else{
-                        peliculaStored.getPersonajesAsociados().add(personajeRepository.createPersonaje(personaje.get()));
-
-                    }
-                });
-                Optional<Genero>genero=generoRepository.getByNombre(pelicula.getGenero().getNombre());
-                if(genero.isPresent()){
-                    pelicula.setGenero(genero.get());
-                }else{
-                    pelicula.setGenero(generoRepository.createGenero(pelicula.getGenero()));
-                }
-
-            }
-            return peliculaRepository.updatePelicula(peliculaStored,id);
-=======
-    public Pelicula actualizarPelicula(Pelicula pelicula) throws Exception {
-        if(validators.isPeliculaAlreadyStored(pelicula.getId())){
+    public Pelicula actualizarPelicula(Pelicula pelicula,Long id) throws Exception {
+        if(validators.isPeliculaAlreadyStored(id)){
+            Pelicula peliculaStored=peliculaRepository.findById(id).get();
             Optional<Genero>genero;
             if(pelicula.getGenero()!=null){
                 genero= generoRepositoryDB.findById(pelicula.getGenero().getId());
                 if(genero.isPresent()){
-                    pelicula.setGenero(genero.get());
+                    peliculaStored.setGenero(genero.get());
                 }else{
-                    pelicula.setGenero(generoRepositoryDB.save(pelicula.getGenero()));
+                    peliculaStored.setGenero(generoRepositoryDB.save(pelicula.getGenero()));
                 }
             }
             if(pelicula.getPersonajesAsociados()!=null && !pelicula.getPersonajesAsociados().isEmpty()){
                 pelicula.getPersonajesAsociados().forEach(per->{
                     Optional<Personaje>personaje=personajeRepositoryDB.findById(per.getId());
                     if(personaje.isPresent()){
-                        pelicula.getPersonajesAsociados().add(personaje.get());
+                        peliculaStored.getPersonajesAsociados().add(personaje.get());
                     }else{
-                        pelicula.getPersonajesAsociados().add(personajeRepositoryDB.save(per));
+                        peliculaStored.getPersonajesAsociados().add(personajeRepositoryDB.save(per));
                     }
                 });
             }
-            return peliculaRepository.save(pelicula);
->>>>>>> 3d1283bc5f21c21d6f65dab3db1f9a98577f1088
+            return peliculaRepository.save(peliculaStored);
         }else{
+            log.info("No se encuentra ninguna pelicula con id: "+id);
             throw new Exception("El id proporcionado no corresponde a ninguna pelicula existente");
         }
     }

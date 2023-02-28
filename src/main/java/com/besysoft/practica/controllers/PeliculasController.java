@@ -80,10 +80,10 @@ public class PeliculasController {
 
 
     @PutMapping("/{id}")
-    public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @PathVariable int id){
+    public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @PathVariable Long id){
 
         try {
-            return new ResponseEntity(pelisService.actualizarPelicula(PeliculaMapper.mapToPelicula(peliculaDTO)),HttpStatus.ACCEPTED);
+            return new ResponseEntity(pelisService.actualizarPelicula(PeliculaMapper.mapToPelicula(peliculaDTO),id),HttpStatus.ACCEPTED);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

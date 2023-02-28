@@ -1,6 +1,7 @@
 package com.besysoft.practica.controllers;
 
 import com.besysoft.practica.dominio.GeneroMem;
+import com.besysoft.practica.dto.GeneroDTO;
 import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.mappers.GeneroMapper;
 import com.besysoft.practica.services.interfaces.GeneroService;
@@ -21,9 +22,9 @@ public class GeneroController {
 
 
     @PostMapping()
-    public ResponseEntity crearGenero(@RequestBody Genero genero){
+    public ResponseEntity crearGenero(@RequestBody GeneroDTO generoDTO){
         try {
-            return new ResponseEntity(generoService.crearGenero(genero), HttpStatus.CREATED);
+            return new ResponseEntity(generoService.crearGenero(GeneroMapper.mapToGenero(generoDTO)), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -32,16 +33,16 @@ public class GeneroController {
     @GetMapping()
     public ResponseEntity obtenerTodos(){
         try {
-            return new ResponseEntity(GeneroMapper.INSTANCE.maptoListGeneroDTO((List<Genero>) generoService.obtenerTodos()),HttpStatus.OK);
+            return new ResponseEntity(GeneroMapper.mapToListGeneroDTO((List<Genero>) generoService.obtenerTodos()),HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity actualizarGenero(@RequestBody Genero genero, @PathVariable int id){
+    public ResponseEntity actualizarGenero(@RequestBody GeneroDTO generoDTO, @PathVariable Long id){
         try {
-            generoService.actualizarGenero(genero,id);
+            generoService.actualizarGenero(GeneroMapper.mapToGenero(generoDTO),id);
             return new ResponseEntity("genero actualizado correctamente",HttpStatus.OK);
         } catch (Exception e) {
            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
