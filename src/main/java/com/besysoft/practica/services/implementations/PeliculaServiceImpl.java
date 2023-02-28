@@ -85,8 +85,8 @@ public class PeliculaServiceImpl implements PeliculaService {
     }
 
     @Override
-    public Pelicula actualizarPelicula(Pelicula pelicula) throws Exception {
-        if(validators.isPeliculaAlreadyStored(pelicula.getId())){
+    public Pelicula actualizarPelicula(Pelicula pelicula, Long id) throws Exception {
+        if(validators.isPeliculaAlreadyStored(id)){
             Optional<Genero>genero;
             if(pelicula.getGenero()!=null){
                 genero= generoRepositoryDB.findById(pelicula.getGenero().getId());

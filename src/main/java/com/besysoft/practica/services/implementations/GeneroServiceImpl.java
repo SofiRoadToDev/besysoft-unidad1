@@ -1,10 +1,8 @@
 package com.besysoft.practica.services.implementations;
 
-import com.besysoft.practica.dominio.GeneroMem;
 import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.services.interfaces.GeneroService;
-import com.besysoft.practica.utilidades.SampleDataGenerator;
 import com.besysoft.practica.utilidades.Validators;
 import org.springframework.stereotype.Service;
 
@@ -54,15 +52,12 @@ public class GeneroServiceImpl implements GeneroService {
     }
 
     @Override
-    public Genero actualizarGenero(Genero genero, int id) throws Exception {
+    public Genero actualizarGenero(Genero genero, Long id) throws Exception {
         boolean isOnlyLetters= genero.getNombre().matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
         if(!isOnlyLetters){
             throw new Exception("El nombre del genero solo debe tener letras");
         }else{
-            Optional<GeneroMem> gen=SampleDataGenerator.getGenerosSample()
-                    .stream()
-                    .filter(g->g.getIdGenero()==id)
-                    .findAny();
+            Optional<Genero> gen=repository.findById(id);
             if(gen.isPresent()){
                return repository.save(genero);
             }else{

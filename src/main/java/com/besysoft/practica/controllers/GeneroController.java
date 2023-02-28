@@ -1,6 +1,5 @@
 package com.besysoft.practica.controllers;
 
-import com.besysoft.practica.dominio.GeneroMem;
 import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.services.interfaces.GeneroService;
 import org.springframework.http.HttpStatus;
@@ -37,7 +36,7 @@ public class GeneroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity actualizarGenero(@RequestBody Genero genero, @PathVariable int id){
+    public ResponseEntity actualizarGenero(@RequestBody Genero genero, @PathVariable Long id){
         try {
             generoService.actualizarGenero(genero,id);
             return new ResponseEntity("genero actualizado correctamente",HttpStatus.OK);

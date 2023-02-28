@@ -6,8 +6,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/peliculas")
 public class PeliculasController {
@@ -78,10 +76,10 @@ public class PeliculasController {
 
 
     @PutMapping("/{id}")
-    public  ResponseEntity actualizarPelicula(@RequestBody Pelicula pelicula, @PathVariable int id){
+    public  ResponseEntity actualizarPelicula(@RequestBody Pelicula pelicula, @PathVariable Long id){
 
         try {
-            return new ResponseEntity(pelisService.actualizarPelicula(pelicula),HttpStatus.ACCEPTED);
+            return new ResponseEntity(pelisService.actualizarPelicula(pelicula,id),HttpStatus.ACCEPTED);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

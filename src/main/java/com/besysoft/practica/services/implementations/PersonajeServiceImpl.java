@@ -80,8 +80,8 @@ public class PersonajeServiceImpl implements PersonajeService {
     }
 
     @Override
-    public Personaje actualizaPersonaje(Personaje personaje) throws Exception {
-        if(validators.isPersonajeAlreadyStored(personaje.getId())){
+    public Personaje actualizaPersonaje(Personaje personaje,Long id) throws Exception {
+        if(validators.isPersonajeAlreadyStored(id)){
             Personaje personajeStored=personajeRepository.findById(personaje.getId()).get();
             personaje.getPeliculasAsociadas().forEach(p->{
                 Optional<Pelicula>pelicula=peliculaRepositoryDB.findById(p.getId());

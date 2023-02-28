@@ -15,7 +15,7 @@ public interface PeliculaService {
     Iterable<Pelicula>buscarPorRangoCalificacion(int desde, int hasta)throws Exception;
 
     Iterable<Pelicula>buscarPorGenero(String genero) throws Exception;
-    Pelicula actualizarPelicula(Pelicula pelicula)throws Exception;
+    Pelicula actualizarPelicula(Pelicula pelicula,Long id)throws Exception;
 
     Iterable<Pelicula> buscarPorRangoFechas(String desde, String hasta)throws Exception;
 
