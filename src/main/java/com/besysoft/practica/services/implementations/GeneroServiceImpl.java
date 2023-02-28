@@ -5,12 +5,14 @@ import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.services.interfaces.GeneroService;
 import com.besysoft.practica.utilidades.Validators;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 @AllArgsConstructor
+@Log4j2
 public class GeneroServiceImpl implements GeneroService {
 
     private final Validators validators;
@@ -53,6 +55,7 @@ public class GeneroServiceImpl implements GeneroService {
     public Genero actualizarGenero(Genero genero, Long id) throws Exception {
         boolean isOnlyLetters= genero.getNombre().matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
         if(!isOnlyLetters){
+            log.info(isOnlyLetters);
             throw new Exception("El nombre del genero solo debe tener letras");
         }else{
             Optional<Genero> gen=repository.findById(id);

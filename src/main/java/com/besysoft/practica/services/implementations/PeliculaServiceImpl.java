@@ -92,27 +92,28 @@ public class PeliculaServiceImpl implements PeliculaService {
     public Pelicula actualizarPelicula(Pelicula pelicula, Long id) throws Exception {
 
         if(validators.isPeliculaAlreadyStored(id)){
+            Pelicula peliculaStored=peliculaRepository.findById(id).get();
             logger.info("id obtenido servicio pasando el validator: "+id);
             Optional<Genero>genero;
             if(pelicula.getGenero()!=null){
                 genero= generoRepositoryDB.findByNombre(pelicula.getGenero().getNombre());
                 if(genero.isPresent()){
-                    pelicula.setGenero(genero.get());
+                    peliculaStored.setGenero(genero.get());
                 }else{
-                    pelicula.setGenero(generoRepositoryDB.save(pelicula.getGenero()));
+                    peliculaStored.setGenero(generoRepositoryDB.save(pelicula.getGenero()));
                 }
             }
             if(pelicula.getPersonajesAsociados()!=null && !pelicula.getPersonajesAsociados().isEmpty()){
                 pelicula.getPersonajesAsociados().forEach(per->{
                     Optional<Personaje>personaje=personajeRepositoryDB.findByNombre(per.getNombre());
                     if(personaje.isPresent()){
-                        pelicula.getPersonajesAsociados().add(personaje.get());
+                        peliculaStored.getPersonajesAsociados().add(personaje.get());
                     }else{
-                        pelicula.getPersonajesAsociados().add(personajeRepositoryDB.save(per));
+                        peliculaStored.getPersonajesAsociados().add(personajeRepositoryDB.save(per));
                     }
                 });
             }
-            return peliculaRepository.save(pelicula);
+            return peliculaRepository.save(peliculaStored);
         }else{
             throw new Exception("El id proporcionado no corresponde a ninguna pelicula existente");
         }

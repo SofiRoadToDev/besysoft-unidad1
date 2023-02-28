@@ -91,7 +91,7 @@ public class PersonajeServiceImpl implements PersonajeService {
                     personajeStored.getPeliculasAsociadas().add(peliculaRepositoryDB.save(p));
                 }
             });
-            return personajeRepository.save(personaje);
+            return personajeRepository.save(personajeStored);
         }else{
             throw new Exception("No existe un personaje con ese id");
         }
