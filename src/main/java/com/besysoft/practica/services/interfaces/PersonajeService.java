@@ -15,7 +15,7 @@ public interface PersonajeService {
     Iterable<Personaje>buscarPorRangoEdad(int desde, int hasta)throws Exception;
 
 
-    Personaje actualizaPersonaje(Personaje personaje)throws Exception;
+    Personaje actualizaPersonaje(Personaje personaje,Long id)throws Exception;
 
 
     void borrarPersonaje( Long id);

@@ -11,7 +11,9 @@ public class PersonajeMapper {
 
     public static PersonajeDTO mapToPersonajeDTO(Personaje personaje){
         PersonajeDTO personajeDTO=new PersonajeDTO();
-        personajeDTO.setId(personaje.getId());
+        if(personaje.getId()!=null){
+            personajeDTO.setId(personaje.getId());
+        }
         personajeDTO.setEdad(personaje.getEdad());
         personajeDTO.setNombre(personaje.getNombre());
         personajeDTO.setHistoria(personaje.getHistoria());
@@ -24,12 +26,15 @@ public class PersonajeMapper {
 
     public static Personaje mapToPersonaje(PersonajeDTO personajeDTO){
         Personaje personaje=new Personaje();
-        personaje.setId(personajeDTO.getId());
+        if(personajeDTO.getId()!=null){
+            personaje.setId(personajeDTO.getId());
+        }
         personaje.setPeso(personajeDTO.getPeso());
         personaje.setEdad(personajeDTO.getEdad());
         personaje.setNombre(personajeDTO.getNombre());
         personaje.setHistoria(personajeDTO.getHistoria());
         List<Pelicula>peliculas=personajeDTO.getPeliculasAsociadas().stream().map(Pelicula::new).collect(Collectors.toList());
+        personaje.setPeliculasAsociadas(peliculas);
         return personaje;
     }
 

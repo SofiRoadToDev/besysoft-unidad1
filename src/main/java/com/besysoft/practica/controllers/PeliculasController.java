@@ -72,7 +72,7 @@ public class PeliculasController {
     public ResponseEntity crearPelicula(@RequestBody PeliculaDTO peliculaDTO){
 
         try {
-           return new ResponseEntity<>(pelisService.crearPelicula(PeliculaMapper.mapToPelicula(peliculaDTO)),HttpStatus.CREATED);
+           return new ResponseEntity<>(PeliculaMapper.mapToPeliculaDTO(pelisService.crearPelicula(PeliculaMapper.mapToPelicula(peliculaDTO))),HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
@@ -83,7 +83,7 @@ public class PeliculasController {
     public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @PathVariable Long id){
 
         try {
-            return new ResponseEntity(pelisService.actualizarPelicula(PeliculaMapper.mapToPelicula(peliculaDTO),id),HttpStatus.ACCEPTED);
+            return new ResponseEntity(PeliculaMapper.mapToPeliculaDTO(pelisService.actualizarPelicula(PeliculaMapper.mapToPelicula(peliculaDTO),id)),HttpStatus.ACCEPTED);
         } catch (Exception e) {
            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
         }

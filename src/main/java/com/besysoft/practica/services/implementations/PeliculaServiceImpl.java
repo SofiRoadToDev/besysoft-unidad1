@@ -6,14 +6,11 @@ import com.besysoft.practica.entities.Personaje;
 import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.repositories.database.PeliculaRepositoryDB;
 import com.besysoft.practica.repositories.database.PersonajeRepositoryDB;
-
-
 import com.besysoft.practica.services.interfaces.PeliculaService;
 import com.besysoft.practica.utilidades.Validators;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
-
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -72,6 +69,7 @@ public class PeliculaServiceImpl implements PeliculaService {
         if(isDesdeRight && isHastaRight && isDesdeMenor){
            return peliculaRepository.findByCalificacionBetween(desde,hasta);
         }else{
+            log.info(" ingresó un rango inválido en calificación: "+desde+" "+hasta);
             throw new Exception(" La calificación debe ser un número entero entre 1y 10. Desde debe ser menor o igual que hasta");
         }
 
@@ -83,7 +81,10 @@ public class PeliculaServiceImpl implements PeliculaService {
         boolean isOnlyLetters=genero.matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
         if(isOnlyLetters) {
          return peliculaRepository.findByGeneroNombre(genero);
-        }else throw  new Exception("El genero debe estar compuesto solo por letras");
+        }else {
+            log.info("ingresó un género inválido: "+genero);
+            throw new Exception("El genero debe estar compuesto solo por letras");
+        }
     }
 
 
@@ -93,7 +94,7 @@ public class PeliculaServiceImpl implements PeliculaService {
             Pelicula peliculaStored=peliculaRepository.findById(id).get();
             Optional<Genero>genero;
             if(pelicula.getGenero()!=null){
-                genero= generoRepositoryDB.findById(pelicula.getGenero().getId());
+                genero= generoRepositoryDB.findByNombre(pelicula.getGenero().getNombre());
                 if(genero.isPresent()){
                     peliculaStored.setGenero(genero.get());
                 }else{
@@ -102,7 +103,7 @@ public class PeliculaServiceImpl implements PeliculaService {
             }
             if(pelicula.getPersonajesAsociados()!=null && !pelicula.getPersonajesAsociados().isEmpty()){
                 pelicula.getPersonajesAsociados().forEach(per->{
-                    Optional<Personaje>personaje=personajeRepositoryDB.findById(per.getId());
+                    Optional<Personaje>personaje=personajeRepositoryDB.findByNombre(per.getNombre());
                     if(personaje.isPresent()){
                         peliculaStored.getPersonajesAsociados().add(personaje.get());
                     }else{
@@ -120,9 +121,11 @@ public class PeliculaServiceImpl implements PeliculaService {
     @Override
     public Pelicula crearPelicula(Pelicula pelicula) throws Exception {
         if(validators.isPeliculaAlreadyStored(pelicula.getTitulo())){
+            log.info("inento de crear película ya existente: "+pelicula.getTitulo());
             throw new Exception("Esa pelicula ya existe ");
         }
         if(!(pelicula.getCalificacion()>=1 && pelicula.getCalificacion()<=10)){
+            log.info("Formato inválido de calificación al crear película, ingresó: "+pelicula.getCalificacion());
             throw new Exception("La calificacion es del 1 al 10, solo enteros");
         }
         Optional<Genero>genero;
@@ -157,12 +160,14 @@ public class PeliculaServiceImpl implements PeliculaService {
             Date hastaF=formatter.parse(hasta);
             return peliculaRepository.findByFechaCreacionBetween(desdeF,hastaF);
         }else{
+            log.info("Se ingresó un formato de fecha inválido al buscar películas : "+desde+" "+hasta);
            throw  new Exception("Ingrese fecha válidas con el formato ddMMyyyy, por ejemplo 12102004 y que el año este entre 1900 y el actual");
         }
     }
 
     @Override
     public void borrarPelicula(Long id) {
+        log.info("Se ha borrado la película id: "+id);
         peliculaRepository.deleteById(id);
     }
 }

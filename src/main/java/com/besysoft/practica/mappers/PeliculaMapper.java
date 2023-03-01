@@ -1,6 +1,5 @@
 package com.besysoft.practica.mappers;
 
-import com.besysoft.practica.dto.GeneroDTO;
 import com.besysoft.practica.dto.PeliculaDTO;
 import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.entities.Pelicula;
@@ -18,6 +17,9 @@ public class PeliculaMapper {
 
 
         Pelicula pelicula=new Pelicula();
+        if(peliculaDTO.getId()!=null){
+            pelicula.setId(peliculaDTO.getId());
+        }
         pelicula.setTitulo(peliculaDTO.getTitulo());
         pelicula.setId(peliculaDTO.getId());
         pelicula.setCalificacion(peliculaDTO.getCalificacion());
@@ -26,8 +28,11 @@ public class PeliculaMapper {
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
-        Genero genero=new Genero(peliculaDTO.getGenero());
-        pelicula.setGenero(genero);
+        if(peliculaDTO.getGenero()!=null){
+            Genero genero=new Genero(peliculaDTO.getGenero());
+            pelicula.setGenero(genero);
+        }
+
         List<Personaje> personajesAsociados=peliculaDTO.getPersonajes().stream().map(
                 p->new Personaje(p)
         ).collect(Collectors.toList());
@@ -37,14 +42,21 @@ public class PeliculaMapper {
 
     public static PeliculaDTO mapToPeliculaDTO(Pelicula pelicula){
         PeliculaDTO peliculaDTO=new PeliculaDTO();
+        if(pelicula.getId()!=null){
+            peliculaDTO.setId(pelicula.getId());
+        }
         peliculaDTO.setCalificacion(pelicula.getCalificacion());
         peliculaDTO.setTitulo(pelicula.getTitulo());
         peliculaDTO.setFechaEstreno(formatter.format(pelicula.getFechaCreacion()));
-        peliculaDTO.setGenero(pelicula.getGenero().getNombre());
-        List<String>personajesAsociados=pelicula.getPersonajesAsociados().stream().map(
-                p->p.getNombre()
-        ).collect(Collectors.toList());
-        peliculaDTO.setPersonajes(personajesAsociados);
+        if(pelicula.getGenero()!=null){
+            peliculaDTO.setGenero(pelicula.getGenero().getNombre());
+        }
+        if(!pelicula.getPersonajesAsociados().isEmpty() && pelicula.getPersonajesAsociados()!=null){
+            List<String>personajesAsociados=pelicula.getPersonajesAsociados().stream().map(
+                    p->p.getNombre()
+            ).collect(Collectors.toList());
+            peliculaDTO.setPersonajes(personajesAsociados);
+        }
         return peliculaDTO;
     }
 

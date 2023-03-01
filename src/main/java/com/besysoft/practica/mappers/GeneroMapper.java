@@ -12,6 +12,9 @@ public class GeneroMapper {
 
     public static GeneroDTO mapToGeneroDTO(Genero genero){
         GeneroDTO generoDTO=new GeneroDTO();
+        if(genero.getId()!=null){
+            generoDTO.setCodigo(genero.getId());
+        }
         generoDTO.setNombreGenero(genero.getNombre());
         generoDTO.setCodigo(genero.getId());
         return generoDTO;
@@ -19,6 +22,9 @@ public class GeneroMapper {
 
     public static Genero mapToGenero(GeneroDTO generoDTO){
         Genero genero=new Genero();
+        if(generoDTO.getCodigo()!=null){
+            genero.setId(generoDTO.getCodigo());
+        }
         genero.setId(generoDTO.getCodigo());
         genero.setNombre(generoDTO.getNombreGenero());
         return genero;
