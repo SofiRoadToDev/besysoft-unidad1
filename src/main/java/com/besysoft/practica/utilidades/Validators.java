@@ -1,11 +1,9 @@
 package com.besysoft.practica.utilidades;
 
-import com.besysoft.practica.dominio.GeneroMem;
-import com.besysoft.practica.dominio.PeliculaMem;
-import com.besysoft.practica.dominio.PersonajeMem;
 import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.entities.Pelicula;
 import com.besysoft.practica.entities.Personaje;
+import com.besysoft.practica.exceptions.GeneroExistsException;
 import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.repositories.database.PeliculaRepositoryDB;
 import com.besysoft.practica.repositories.database.PersonajeRepositoryDB;
@@ -75,7 +73,7 @@ public class Validators {
     // En estos casos para validar también podría usar el trim() para quitar los espacios
     // me parece mejor que los géneros se escriban con el espacio y si no este incorrecto
 
-    public  boolean isGeneroAlreadyStored(String genero) throws Exception{
+    public  boolean isGeneroAlreadyStored(String genero) throws GeneroExistsException {
         boolean isStored=false;
         Optional<Genero>gen=generoRepository.findByNombre(genero);
         if(gen.isPresent()){

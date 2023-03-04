@@ -1,8 +1,8 @@
 package com.besysoft.practica.controllers;
 
-import com.besysoft.practica.dominio.GeneroMem;
 import com.besysoft.practica.dto.GeneroDTO;
 import com.besysoft.practica.entities.Genero;
+import com.besysoft.practica.exceptions.GeneroDoesntExistsException;
 import com.besysoft.practica.mappers.GeneroMapper;
 import com.besysoft.practica.services.interfaces.GeneroService;
 import lombok.AllArgsConstructor;
@@ -40,11 +40,11 @@ public class GeneroController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity actualizarGenero(@RequestBody GeneroDTO generoDTO, @PathVariable Long id){
+    public ResponseEntity actualizarGenero(@RequestBody GeneroDTO generoDTO, @PathVariable Long id) throws GeneroDoesntExistsException {
         try {
             generoService.actualizarGenero(GeneroMapper.mapToGenero(generoDTO),id);
             return new ResponseEntity("genero actualizado correctamente",HttpStatus.OK);
-        } catch (Exception e) {
+        } catch ( Exception e) {
            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
     }
