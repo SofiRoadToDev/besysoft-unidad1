@@ -22,31 +22,25 @@ public class GeneroController {
 
 
     @PostMapping()
-    public ResponseEntity crearGenero(@RequestBody GeneroDTO generoDTO){
-        try {
+    public ResponseEntity crearGenero(@RequestBody GeneroDTO generoDTO) throws Exception {
+
             return new ResponseEntity(generoService.crearGenero(GeneroMapper.mapToGenero(generoDTO)), HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
+
     }
 
     @GetMapping()
-    public ResponseEntity obtenerTodos(){
-        try {
+    public ResponseEntity obtenerTodos() throws Exception {
+
             return new ResponseEntity(GeneroMapper.mapToListGeneroDTO((List<Genero>) generoService.obtenerTodos()),HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
+
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity actualizarGenero(@RequestBody GeneroDTO generoDTO, @PathVariable Long id) throws GeneroDoesntExistsException {
-        try {
+    public ResponseEntity actualizarGenero(@RequestBody GeneroDTO generoDTO, @PathVariable Long id) throws Exception, GeneroDoesntExistsException {
+
             generoService.actualizarGenero(GeneroMapper.mapToGenero(generoDTO),id);
             return new ResponseEntity("genero actualizado correctamente",HttpStatus.OK);
-        } catch ( Exception e) {
-           return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
+
     }
 
     @DeleteMapping("/{id}")

@@ -62,7 +62,7 @@ public class GeneroServiceImpl implements GeneroService {
     }
 
     @Override
-    public Genero actualizarGenero(Genero genero, Long id) throws Exception {
+    public Genero actualizarGenero(Genero genero, Long id) throws Exception, GeneroDoesntExistsException {
         boolean isOnlyLetters= genero.getNombre().matches("^([a-zA-Z]+\\s?[a-zA-Z]?)+$");
         if(!isOnlyLetters){
             log.info("ACTUALIZAR El nombre del género no respeta la validación de ser solo letras");
