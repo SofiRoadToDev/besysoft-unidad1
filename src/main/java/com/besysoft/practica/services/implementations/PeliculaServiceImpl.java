@@ -3,6 +3,8 @@ package com.besysoft.practica.services.implementations;
 import com.besysoft.practica.entities.Genero;
 import com.besysoft.practica.entities.Pelicula;
 import com.besysoft.practica.entities.Personaje;
+import com.besysoft.practica.exceptions.PeliculaDoesntExistsException;
+import com.besysoft.practica.exceptions.PeliculaExistsException;
 import com.besysoft.practica.repositories.database.GeneroRepositoryDB;
 import com.besysoft.practica.repositories.database.PeliculaRepositoryDB;
 import com.besysoft.practica.repositories.database.PersonajeRepositoryDB;
@@ -40,7 +42,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 
 
     @Override
-    public Optional<Pelicula> buscarPorTitulo(String titulo) throws Exception {
+    public Optional<Pelicula> buscarPorTitulo(String titulo) throws Exception,PeliculaDoesntExistsException {
         boolean isTituloRight=titulo.matches("^([a-zA-Z]+\\s?[a-zA-Z]?[0-9]?)+$");
         Optional<Pelicula>peli;
         if(isTituloRight){
@@ -49,7 +51,7 @@ public class PeliculaServiceImpl implements PeliculaService {
                 return peli;
             }else{
                 log.info("No se ha encontrado la pelicula "+titulo);
-                throw new Exception("No se ha encontrado esa pelicula");
+                throw new PeliculaDoesntExistsException("No se ha encontrado esa pelicula");
             }
         }else{
             log.info("El titulo solo debe contener letras, espacios y numeros");
@@ -89,7 +91,7 @@ public class PeliculaServiceImpl implements PeliculaService {
 
 
     @Override
-    public Pelicula actualizarPelicula(Pelicula pelicula,Long id) throws Exception {
+    public Pelicula actualizarPelicula(Pelicula pelicula,Long id) throws Exception,PeliculaDoesntExistsException {
         if(validators.isPeliculaAlreadyStored(id)){
             Pelicula peliculaStored=peliculaRepository.findById(id).get();
             Optional<Genero>genero;
@@ -114,15 +116,15 @@ public class PeliculaServiceImpl implements PeliculaService {
             return peliculaRepository.save(peliculaStored);
         }else{
             log.info("No se encuentra ninguna pelicula con id: "+id);
-            throw new Exception("El id proporcionado no corresponde a ninguna pelicula existente");
+            throw new PeliculaDoesntExistsException("El id proporcionado no corresponde a ninguna pelicula existente");
         }
     }
 
     @Override
-    public Pelicula crearPelicula(Pelicula pelicula) throws Exception {
+    public Pelicula crearPelicula(Pelicula pelicula) throws Exception, PeliculaExistsException {
         if(validators.isPeliculaAlreadyStored(pelicula.getTitulo())){
             log.info("inento de crear película ya existente: "+pelicula.getTitulo());
-            throw new Exception("Esa pelicula ya existe ");
+            throw new PeliculaExistsException("Esa pelicula ya existe ");
         }
         if(!(pelicula.getCalificacion()>=1 && pelicula.getCalificacion()<=10)){
             log.info("Formato inválido de calificación al crear película, ingresó: "+pelicula.getCalificacion());

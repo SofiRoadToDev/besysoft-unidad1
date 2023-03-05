@@ -2,6 +2,8 @@ package com.besysoft.practica.services.implementations;
 
 import com.besysoft.practica.entities.Pelicula;
 import com.besysoft.practica.entities.Personaje;
+import com.besysoft.practica.exceptions.PersonajeDoesntExistsException;
+import com.besysoft.practica.exceptions.PersonajeExistsException;
 import com.besysoft.practica.repositories.database.PeliculaRepositoryDB;
 import com.besysoft.practica.repositories.database.PersonajeRepositoryDB;
 import com.besysoft.practica.services.interfaces.PersonajeService;
@@ -52,10 +54,10 @@ public class PersonajeServiceImpl implements PersonajeService {
     }
 
     @Override
-    public Personaje crearPersonaje(Personaje personaje) throws Exception {
+    public Personaje crearPersonaje(Personaje personaje) throws Exception, PersonajeExistsException {
         if(validators.isPersonajeAlreadyStored(personaje.getNombre())){
             log.info("intento de crear un personaje ya existente: "+personaje.getNombre());
-            throw  new Exception("Ese personaje ya existe");
+            throw  new PersonajeExistsException("Ese personaje ya existe");
         }
 
         List<Pelicula> peliculasAsociadas=new ArrayList<>();
@@ -82,7 +84,7 @@ public class PersonajeServiceImpl implements PersonajeService {
     }
 
     @Override
-    public Personaje actualizaPersonaje(Personaje personaje,Long id) throws Exception {
+    public Personaje actualizaPersonaje(Personaje personaje,Long id) throws Exception, PersonajeDoesntExistsException {
         if(validators.isPersonajeAlreadyStored(id)){
             Personaje personajeStored=personajeRepository.findById(id).get();
             personaje.getPeliculasAsociadas().forEach(p->{
@@ -96,7 +98,7 @@ public class PersonajeServiceImpl implements PersonajeService {
             return personajeRepository.save(personaje);
         }else{
             log.info("Intento de actualizar personaje id: "+id+" inexistente");
-            throw new Exception("No existe un personaje con ese id");
+            throw new PersonajeDoesntExistsException("No existe un personaje con ese id");
         }
     }
 

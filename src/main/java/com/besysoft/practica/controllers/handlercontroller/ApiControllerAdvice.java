@@ -1,8 +1,7 @@
 package com.besysoft.practica.controllers.handlercontroller;
 
 import com.besysoft.practica.dto.ExceptionDTO;
-import com.besysoft.practica.exceptions.GeneroDoesntExistsException;
-import com.besysoft.practica.exceptions.GeneroExistsException;
+import com.besysoft.practica.exceptions.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -34,6 +33,37 @@ public class ApiControllerAdvice {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ExceptionDTO exceptionHandler(GeneroExistsException ex){
+        log.info("advice: "+ex.getMessage());
+        return new ExceptionDTO(HttpStatus.BAD_REQUEST.value(),ex.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDTO exceptionHandler(PeliculaExistsException ex){
+        log.info("advice: "+ex.getMessage());
+        return new ExceptionDTO(HttpStatus.BAD_REQUEST.value(),ex.getMessage());
+    }
+    @ExceptionHandler
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDTO exceptionHandler(PeliculaDoesntExistsException ex){
+        log.info("advice: "+ex.getMessage());
+        return new ExceptionDTO(HttpStatus.BAD_REQUEST.value(),ex.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDTO exceptionHandler(PersonajeExistsException ex){
+        log.info("advice: "+ex.getMessage());
+        return new ExceptionDTO(HttpStatus.BAD_REQUEST.value(),ex.getMessage());
+    }
+
+    @ExceptionHandler
+    @ResponseBody
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ExceptionDTO exceptionHandler(PersonajeDoesntExistsException ex){
         log.info("advice: "+ex.getMessage());
         return new ExceptionDTO(HttpStatus.BAD_REQUEST.value(),ex.getMessage());
     }

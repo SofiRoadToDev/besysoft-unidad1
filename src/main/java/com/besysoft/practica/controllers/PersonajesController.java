@@ -1,6 +1,8 @@
 package com.besysoft.practica.controllers;
 
 import com.besysoft.practica.entities.Personaje;
+import com.besysoft.practica.exceptions.PersonajeDoesntExistsException;
+import com.besysoft.practica.exceptions.PersonajeExistsException;
 import com.besysoft.practica.mappers.PersonajeMapper;
 import com.besysoft.practica.services.interfaces.PersonajeService;
 import org.springframework.http.HttpStatus;
@@ -27,12 +29,10 @@ public class PersonajesController {
     }
 
     @GetMapping("/nombre")
-    public ResponseEntity buscarPorNombre(@RequestParam String nombre) {
-        try {
+    public ResponseEntity buscarPorNombre(@RequestParam String nombre) throws Exception,PersonajeDoesntExistsException {
+
             return new ResponseEntity(personajeService.buscarPorNombre(nombre),HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
+
 
     }
 
@@ -46,22 +46,17 @@ public class PersonajesController {
     }
 
     @PostMapping()
-    public ResponseEntity crearPersonaje(@RequestBody Personaje personaje){
-        try {
-            personajeService.crearPersonaje(personaje);
-            return new ResponseEntity("personaje creado correctamente",HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity crearPersonaje(@RequestBody Personaje personaje) throws Exception, PersonajeExistsException {
+
+           return new ResponseEntity(personajeService.crearPersonaje(personaje), HttpStatus.OK);
+
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable Long id){
-        try {
+    public ResponseEntity actualizarPersonaje(@RequestBody Personaje personaje, @PathVariable Long id) throws Exception, PersonajeDoesntExistsException {
+
            return new ResponseEntity(PersonajeMapper.mapToPersonajeDTO(personajeService.actualizaPersonaje(personaje,id)),HttpStatus.OK);
-        } catch (Exception e) {
-           return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
+
     }
 
     @DeleteMapping("/{id}")

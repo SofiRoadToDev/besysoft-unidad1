@@ -2,6 +2,8 @@ package com.besysoft.practica.controllers;
 
 import com.besysoft.practica.dto.PeliculaDTO;
 import com.besysoft.practica.entities.Pelicula;
+import com.besysoft.practica.exceptions.PeliculaDoesntExistsException;
+import com.besysoft.practica.exceptions.PeliculaExistsException;
 import com.besysoft.practica.mappers.PeliculaMapper;
 import com.besysoft.practica.services.interfaces.PeliculaService;
 import lombok.AllArgsConstructor;
@@ -31,12 +33,9 @@ public class PeliculasController {
      }
 
     @GetMapping("/titulo")
-    public ResponseEntity buscarPorTitulo(@RequestParam(name="titulo") String titulo){
-        try {
+    public ResponseEntity buscarPorTitulo(@RequestParam(name="titulo") String titulo) throws Exception, PeliculaDoesntExistsException {
             return new ResponseEntity(PeliculaMapper.mapToPeliculaDTO(pelisService.buscarPorTitulo(titulo).get()), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
+
     }
 
     @GetMapping("/genero")
@@ -69,24 +68,14 @@ public class PeliculasController {
 
 
     @PostMapping()
-    public ResponseEntity crearPelicula(@RequestBody PeliculaDTO peliculaDTO){
-
-        try {
+    public ResponseEntity crearPelicula(@RequestBody PeliculaDTO peliculaDTO) throws Exception, PeliculaExistsException {
            return new ResponseEntity<>(PeliculaMapper.mapToPeliculaDTO(pelisService.crearPelicula(PeliculaMapper.mapToPelicula(peliculaDTO))),HttpStatus.CREATED);
-        } catch (Exception e) {
-            return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
     }
 
 
     @PutMapping("/{id}")
-    public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @PathVariable Long id){
-
-        try {
+    public  ResponseEntity actualizarPelicula(@RequestBody PeliculaDTO peliculaDTO, @PathVariable Long id) throws Exception,PeliculaExistsException {
             return new ResponseEntity(PeliculaMapper.mapToPeliculaDTO(pelisService.actualizarPelicula(PeliculaMapper.mapToPelicula(peliculaDTO),id)),HttpStatus.ACCEPTED);
-        } catch (Exception e) {
-           return new ResponseEntity(e.getMessage(),HttpStatus.BAD_REQUEST);
-        }
     }
 
     @DeleteMapping("/{id}")
