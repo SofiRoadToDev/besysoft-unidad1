@@ -5,7 +5,6 @@ import com.besysoft.practica.exceptions.EmptyFileException;
 import com.besysoft.practica.exceptions.FileCantBeOpenedOrRead;
 import com.besysoft.practica.exceptions.StorageFileException;
 import com.besysoft.practica.services.interfaces.StorageService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -22,7 +21,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 @Service
-@AllArgsConstructor
 public class FileStorageService implements StorageService {
 
 
@@ -34,11 +32,14 @@ public class FileStorageService implements StorageService {
     @PostConstruct
     public void init() throws  DIrectoryCantBeCreatedException{
         rootLocation=Paths.get(filesLocation);
-        try {
-            Files.createDirectory(rootLocation);
-        } catch (IOException e) {
-            throw new DIrectoryCantBeCreatedException(String.format("No se puede crear la carpeta %s",rootLocation),e);
+        if(!rootLocation.toFile().exists()){
+            try {
+                Files.createDirectory(rootLocation);
+            } catch (IOException e) {
+                throw new DIrectoryCantBeCreatedException(String.format("No se puede crear la carpeta %s",rootLocation),e);
+            }
         }
+
     }
 
     @Override

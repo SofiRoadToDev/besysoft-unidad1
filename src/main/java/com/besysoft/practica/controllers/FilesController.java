@@ -41,6 +41,7 @@ public class FilesController {
 
 
     @GetMapping("{fileName:.+}")
+    @ResponseBody
     public ResponseEntity<Resource>openFile(@PathVariable String fileName) throws FileCantBeOpenedOrRead, IOException {
         Resource file=storageService.loadAsResource(fileName);
         String contentType= Files.probeContentType(file.getFile().toPath());
