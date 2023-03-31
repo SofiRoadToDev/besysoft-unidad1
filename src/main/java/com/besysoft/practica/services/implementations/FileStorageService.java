@@ -5,11 +5,13 @@ import com.besysoft.practica.exceptions.EmptyFileException;
 import com.besysoft.practica.exceptions.FileCantBeOpenedOrRead;
 import com.besysoft.practica.exceptions.StorageFileException;
 import com.besysoft.practica.services.interfaces.StorageService;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
@@ -24,14 +26,23 @@ import java.nio.file.StandardCopyOption;
 public class FileStorageService implements StorageService {
 
 
-    @Value("${files.location}")
+   // @Value("${files.location}")
     private String filesLocation;
 
     private Path rootLocation;
+
+    @Autowired
+    ResourceLoader resourceLoader;
     @Override
     @PostConstruct
     public void init() throws  DIrectoryCantBeCreatedException{
-        rootLocation=Paths.get(filesLocation);
+        Resource resource=resourceLoader.getResource("file:mediafiles/");
+        //rootLocation=Paths.get(filesLocation);
+        try {
+            rootLocation=resource.getFile().toPath();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         if(!rootLocation.toFile().exists()){
             try {
                 Files.createDirectory(rootLocation);
@@ -44,6 +55,7 @@ public class FileStorageService implements StorageService {
 
     @Override
     public String store(MultipartFile file) throws StorageFileException,EmptyFileException {
+        String fileUrl="";
         if(file.isEmpty()){
             throw new EmptyFileException("No se ha recibido ningún archivo");
         }
@@ -52,11 +64,14 @@ public class FileStorageService implements StorageService {
                 .normalize().toAbsolutePath();
         try(InputStream is=file.getInputStream()){
             Files.copy(is,pathToBeStored, StandardCopyOption.REPLACE_EXISTING);
-
+            fileUrl = ServletUriComponentsBuilder.fromCurrentContextPath()
+                    .path("/mediafiles/")
+                    .path(fileName)
+                    .toUriString();
         } catch (IOException e) {
             throw new StorageFileException("No se pudo guardar el archivo",e);
         }
-        return fileName;
+        return fileUrl;
     }
 
     @Override

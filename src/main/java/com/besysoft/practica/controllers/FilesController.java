@@ -11,7 +11,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -28,14 +27,8 @@ public class FilesController {
 
     @PostMapping("/upload")
     public ResponseEntity<?>storageFile(@RequestParam("file")MultipartFile multipartFile)throws StorageFileException, EmptyFileException {
-        String ruta=storageService.store(multipartFile);
-        String host=servletRequest.getRequestURL().toString().replace(servletRequest.getRequestURI(),"");
-        log.info(String.format("host obtenido: %s",host));
-        String url= ServletUriComponentsBuilder
-                .fromHttpUrl(host)
-                .path("/media/")
-                .path(ruta)
-                .toString();
+        String url=storageService.store(multipartFile);
+
         return ResponseEntity.ok(url);
     }
 
